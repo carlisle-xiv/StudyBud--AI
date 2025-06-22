@@ -6,7 +6,7 @@ import {
   Check,
   Calculator,
   Settings,
-  Flask,
+  Beaker,
   Dna,
   Code,
   TrendingUp,
