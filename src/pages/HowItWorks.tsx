@@ -69,12 +69,12 @@ const HowItWorks = () => {
               >
                 How It Works
               </Link>
-              <a
-                href="#for-teachers"
+              <Link
+                to="/for-teachers"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 For Teachers
-              </a>
+              </Link>
               <a
                 href="#reviews"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
