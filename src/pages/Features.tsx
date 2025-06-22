@@ -62,12 +62,12 @@ const Features = () => {
               >
                 For Teachers
               </Link>
-              <a
-                href="#reviews"
+              <Link
+                to="/reviews"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Reviews
-              </a>
+              </Link>
               <Button variant="ghost">Login</Button>
               <Button>Sign Up</Button>
             </nav>
