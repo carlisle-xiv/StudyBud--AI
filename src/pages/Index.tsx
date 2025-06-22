@@ -33,6 +33,7 @@ import {
   Mail,
 } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -57,12 +58,12 @@ const Index = () => {
             </div>
 
             <nav className="hidden md:flex items-center space-x-8">
-              <a
-                href="#features"
+              <Link
+                to="/features"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Features
-              </a>
+              </Link>
               <a
                 href="#how-it-works"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
