@@ -45,58 +45,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <BookOpen className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">
-                StudyBud AI
-              </span>
-            </div>
-
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/features"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                to="/how-it-works"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                How it Works
-              </Link>
-              <Link
-                to="/for-teachers"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                For Teachers
-              </Link>
-              <Link
-                to="/reviews"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Reviews
-              </Link>
-              <Link to="/login">
-                <Button variant="ghost">Login</Button>
-              </Link>
-              <Link to="/signup">
-                <Button>Sign Up</Button>
-              </Link>
-            </nav>
-
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="py-20 lg:py-32">
