@@ -79,7 +79,11 @@ const Teachers = () => {
                   Login
                 </Button>
               </Link>
-              <Button className="bg-blue-600 hover:bg-blue-700">Sign Up</Button>
+              <Link to="/signup">
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Sign Up
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -55,7 +55,9 @@ const Reviews = () => {
               <Link to="/login">
                 <Button variant="ghost">Login</Button>
               </Link>
-              <Button>Sign Up</Button>
+              <Link to="/signup">
+                <Button>Sign Up</Button>
+              </Link>
             </nav>
           </div>
         </div>
