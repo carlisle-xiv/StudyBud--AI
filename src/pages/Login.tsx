@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,9 +32,14 @@ const Login = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login submitted:", formData, "User type:", selectedUserType);
+    // In a real app, you'd validate credentials here
+    // For demo purposes, redirect to dashboard
+    navigate("/dashboard");
   };
 
   return (
