@@ -65,12 +65,12 @@ const Teachers = () => {
                 How It Works
               </Link>
               <span className="text-blue-600 font-medium">For Teachers</span>
-              <a
-                href="#"
+              <Link
+                to="/reviews"
                 className="text-gray-600 hover:text-blue-600 font-medium"
               >
                 Reviews
-              </a>
+              </Link>
             </nav>
 
             <div className="flex items-center gap-4">
