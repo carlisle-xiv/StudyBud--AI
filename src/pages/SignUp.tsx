@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,9 +58,14 @@ const SignUp = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Sign up submitted:", formData, "User type:", selectedUserType);
+    // In a real app, you'd create the account here
+    // For demo purposes, redirect to dashboard
+    navigate("/dashboard");
   };
 
   return (
