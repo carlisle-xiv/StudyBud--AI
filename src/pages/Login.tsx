@@ -11,7 +11,7 @@ import {
   Eye,
   EyeOff,
   Check,
-  UserGraduate,
+  User,
   Users,
 } from "lucide-react";
 
@@ -278,7 +278,7 @@ const Login = () => {
                     : "border-gray-200 hover:border-gray-300"
                 }`}
               >
-                <UserGraduate className="h-6 w-6 mx-auto mb-3 text-blue-600" />
+                <User className="h-6 w-6 mx-auto mb-3 text-blue-600" />
                 <div className="text-sm font-medium text-gray-700">Student</div>
               </button>
               <button
