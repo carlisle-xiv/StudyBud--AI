@@ -70,7 +70,7 @@ const CourseEnrollment = () => {
       duration: "7 weeks",
       enrolled: false,
       gradient: "from-purple-500 to-pink-600",
-      icon: Flask,
+      icon: Beaker,
       subjectColor: "bg-purple-100 text-purple-800",
       levelColor: "bg-red-100 text-red-800",
     },
