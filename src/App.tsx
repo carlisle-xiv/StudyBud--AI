@@ -14,6 +14,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import CourseEnrollment from "./pages/CourseEnrollment";
 import ExamInterface from "./pages/ExamInterface";
 import ExamSelection from "./pages/ExamSelection";
+import ExamProcessing from "./pages/ExamProcessing";
 import Reports from "./pages/Reports";
 import ExamResults from "./pages/ExamResults";
 import NotFound from "./pages/NotFound";
