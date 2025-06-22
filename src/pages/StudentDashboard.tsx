@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import StudentNavigation from "@/components/StudentNavigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
