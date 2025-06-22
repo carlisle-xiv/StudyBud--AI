@@ -468,12 +468,12 @@ const Teachers = () => {
             <Card className="p-8 shadow-lg">
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Individual Teacher
-              <Link
-                to="/reviews"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Reviews
-              </Link>
+              </h3>
+              <div className="mb-6">
+                <span className="text-3xl font-bold text-blue-600">$30</span>
+                <span className="text-gray-600 ml-1">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3">
                   <Check className="w-4 h-4 text-green-500" />
                   <span>Up to 150 students</span>
