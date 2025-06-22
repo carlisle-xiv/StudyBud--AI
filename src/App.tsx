@@ -11,6 +11,7 @@ import Reviews from "./pages/Reviews";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import StudentDashboard from "./pages/StudentDashboard";
+import CourseEnrollment from "./pages/CourseEnrollment";
 import ExamInterface from "./pages/ExamInterface";
 import ExamSelection from "./pages/ExamSelection";
 import NotFound from "./pages/NotFound";
