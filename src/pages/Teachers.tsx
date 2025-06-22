@@ -13,7 +13,7 @@ import {
   Zap,
   Layers,
   BarChart3,
-  UserGraduate,
+  GraduationCap,
   Flag,
   Lightbulb,
   BookOpen,
@@ -288,7 +288,7 @@ const Teachers = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <UserGraduate className="w-4 h-4 text-purple-600" />
+                  <GraduationCap className="w-4 h-4 text-purple-600" />
                   <span className="text-gray-700">
                     Individual student insights
                   </span>
