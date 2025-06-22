@@ -50,12 +50,12 @@ const Features = () => {
               >
                 Features
               </Link>
-              <a
-                href="#how-it-works"
+              <Link
+                to="/how-it-works"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 How It Works
-              </a>
+              </Link>
               <a
                 href="#for-teachers"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
