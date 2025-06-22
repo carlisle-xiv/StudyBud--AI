@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -64,63 +65,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
-              <GraduationCap className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">
-                StudyBud AI
-              </span>
-            </Link>
-
-            {/* Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              <Link
-                to="/features"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                to="/how-it-works"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                How It Works
-              </Link>
-              <Link
-                to="/for-teachers"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                For Teachers
-              </Link>
-              <Link
-                to="/reviews"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Reviews
-              </Link>
-            </nav>
-
-            {/* Auth buttons */}
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="text-blue-600 hover:text-blue-700 font-medium"
-              >
-                Login
-              </Link>
-              <Link to="/signup">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Sign Up
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center px-4 py-8">

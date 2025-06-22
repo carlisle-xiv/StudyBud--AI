@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Star, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 import { useState } from "react";
 
 const Reviews = () => {
@@ -18,50 +19,8 @@ const Reviews = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="container mx-auto px-20">
-          <div className="flex h-16 items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <BookOpen className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">
-                StudyBud AI
-              </span>
-            </Link>
-
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/features"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                to="/how-it-works"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                How It Works
-              </Link>
-              <Link
-                to="/for-teachers"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                For Teachers
-              </Link>
-              <span className="text-blue-600 font-medium">Reviews</span>
-              <Link to="/login">
-                <Button variant="ghost">Login</Button>
-              </Link>
-              <Link to="/signup">
-                <Button>Sign Up</Button>
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
 
       {/* Hero Section */}
       <section className="py-28 bg-gradient-to-r from-blue-50 via-blue-50 to-purple-50">
