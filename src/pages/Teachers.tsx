@@ -74,9 +74,11 @@ const Teachers = () => {
             </nav>
 
             <div className="flex items-center gap-4">
-              <Button variant="ghost" className="text-gray-600">
-                Login
-              </Button>
+              <Link to="/login">
+                <Button variant="ghost" className="text-gray-600">
+                  Login
+                </Button>
+              </Link>
               <Button className="bg-blue-600 hover:bg-blue-700">Sign Up</Button>
             </div>
           </div>

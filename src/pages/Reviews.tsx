@@ -52,7 +52,9 @@ const Reviews = () => {
                 For Teachers
               </Link>
               <span className="text-blue-600 font-medium">Reviews</span>
-              <Button variant="ghost">Login</Button>
+              <Link to="/login">
+                <Button variant="ghost">Login</Button>
+              </Link>
               <Button>Sign Up</Button>
             </nav>
           </div>

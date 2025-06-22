@@ -81,7 +81,9 @@ const HowItWorks = () => {
               >
                 Reviews
               </Link>
-              <Button variant="ghost">Login</Button>
+              <Link to="/login">
+                <Button variant="ghost">Login</Button>
+              </Link>
               <Button>Sign Up</Button>
             </nav>
 
