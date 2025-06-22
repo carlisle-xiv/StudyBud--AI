@@ -150,8 +150,18 @@ const ExamInterface = () => {
   };
 
   const handleSubmitExam = () => {
-    // Handle exam submission
-    navigate("/dashboard");
+    // Handle exam submission - navigate to processing page
+    navigate("/exam-processing", {
+      state: {
+        examData: {
+          examId: "calculus-exam-1",
+          subject: "Mathematics",
+          examName: "Calculus",
+          answers: selectedAnswers,
+          timeUsed: 3600 - timeRemaining, // Calculate actual time used
+        },
+      },
+    });
   };
 
   const handleBackToDashboard = () => {
