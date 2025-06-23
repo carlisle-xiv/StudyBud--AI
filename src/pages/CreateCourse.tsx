@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TeacherNavigation from "../components/TeacherNavigation";
+import AddModuleModal from "../components/AddModuleModal";
 import { useNavigate } from "react-router-dom";
 import {
   X,
@@ -12,6 +13,8 @@ import {
   FileUp,
   Layers,
   ChevronDown,
+  Edit,
+  Trash2,
 } from "lucide-react";
 
 const CreateCourse: React.FC = () => {
