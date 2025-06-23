@@ -283,22 +283,83 @@ const CreateCourse: React.FC = () => {
                 <h2 className="text-xl font-semibold text-gray-900">
                   Organize by Modules
                 </h2>
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                >
                   <Plus className="w-3 h-3" />
                   Add Module
                 </button>
               </div>
 
-              {/* Empty Modules State */}
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center">
-                <Layers className="w-8 h-7 mx-auto mb-4 text-gray-400" />
-                <div className="font-medium text-gray-500 mb-2">
-                  No modules created yet
+              {/* Modules List or Empty State */}
+              {modules.length > 0 ? (
+                <div className="space-y-4">
+                  {modules.map((module, index) => (
+                    <div
+                      key={module.id}
+                      className="border border-gray-200 rounded-lg p-6 bg-white hover:shadow-sm transition-shadow"
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <span className="text-sm font-medium text-indigo-600">
+                              {index + 1}
+                            </span>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-900">
+                              {module.title}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {module.duration} • {module.topics.length} topics
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteModule(module.id)}
+                            className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      {module.description && (
+                        <p className="text-gray-700 mb-4">
+                          {module.description}
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {module.topics.map(
+                          (topic) =>
+                            topic.name && (
+                              <span
+                                key={topic.id}
+                                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                              >
+                                {topic.name}
+                              </span>
+                            ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-sm text-gray-500">
-                  Add modules to organize your syllabus content by topics
+              ) : (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center">
+                  <Layers className="w-8 h-7 mx-auto mb-4 text-gray-400" />
+                  <div className="font-medium text-gray-500 mb-2">
+                    No modules created yet
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Add modules to organize your syllabus content by topics
+                  </div>
                 </div>
-              </div>
+              )}
             </section>
           </div>
 
