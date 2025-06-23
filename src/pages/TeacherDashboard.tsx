@@ -21,6 +21,10 @@ const TeacherDashboard: React.FC = () => {
     navigate("/create-course");
   };
 
+  const handleGenerateExam = () => {
+    navigate("/teacher-exam-creation");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <TeacherNavigation />
