@@ -126,7 +126,10 @@ const TeacherDashboard: React.FC = () => {
           </button>
 
           {/* Generate Exam with AI */}
-          <button className="bg-green-600 rounded-xl shadow-lg p-6 text-white hover:bg-green-700 transition-colors">
+          <button
+            onClick={handleGenerateExam}
+            className="bg-green-600 rounded-xl shadow-lg p-6 text-white hover:bg-green-700 transition-colors"
+          >
             <div className="text-center">
               <Sparkles className="w-9 h-8 mx-auto mb-3" />
               <h3 className="text-lg font-semibold mb-2">
