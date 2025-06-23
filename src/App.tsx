@@ -18,6 +18,7 @@ import ExamProcessing from "./pages/ExamProcessing";
 import Reports from "./pages/Reports";
 import ExamResults from "./pages/ExamResults";
 import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherCourses from "./pages/TeacherCourses";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/reports" element={<Reports />} />
           <Route path="/reports/:examId" element={<ExamResults />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+          <Route path="/teacher-courses" element={<TeacherCourses />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
