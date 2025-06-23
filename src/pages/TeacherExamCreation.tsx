@@ -11,8 +11,7 @@ const TeacherExamCreation: React.FC = () => {
   };
 
   const handleManualCreation = () => {
-    // Navigate to manual exam creation flow
-    console.log("Starting manual exam creation");
+    navigate("/manual-exam-creation");
   };
 
   const handleAIGeneration = () => {
