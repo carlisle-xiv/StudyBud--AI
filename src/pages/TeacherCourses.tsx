@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TeacherNavigation from "../components/TeacherNavigation";
 import {
   Plus,
@@ -35,10 +36,15 @@ interface Course {
 }
 
 const TeacherCourses: React.FC = () => {
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("All Subjects");
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
+
+  const handleCreateCourse = () => {
+    navigate("/create-course");
+  };
 
   const courses: Course[] = [
     {
@@ -165,7 +171,10 @@ const TeacherCourses: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+            <button
+              onClick={handleCreateCourse}
+              className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2"
+            >
               <Plus className="w-4 h-4" />
               Create New Course
             </button>
