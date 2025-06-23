@@ -52,9 +52,9 @@ const TeacherNavigation: React.FC = () => {
                 Courses
               </a>
               <a
-                href="/teacher-exams"
+                href="/teacher-exam-creation"
                 className={`ml-6 font-medium transition-colors ${
-                  isActive("/teacher-exams")
+                  isActive("/teacher-exam-creation")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
                 }`}
