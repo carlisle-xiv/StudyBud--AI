@@ -339,8 +339,8 @@ const AddModuleModal: React.FC<AddModuleModalProps> = ({
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 rounded-b-2xl">
+        {/* Footer - Always visible */}
+        <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 rounded-b-2xl flex-shrink-0">
           <div className="flex items-center justify-between">
             <button
               onClick={onClose}
