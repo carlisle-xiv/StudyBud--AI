@@ -17,6 +17,17 @@ import {
   Trash2,
 } from "lucide-react";
 
+interface Module {
+  id: string;
+  title: string;
+  description: string;
+  order: string;
+  duration: string;
+  topics: Array<{ id: string; name: string }>;
+  learningObjectives: Array<{ id: string; text: string }>;
+  prerequisites: string;
+}
+
 const CreateCourse: React.FC = () => {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
@@ -25,6 +36,8 @@ const CreateCourse: React.FC = () => {
     level: "",
     description: "",
   });
+  const [modules, setModules] = useState<Module[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -33,6 +46,18 @@ const CreateCourse: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setCourseData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddModule = (moduleData: any) => {
+    const newModule: Module = {
+      id: Date.now().toString(),
+      ...moduleData,
+    };
+    setModules((prev) => [...prev, newModule]);
+  };
+
+  const handleDeleteModule = (moduleId: string) => {
+    setModules((prev) => prev.filter((module) => module.id !== moduleId));
   };
 
   const handleClose = () => {
