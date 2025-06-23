@@ -37,9 +37,17 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login submitted:", formData, "User type:", selectedUserType);
-    // In a real app, you'd validate credentials here
-    // For demo purposes, redirect to dashboard
-    navigate("/dashboard");
+
+    // Store user type for future reference
+    localStorage.setItem("userType", selectedUserType || "student");
+    localStorage.setItem("authToken", "demo-token");
+
+    // Redirect based on user type
+    if (selectedUserType === "teacher") {
+      navigate("/teacher-dashboard");
+    } else {
+      navigate("/dashboard"); // Student dashboard
+    }
   };
 
   return (
