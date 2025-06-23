@@ -5,6 +5,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const StudentNavigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard" },
