@@ -127,10 +127,10 @@ const AddModuleModal: React.FC<AddModuleModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-20">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-full overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
               <Layers className="w-5 h-5 text-indigo-600" />
@@ -153,7 +153,7 @@ const AddModuleModal: React.FC<AddModuleModalProps> = ({
         </div>
 
         {/* Content - Scrollable */}
-        <div className="overflow-y-auto max-h-[calc(100vh-200px)] p-6">
+        <div className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
             {/* Module Title */}
             <div>
