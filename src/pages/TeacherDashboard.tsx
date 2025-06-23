@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import TeacherNavigation from "../components/TeacherNavigation";
 import {
   Plus,
@@ -14,6 +15,12 @@ import {
 } from "lucide-react";
 
 const TeacherDashboard: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleCreateCourse = () => {
+    navigate("/create-course");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <TeacherNavigation />
@@ -101,7 +108,10 @@ const TeacherDashboard: React.FC = () => {
         {/* Action Buttons */}
         <section className="grid grid-cols-3 gap-6 mb-8">
           {/* Create New Course */}
-          <button className="bg-indigo-600 rounded-xl shadow-lg p-8 text-white hover:bg-indigo-700 transition-colors">
+          <button
+            onClick={handleCreateCourse}
+            className="bg-indigo-600 rounded-xl shadow-lg p-8 text-white hover:bg-indigo-700 transition-colors"
+          >
             <div className="text-center">
               <Plus className="w-8 h-8 mx-auto mb-3" />
               <h3 className="text-lg font-semibold mb-2">Create New Course</h3>
