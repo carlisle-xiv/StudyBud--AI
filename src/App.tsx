@@ -20,6 +20,7 @@ import ExamResults from "./pages/ExamResults";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherCourses from "./pages/TeacherCourses";
 import CreateCourse from "./pages/CreateCourse";
+import TeacherExamCreation from "./pages/TeacherExamCreation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
