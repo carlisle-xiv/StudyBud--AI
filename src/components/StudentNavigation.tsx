@@ -1,7 +1,7 @@
-import { Brain, Bell } from "lucide-react";
+import { Brain, Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const StudentNavigation = () => {
   const location = useLocation();
