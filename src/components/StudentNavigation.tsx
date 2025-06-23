@@ -92,6 +92,17 @@ const StudentNavigation = () => {
                   Sarah Chen
                 </span>
               </div>
+
+              {/* Logout */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLogout}
+                className="text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                title="Logout"
+              >
+                <LogOut className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
