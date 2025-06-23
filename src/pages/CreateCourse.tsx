@@ -393,6 +393,13 @@ const CreateCourse: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* Add Module Modal */}
+      <AddModuleModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleAddModule}
+      />
     </div>
   );
 };
