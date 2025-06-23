@@ -29,6 +29,15 @@ const StudentNavigation = () => {
     return location.pathname === path;
   };
 
+  const handleLogout = () => {
+    // Clear any stored authentication data
+    localStorage.removeItem("authToken");
+    sessionStorage.clear();
+
+    // Navigate to login page
+    navigate("/login");
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20">
