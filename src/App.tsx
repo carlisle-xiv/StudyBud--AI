@@ -32,6 +32,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminCourses from "./pages/AdminCourses";
 import AdminStudents from "./pages/AdminStudents";
+import AdminExams from "./pages/AdminExams";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
