@@ -29,6 +29,7 @@ import StudentPerformance from "./pages/StudentPerformance";
 import TeacherResources from "./pages/TeacherResources";
 import UploadResource from "./pages/UploadResource";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminTeachers from "./pages/AdminTeachers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -75,6 +76,7 @@ const App = () => (
           <Route path="/teacher-resources" element={<TeacherResources />} />
           <Route path="/upload-resource" element={<UploadResource />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-teachers" element={<AdminTeachers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
