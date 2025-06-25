@@ -31,6 +31,7 @@ import UploadResource from "./pages/UploadResource";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminCourses from "./pages/AdminCourses";
+import AdminStudents from "./pages/AdminStudents";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -79,6 +80,7 @@ const App = () => (
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-teachers" element={<AdminTeachers />} />
           <Route path="/admin-courses" element={<AdminCourses />} />
+          <Route path="/admin-students" element={<AdminStudents />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
