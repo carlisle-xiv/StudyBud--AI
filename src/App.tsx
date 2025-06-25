@@ -59,6 +59,7 @@ const App = () => (
             path="/manual-exam-creation"
             element={<ManualExamCreation />}
           />
+          <Route path="/ai-exam-generation" element={<AIExamGeneration />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
