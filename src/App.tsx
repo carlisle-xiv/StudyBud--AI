@@ -25,6 +25,7 @@ import ManualExamCreation from "./pages/ManualExamCreation";
 import AIExamGeneration from "./pages/AIExamGeneration";
 import AIExamGenerationLoading from "./pages/AIExamGenerationLoading";
 import ExamPreview from "./pages/ExamPreview";
+import StudentPerformance from "./pages/StudentPerformance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -67,6 +68,7 @@ const App = () => (
             element={<AIExamGenerationLoading />}
           />
           <Route path="/exam-preview" element={<ExamPreview />} />
+          <Route path="/student-performance" element={<StudentPerformance />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
