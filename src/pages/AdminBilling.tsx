@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 import { Download, Bell, CreditCard, ChevronDown } from "lucide-react";
 
 const AdminBilling = () => {
@@ -351,9 +352,12 @@ const AdminBilling = () => {
                           </span>
                         </td>
                         <td className="py-4 px-4">
-                          <button className="text-blue-600 text-sm hover:text-blue-700">
+                          <Link
+                            to={`/download-invoice/${item.invoice.replace("#", "")}`}
+                            className="text-blue-600 text-sm hover:text-blue-700"
+                          >
                             Download
-                          </button>
+                          </Link>
                         </td>
                       </tr>
                     ))}
