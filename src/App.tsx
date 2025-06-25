@@ -38,6 +38,7 @@ import AdminSettings from "./pages/AdminSettings";
 import AddNewAdmin from "./pages/AddNewAdmin";
 import AdminReports from "./pages/AdminReports";
 import AdminBilling from "./pages/AdminBilling";
+import DownloadInvoice from "./pages/DownloadInvoice";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
