@@ -30,6 +30,7 @@ import TeacherResources from "./pages/TeacherResources";
 import UploadResource from "./pages/UploadResource";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
+import AdminCourses from "./pages/AdminCourses";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
