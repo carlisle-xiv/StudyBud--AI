@@ -35,6 +35,7 @@ import AdminStudents from "./pages/AdminStudents";
 import AdminExams from "./pages/AdminExams";
 import AdminSettings from "./pages/AdminSettings";
 import AddNewAdmin from "./pages/AddNewAdmin";
+import AdminReports from "./pages/AdminReports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -87,6 +88,7 @@ const App = () => (
           <Route path="/admin-exams" element={<AdminExams />} />
           <Route path="/admin-settings" element={<AdminSettings />} />
           <Route path="/add-new-admin" element={<AddNewAdmin />} />
+          <Route path="/admin-reports" element={<AdminReports />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
