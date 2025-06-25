@@ -62,6 +62,11 @@ const App = () => (
             element={<ManualExamCreation />}
           />
           <Route path="/ai-exam-generation" element={<AIExamGeneration />} />
+          <Route
+            path="/ai-exam-loading"
+            element={<AIExamGenerationLoading />}
+          />
+          <Route path="/exam-preview" element={<ExamPreview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
