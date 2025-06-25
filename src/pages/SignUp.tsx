@@ -20,6 +20,7 @@ import {
   TrendingUp,
   Lightbulb,
   Trophy,
+  Shield,
 } from "lucide-react";
 
 const SignUp = () => {
