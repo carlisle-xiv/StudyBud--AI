@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Features from "./pages/Features";
 import HowItWorks from "./pages/HowItWorks";
 import Teachers from "./pages/Teachers";
+import ForRecruiters from "./pages/ForRecruiters";
 import Reviews from "./pages/Reviews";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
