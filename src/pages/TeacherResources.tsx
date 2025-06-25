@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import TeacherNavigation from "../components/TeacherNavigation";
 import { Button } from "../components/ui/button";
 import {
@@ -29,6 +30,11 @@ import {
 } from "lucide-react";
 
 const TeacherResources: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleUploadResource = () => {
+    navigate("/upload-resource");
+  };
   const statsCards = [
     {
       title: "Total Resources",
@@ -202,7 +208,10 @@ const TeacherResources: React.FC = () => {
               <FolderPlus className="w-4 h-4 mr-2" />
               New Folder
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+            <Button
+              onClick={handleUploadResource}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Upload Resource
             </Button>
