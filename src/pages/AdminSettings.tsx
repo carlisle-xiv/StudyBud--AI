@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminNavigation from "@/components/AdminNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const AdminSettings = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("general");
   const [autoApproveTeachers, setAutoApproveTeachers] = useState(false);
   const [requireCourseReview, setRequireCourseReview] = useState(true);
@@ -292,7 +294,10 @@ const AdminSettings = () => {
                     </p>
                   </div>
                 </div>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => navigate("/add-new-admin")}
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Admin
                 </Button>
