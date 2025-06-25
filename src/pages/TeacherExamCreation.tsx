@@ -15,8 +15,7 @@ const TeacherExamCreation: React.FC = () => {
   };
 
   const handleAIGeneration = () => {
-    // Navigate to AI exam generation flow
-    console.log("Starting AI exam generation");
+    navigate("/ai-exam-generation");
   };
 
   return (
