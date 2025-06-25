@@ -55,10 +55,10 @@ const Index = () => {
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Study <span className="text-blue-600">Smarter</span>,<br />
-                  Not Harder
+                  Pinpoint Strengths. Close Gaps.
                 </h1>
                 <p className="text-xl text-gray-600 max-w-lg">
-                  AI-Powered Reports That Help You Ace Your Exams. Get
+                  AI-Powered Reports That Help You Identify Learning Gaps, Measure Skills, and Build Confidence To Ace Your Exams. Get
                   personalized insights and improve your performance with
                   intelligent study recommendations.
                 </p>
