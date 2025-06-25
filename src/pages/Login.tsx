@@ -46,6 +46,10 @@ const Login = () => {
     // Redirect based on user type
     if (selectedUserType === "teacher") {
       navigate("/teacher-dashboard");
+    } else if (selectedUserType === "admin") {
+      // For now, just log that admin was selected - routing will be added later
+      console.log("Admin login selected - routing to be implemented");
+      navigate("/dashboard"); // Temporary redirect
     } else {
       navigate("/dashboard"); // Student dashboard
     }
