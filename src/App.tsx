@@ -37,6 +37,7 @@ import AdminExams from "./pages/AdminExams";
 import AdminSettings from "./pages/AdminSettings";
 import AddNewAdmin from "./pages/AddNewAdmin";
 import AdminReports from "./pages/AdminReports";
+import AdminBilling from "./pages/AdminBilling";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
