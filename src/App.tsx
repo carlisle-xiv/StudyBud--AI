@@ -78,7 +78,8 @@ const App = () => (
           <Route path="/upload-resource" element={<UploadResource />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-teachers" element={<AdminTeachers />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/admin-courses" element={<AdminCourses />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
