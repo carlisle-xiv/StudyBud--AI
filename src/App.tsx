@@ -34,6 +34,7 @@ import AdminCourses from "./pages/AdminCourses";
 import AdminStudents from "./pages/AdminStudents";
 import AdminExams from "./pages/AdminExams";
 import AdminSettings from "./pages/AdminSettings";
+import AddNewAdmin from "./pages/AddNewAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
