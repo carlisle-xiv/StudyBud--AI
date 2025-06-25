@@ -130,7 +130,7 @@ const ManualExamCreation: React.FC = () => {
   };
 
   const handlePreview = () => {
-    const examData = {
+    const previewData = {
       title: examData.title || "Sample Exam",
       duration: examData.duration,
       difficulty: examData.difficulty,
@@ -141,7 +141,7 @@ const ManualExamCreation: React.FC = () => {
     };
     navigate("/exam-preview", {
       state: {
-        examData,
+        examData: previewData,
         source: "manual-creation",
       },
     });
