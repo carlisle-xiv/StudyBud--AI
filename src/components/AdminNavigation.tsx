@@ -8,6 +8,7 @@ import {
   GraduationCap,
   Settings,
   BarChart3,
+  CreditCard,
   Bell,
   LogOut,
 } from "lucide-react";
