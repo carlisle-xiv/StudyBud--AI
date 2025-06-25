@@ -27,7 +27,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedUserType, setSelectedUserType] = useState<
-    "student" | "teacher" | null
+    "student" | "teacher" | "admin" | null
   >(null);
   const [formData, setFormData] = useState({
     firstName: "",
