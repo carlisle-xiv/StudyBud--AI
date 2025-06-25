@@ -90,10 +90,12 @@ const AdminBilling = () => {
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button className="bg-green-600 hover:bg-green-700">
-                <Download className="w-4 h-4 mr-2" />
-                Download Invoice
-              </Button>
+              <Link to="/download-invoice/INV-2024-001">
+                <Button className="bg-green-600 hover:bg-green-700">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download Invoice
+                </Button>
+              </Link>
               <div className="relative">
                 <Bell className="w-5 h-5 text-gray-500" />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
