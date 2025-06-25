@@ -23,6 +23,8 @@ import CreateCourse from "./pages/CreateCourse";
 import TeacherExamCreation from "./pages/TeacherExamCreation";
 import ManualExamCreation from "./pages/ManualExamCreation";
 import AIExamGeneration from "./pages/AIExamGeneration";
+import AIExamGenerationLoading from "./pages/AIExamGenerationLoading";
+import ExamPreview from "./pages/ExamPreview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
