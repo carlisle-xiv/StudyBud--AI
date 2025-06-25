@@ -68,6 +68,12 @@ const AdminNavigation: React.FC = () => {
       icon: BarChart3,
       badge: null,
     },
+    {
+      name: "Billing",
+      path: "/admin-billing",
+      icon: CreditCard,
+      badge: null,
+    },
   ];
 
   return (
