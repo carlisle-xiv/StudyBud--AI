@@ -130,7 +130,21 @@ const ManualExamCreation: React.FC = () => {
   };
 
   const handlePreview = () => {
-    console.log("Preview exam");
+    const examData = {
+      title: examData.title || "Sample Exam",
+      duration: examData.duration,
+      difficulty: examData.difficulty,
+      totalPoints: examData.totalPoints,
+      instructions: examData.instructions,
+      questions: questions,
+      settings: examSettings,
+    };
+    navigate("/exam-preview", {
+      state: {
+        examData,
+        source: "manual-creation",
+      },
+    });
   };
 
   const handleSaveAsDraft = () => {
