@@ -169,7 +169,8 @@ const AIExamGeneration: React.FC = () => {
       settings: examSettings,
     };
     console.log("Generating AI exam with:", examData);
-    // Here you would typically send this data to your AI service
+    // Navigate to loading screen with exam data
+    navigate("/ai-exam-loading", { state: { examData } });
   };
 
   const selectedSubjectData = subjects.find((s) => s.id === selectedSubject);
