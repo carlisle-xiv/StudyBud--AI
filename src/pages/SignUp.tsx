@@ -97,7 +97,7 @@ const SignUp = () => {
             <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
               I am a:
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <button
                 onClick={() => setSelectedUserType("student")}
                 className={`p-6 rounded-lg border-2 transition-all duration-200 ${
@@ -119,6 +119,17 @@ const SignUp = () => {
               >
                 <Users className="h-6 w-6 mx-auto mb-3 text-cyan-600" />
                 <div className="text-sm font-medium text-gray-700">Teacher</div>
+              </button>
+              <button
+                onClick={() => setSelectedUserType("admin")}
+                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                  selectedUserType === "admin"
+                    ? "border-purple-600 bg-purple-50"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <Shield className="h-6 w-6 mx-auto mb-3 text-purple-600" />
+                <div className="text-sm font-medium text-gray-700">Admin</div>
               </button>
             </div>
           </Card>
