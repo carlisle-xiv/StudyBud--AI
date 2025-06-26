@@ -11,6 +11,7 @@ import ForRecruiters from "./pages/ForRecruiters";
 import Reviews from "./pages/Reviews";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import StudentDashboard from "./pages/StudentDashboard";
 import CourseEnrollment from "./pages/CourseEnrollment";
 import ExamInterface from "./pages/ExamInterface";
@@ -60,6 +61,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/courses" element={<CourseEnrollment />} />
           <Route path="/exam-selection" element={<ExamSelection />} />
