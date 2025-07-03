@@ -6,6 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   GraduationCap,
   Mail,
   Lock,
@@ -209,17 +216,128 @@ const SignUp = () => {
                   School/Institution
                 </label>
                 <div className="relative">
-                  <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="school"
-                    name="school"
-                    type="text"
-                    placeholder="Your school or university"
-                    className="pl-10 h-12"
+                  <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+                  <Select
                     value={formData.school}
-                    onChange={handleInputChange}
-                    required
-                  />
+                    onValueChange={(value) =>
+                      setFormData((prev) => ({ ...prev, school: value }))
+                    }
+                  >
+                    <SelectTrigger className="pl-10 h-12">
+                      <SelectValue placeholder="Select your school or institution" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="harvard-university">
+                        Harvard University
+                      </SelectItem>
+                      <SelectItem value="stanford-university">
+                        Stanford University
+                      </SelectItem>
+                      <SelectItem value="mit">
+                        Massachusetts Institute of Technology (MIT)
+                      </SelectItem>
+                      <SelectItem value="oxford-university">
+                        University of Oxford
+                      </SelectItem>
+                      <SelectItem value="cambridge-university">
+                        University of Cambridge
+                      </SelectItem>
+                      <SelectItem value="caltech">
+                        California Institute of Technology
+                      </SelectItem>
+                      <SelectItem value="yale-university">
+                        Yale University
+                      </SelectItem>
+                      <SelectItem value="princeton-university">
+                        Princeton University
+                      </SelectItem>
+                      <SelectItem value="columbia-university">
+                        Columbia University
+                      </SelectItem>
+                      <SelectItem value="university-chicago">
+                        University of Chicago
+                      </SelectItem>
+                      <SelectItem value="ucla">
+                        University of California, Los Angeles (UCLA)
+                      </SelectItem>
+                      <SelectItem value="uc-berkeley">
+                        University of California, Berkeley
+                      </SelectItem>
+                      <SelectItem value="northwestern-university">
+                        Northwestern University
+                      </SelectItem>
+                      <SelectItem value="duke-university">
+                        Duke University
+                      </SelectItem>
+                      <SelectItem value="cornell-university">
+                        Cornell University
+                      </SelectItem>
+                      <SelectItem value="university-pennsylvania">
+                        University of Pennsylvania
+                      </SelectItem>
+                      <SelectItem value="johns-hopkins">
+                        Johns Hopkins University
+                      </SelectItem>
+                      <SelectItem value="dartmouth-college">
+                        Dartmouth College
+                      </SelectItem>
+                      <SelectItem value="brown-university">
+                        Brown University
+                      </SelectItem>
+                      <SelectItem value="vanderbilt-university">
+                        Vanderbilt University
+                      </SelectItem>
+                      <SelectItem value="rice-university">
+                        Rice University
+                      </SelectItem>
+                      <SelectItem value="university-notre-dame">
+                        University of Notre Dame
+                      </SelectItem>
+                      <SelectItem value="georgetown-university">
+                        Georgetown University
+                      </SelectItem>
+                      <SelectItem value="carnegie-mellon">
+                        Carnegie Mellon University
+                      </SelectItem>
+                      <SelectItem value="emory-university">
+                        Emory University
+                      </SelectItem>
+                      <SelectItem value="university-virginia">
+                        University of Virginia
+                      </SelectItem>
+                      <SelectItem value="wake-forest">
+                        Wake Forest University
+                      </SelectItem>
+                      <SelectItem value="university-michigan">
+                        University of Michigan
+                      </SelectItem>
+                      <SelectItem value="new-york-university">
+                        New York University (NYU)
+                      </SelectItem>
+                      <SelectItem value="boston-university">
+                        Boston University
+                      </SelectItem>
+                      <SelectItem value="university-southern-california">
+                        University of Southern California
+                      </SelectItem>
+                      <SelectItem value="tufts-university">
+                        Tufts University
+                      </SelectItem>
+                      <SelectItem value="university-rochester">
+                        University of Rochester
+                      </SelectItem>
+                      <SelectItem value="boston-college">
+                        Boston College
+                      </SelectItem>
+                      <SelectItem value="case-western">
+                        Case Western Reserve University
+                      </SelectItem>
+                      <SelectItem value="tulane-university">
+                        Tulane University
+                      </SelectItem>
+                      <SelectItem value="other">Other Institution</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
