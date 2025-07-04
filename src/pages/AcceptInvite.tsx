@@ -38,9 +38,8 @@ const AcceptInvite = () => {
     switch (inviteType) {
       case "course":
         return {
-          title: "Introduction to Machine Learning",
-          description:
-            "Join this comprehensive course covering the fundamentals of machine learning and AI",
+          title: "Welcome To StudyBud",
+          description: "Your smart assessment preparation begins now...",
           icon: GraduationCap,
           color: "blue",
           role: "Student",
