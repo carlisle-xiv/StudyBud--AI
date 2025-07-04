@@ -255,9 +255,7 @@ const AcceptInvite = () => {
                 <div className="flex items-center space-x-3">
                   <Building className="w-5 h-5 text-gray-400" />
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Organization
-                    </p>
+                    <p className="text-sm font-medium text-gray-900">School</p>
                     <p className="text-sm text-gray-600">{organizationName}</p>
                   </div>
                 </div>
@@ -407,7 +405,9 @@ const AcceptInvite = () => {
                 >
                   support@studybuddy.ai
                 </a>
-                <span className="text-sm text-gray-600">+1 (555) 123-4567</span>
+                <span className="text-sm text-gray-600">
+                  +233 (054) 686-4226
+                </span>
               </div>
             </Card>
           </div>
