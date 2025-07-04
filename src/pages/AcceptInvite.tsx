@@ -120,13 +120,7 @@ const AcceptInvite = () => {
 
       // Redirect after acceptance
       setTimeout(() => {
-        if (inviteType === "admin") {
-          navigate("/admin-dashboard");
-        } else if (inviteType === "teacher") {
-          navigate("/teacher-dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        navigate("/login");
       }, 2000);
     }, 2000);
   };
