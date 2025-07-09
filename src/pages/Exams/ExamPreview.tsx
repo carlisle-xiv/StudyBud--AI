@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   ArrowLeft,
@@ -261,12 +261,11 @@ const ExamPreview: React.FC = () => {
                           className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                         />
                         <span
-                          className={`${
-                            question.correctAnswer === optionIndex &&
+                          className={`${question.correctAnswer === optionIndex &&
                             selectedAnswers[question.id] !== undefined
-                              ? "text-emerald-700 font-medium"
-                              : "text-gray-700"
-                          }`}
+                            ? "text-emerald-700 font-medium"
+                            : "text-gray-700"
+                            }`}
                         >
                           {String.fromCharCode(65 + optionIndex)}. {option}
                         </span>

@@ -1,5 +1,5 @@
 import React from "react";
-import AdminNavigation from "../components/AdminNavigation";
+import AdminNavigation from "@/components/AdminNavigation";
 import {
   Bell,
   Download,

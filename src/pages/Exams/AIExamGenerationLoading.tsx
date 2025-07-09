@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Brain, Sparkles, CheckCircle, Zap, BookOpen } from "lucide-react";
 
@@ -110,20 +110,18 @@ const AIExamGenerationLoading: React.FC = () => {
           {steps.map((step, index) => (
             <div
               key={step.id}
-              className={`flex items-start gap-4 p-6 rounded-xl transition-all duration-300 ${
-                index <= currentStep
-                  ? "bg-white border-2 border-emerald-200 shadow-sm"
-                  : "bg-gray-50 border-2 border-gray-200"
-              }`}
+              className={`flex items-start gap-4 p-6 rounded-xl transition-all duration-300 ${index <= currentStep
+                ? "bg-white border-2 border-emerald-200 shadow-sm"
+                : "bg-gray-50 border-2 border-gray-200"
+                }`}
             >
               <div
-                className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 ${
-                  index < currentStep
-                    ? "bg-emerald-500 text-white"
-                    : index === currentStep
-                      ? "bg-emerald-100 text-emerald-600"
-                      : "bg-gray-200 text-gray-400"
-                }`}
+                className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 ${index < currentStep
+                  ? "bg-emerald-500 text-white"
+                  : index === currentStep
+                    ? "bg-emerald-100 text-emerald-600"
+                    : "bg-gray-200 text-gray-400"
+                  }`}
               >
                 {index < currentStep ? (
                   <CheckCircle className="w-5 h-5" />
@@ -133,16 +131,14 @@ const AIExamGenerationLoading: React.FC = () => {
               </div>
               <div className="flex-1">
                 <h3
-                  className={`text-lg font-semibold mb-1 transition-colors duration-300 ${
-                    index <= currentStep ? "text-gray-900" : "text-gray-500"
-                  }`}
+                  className={`text-lg font-semibold mb-1 transition-colors duration-300 ${index <= currentStep ? "text-gray-900" : "text-gray-500"
+                    }`}
                 >
                   {step.title}
                 </h3>
                 <p
-                  className={`transition-colors duration-300 ${
-                    index <= currentStep ? "text-gray-600" : "text-gray-400"
-                  }`}
+                  className={`transition-colors duration-300 ${index <= currentStep ? "text-gray-600" : "text-gray-400"
+                    }`}
                 >
                   {step.description}
                 </p>

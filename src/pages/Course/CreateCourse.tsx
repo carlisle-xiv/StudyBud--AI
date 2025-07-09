@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
-import AddModuleModal from "../components/AddModuleModal";
+import TeacherNavigation from "@/components/TeacherNavigation";
+import AddModuleModal from "@/components/AddModuleModal";
 import { useNavigate } from "react-router-dom";
 import {
   X,

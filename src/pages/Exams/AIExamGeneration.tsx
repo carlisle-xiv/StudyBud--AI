@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -248,11 +248,10 @@ const AIExamGeneration: React.FC = () => {
               <button
                 key={subject.id}
                 onClick={() => handleSubjectSelect(subject.id)}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  selectedSubject === subject.id
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`p-4 rounded-lg border-2 transition-all ${selectedSubject === subject.id
+                  ? "border-emerald-500 bg-emerald-50"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -438,18 +437,16 @@ const AIExamGeneration: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("randomizeQuestions")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.randomizeQuestions
-                      ? "bg-emerald-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.randomizeQuestions
+                    ? "bg-emerald-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.randomizeQuestions
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.randomizeQuestions
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -465,18 +462,16 @@ const AIExamGeneration: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("randomizeAnswers")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.randomizeAnswers
-                      ? "bg-emerald-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.randomizeAnswers
+                    ? "bg-emerald-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.randomizeAnswers
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.randomizeAnswers
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -494,18 +489,16 @@ const AIExamGeneration: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("showResultsImmediately")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.showResultsImmediately
-                      ? "bg-emerald-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.showResultsImmediately
+                    ? "bg-emerald-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.showResultsImmediately
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.showResultsImmediately
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -519,16 +512,14 @@ const AIExamGeneration: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("allowRetakes")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.allowRetakes ? "bg-emerald-600" : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.allowRetakes ? "bg-emerald-600" : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.allowRetakes
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.allowRetakes
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -541,11 +532,10 @@ const AIExamGeneration: React.FC = () => {
           <button
             onClick={handleGenerateExam}
             disabled={!selectedSubject || selectedTopics.length === 0}
-            className={`flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg transition-all ${
-              selectedSubject && selectedTopics.length > 0
-                ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg hover:shadow-xl"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+            className={`flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg transition-all ${selectedSubject && selectedTopics.length > 0
+              ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg hover:shadow-xl"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             <Brain className="w-6 h-6" />
             Generate AI Exam

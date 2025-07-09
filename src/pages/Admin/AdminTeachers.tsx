@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AdminNavigation from "../components/AdminNavigation";
+import AdminNavigation from "@/components/AdminNavigation";
 import {
   Search,
   ChevronDown,
@@ -278,22 +278,20 @@ const AdminTeachers: React.FC = () => {
               {/* Bulk Actions */}
               <div className="flex items-center gap-3">
                 <button
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium ${
-                    selectedTeachers.length > 0
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-green-400 opacity-50 cursor-not-allowed"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium ${selectedTeachers.length > 0
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-green-400 opacity-50 cursor-not-allowed"
+                    }`}
                   disabled={selectedTeachers.length === 0}
                 >
                   <Check className="w-4 h-4" />
                   Bulk Approve
                 </button>
                 <button
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium ${
-                    selectedTeachers.length > 0
-                      ? "bg-red-600 hover:bg-red-700"
-                      : "bg-red-400 opacity-50 cursor-not-allowed"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium ${selectedTeachers.length > 0
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-red-400 opacity-50 cursor-not-allowed"
+                    }`}
                   disabled={selectedTeachers.length === 0}
                 >
                   <X className="w-4 h-4" />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -200,11 +200,10 @@ const ManualExamCreation: React.FC = () => {
               <button
                 key={course.id}
                 onClick={() => setSelectedCourse(course.id)}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  course.selected
-                    ? "border-indigo-500 bg-indigo-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`p-4 rounded-lg border-2 transition-all ${course.selected
+                  ? "border-indigo-500 bg-indigo-50"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -497,18 +496,16 @@ const ManualExamCreation: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("randomizeQuestions")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.randomizeQuestions
-                      ? "bg-indigo-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.randomizeQuestions
+                    ? "bg-indigo-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.randomizeQuestions
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.randomizeQuestions
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -524,18 +521,16 @@ const ManualExamCreation: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("randomizeAnswers")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.randomizeAnswers
-                      ? "bg-indigo-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.randomizeAnswers
+                    ? "bg-indigo-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.randomizeAnswers
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.randomizeAnswers
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -553,18 +548,16 @@ const ManualExamCreation: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("showResultsImmediately")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.showResultsImmediately
-                      ? "bg-indigo-600"
-                      : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.showResultsImmediately
+                    ? "bg-indigo-600"
+                    : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.showResultsImmediately
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.showResultsImmediately
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>
@@ -578,16 +571,14 @@ const ManualExamCreation: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleSetting("allowRetakes")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    examSettings.allowRetakes ? "bg-indigo-600" : "bg-gray-200"
-                  }`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${examSettings.allowRetakes ? "bg-indigo-600" : "bg-gray-200"
+                    }`}
                 >
                   <div
-                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${
-                      examSettings.allowRetakes
-                        ? "translate-x-5"
-                        : "translate-x-0.5"
-                    }`}
+                    className={`absolute w-5 h-5 bg-white rounded-full top-0.5 transition-transform ${examSettings.allowRetakes
+                      ? "translate-x-5"
+                      : "translate-x-0.5"
+                      }`}
                   />
                 </button>
               </div>

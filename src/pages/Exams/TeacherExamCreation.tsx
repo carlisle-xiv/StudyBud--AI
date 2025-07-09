@@ -1,5 +1,5 @@
 import React from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Edit, Brain, Check } from "lucide-react";
 

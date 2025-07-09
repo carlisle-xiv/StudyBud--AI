@@ -1,14 +1,14 @@
 import React from "react";
-import TeacherNavigation from "../components/TeacherNavigation";
-import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
+import TeacherNavigation from "@/components/TeacherNavigation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select";
+} from "@/components/ui/select";
 import {
   AlertTriangle,
   Clock,

@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import TeacherNavigation from "../components/TeacherNavigation";
-import { Button } from "../components/ui/button";
+import TeacherNavigation from "@/components/TeacherNavigation";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select";
+} from "@/components/ui/select";
 import {
   Plus,
   Upload,

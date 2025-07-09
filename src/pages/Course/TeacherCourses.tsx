@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TeacherNavigation from "../components/TeacherNavigation";
+import TeacherNavigation from "@/components/TeacherNavigation";
 import {
   Plus,
   Sparkles,
@@ -237,21 +237,19 @@ const TeacherCourses: React.FC = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-3 rounded-lg border transition-colors ${
-                  viewMode === "grid"
-                    ? "bg-gray-100 border-gray-300"
-                    : "border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`p-3 rounded-lg border transition-colors ${viewMode === "grid"
+                  ? "bg-gray-100 border-gray-300"
+                  : "border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 <Grid3X3 className="w-4 h-4 text-gray-600" />
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-3 rounded-lg border transition-colors ${
-                  viewMode === "list"
-                    ? "bg-gray-100 border-gray-300"
-                    : "border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`p-3 rounded-lg border transition-colors ${viewMode === "list"
+                  ? "bg-gray-100 border-gray-300"
+                  : "border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 <List className="w-4 h-4 text-gray-600" />
               </button>
