@@ -27,6 +27,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   Clock,
+  FileText,
 } from "lucide-react";
 
 const TeacherQuestionReview = () => {
