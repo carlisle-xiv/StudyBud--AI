@@ -70,6 +70,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/accept-invite" element={<AcceptInvite />} />
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/courses" element={<CourseEnrollment />} />
