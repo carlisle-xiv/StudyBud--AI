@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TeacherNavigation from "@/components/TeacherNavigation";
+import RejectCourseModal from "@/components/RejectCourseModal";
+import { useNavigate } from "react-router-dom";
 import {
   CheckCircle,
   XCircle,
@@ -26,8 +28,11 @@ import {
 } from "lucide-react";
 
 const TeacherActions = () => {
+  const navigate = useNavigate();
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
   // Mock data for pending course reviews
   const [pendingCourses, setPendingCourses] = useState([
@@ -102,17 +107,30 @@ const TeacherActions = () => {
     );
   };
 
-  const handleReject = (
-    courseId: number,
-    reason: string = "Course requirements not met",
-  ) => {
-    setPendingCourses((courses) =>
-      courses.map((course) =>
-        course.id === courseId
-          ? { ...course, status: "rejected", rejectionReason: reason }
-          : course,
-      ),
-    );
+  const handleReject = (courseId: number) => {
+    const course = pendingCourses.find((c) => c.id === courseId);
+    if (course) {
+      setSelectedCourse(course);
+      setIsRejectModalOpen(true);
+    }
+  };
+
+  const handleRejectConfirm = (reason: string) => {
+    if (selectedCourse) {
+      setPendingCourses((courses) =>
+        courses.map((course) =>
+          course.id === selectedCourse.id
+            ? { ...course, status: "rejected", rejectionReason: reason }
+            : course,
+        ),
+      );
+      setIsRejectModalOpen(false);
+      setSelectedCourse(null);
+    }
+  };
+
+  const handlePreview = (courseId: number) => {
+    navigate(`/course-preview/${courseId}`);
   };
 
   const filteredCourses = pendingCourses.filter((course) => {
@@ -382,6 +400,7 @@ const TeacherActions = () => {
                     variant="outline"
                     size="sm"
                     className="flex items-center"
+                    onClick={() => handlePreview(course.id)}
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     Preview
@@ -430,6 +449,18 @@ const TeacherActions = () => {
           )}
         </div>
       </div>
+
+      {/* Reject Course Modal */}
+      <RejectCourseModal
+        isOpen={isRejectModalOpen}
+        onClose={() => {
+          setIsRejectModalOpen(false);
+          setSelectedCourse(null);
+        }}
+        onConfirm={handleRejectConfirm}
+        courseName={selectedCourse?.title || ""}
+        instructor={selectedCourse?.instructor || ""}
+      />
     </div>
   );
 };
