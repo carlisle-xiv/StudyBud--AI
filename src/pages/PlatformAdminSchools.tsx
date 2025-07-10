@@ -176,7 +176,10 @@ const PlatformAdminSchools: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button className="bg-purple-600 hover:bg-purple-700">
+              <Button
+                className="bg-purple-600 hover:bg-purple-700"
+                onClick={() => (window.location.href = "/create-school")}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add School
               </Button>

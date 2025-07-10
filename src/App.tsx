@@ -124,6 +124,15 @@ const App = () => (
             path="/download-invoice/:invoiceId"
             element={<DownloadInvoice />}
           />
+          <Route
+            path="/platform-admin-dashboard"
+            element={<PlatformAdminDashboard />}
+          />
+          <Route
+            path="/platform-admin-schools"
+            element={<PlatformAdminSchools />}
+          />
+          <Route path="/create-school" element={<CreateSchool />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
