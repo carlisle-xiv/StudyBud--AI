@@ -72,8 +72,13 @@ const SignUp = () => {
     e.preventDefault();
     console.log("Sign up submitted:", formData, "User type:", selectedUserType);
     // In a real app, you'd create the account here
-    // For demo purposes, redirect to dashboard
-    navigate("/dashboard");
+    // Redirect to email verification page with user email and type
+    navigate("/email-verification", {
+      state: {
+        email: formData.email,
+        userType: selectedUserType,
+      },
+    });
   };
 
   return (

@@ -48,6 +48,7 @@ import AdminReports from "./pages/AdminReports";
 import AdminBilling from "./pages/AdminBilling";
 import DownloadInvoice from "./pages/DownloadInvoice";
 import Privacy from "./pages/Privacy";
+import EmailVerification from "./pages/EmailVerification";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
