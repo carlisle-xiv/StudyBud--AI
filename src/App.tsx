@@ -51,6 +51,7 @@ import Privacy from "./pages/Privacy";
 import EmailVerification from "./pages/EmailVerification";
 import PlatformAdminDashboard from "./pages/PlatformAdminDashboard";
 import PlatformAdminSchools from "./pages/PlatformAdminSchools";
+import PlatformAdminAnalytics from "./pages/PlatformAdminAnalytics";
 import CreateSchool from "./pages/CreateSchool";
 import NotFound from "./pages/NotFound";
 
@@ -131,6 +132,10 @@ const App = () => (
           <Route
             path="/platform-admin-schools"
             element={<PlatformAdminSchools />}
+          />
+          <Route
+            path="/platform-admin-analytics"
+            element={<PlatformAdminAnalytics />}
           />
           <Route path="/create-school" element={<CreateSchool />} />
           <Route path="*" element={<NotFound />} />
