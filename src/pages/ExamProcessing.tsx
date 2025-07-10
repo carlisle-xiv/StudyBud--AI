@@ -264,7 +264,7 @@ const ExamProcessing = () => {
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes ping {
           75%,
           100% {
