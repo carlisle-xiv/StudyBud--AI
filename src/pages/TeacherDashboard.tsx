@@ -197,7 +197,10 @@ const TeacherDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700">
+              <button
+                onClick={() => navigate("/teacher-alerts")}
+                className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700"
+              >
                 View All Alerts
               </button>
             </div>
@@ -239,7 +242,10 @@ const TeacherDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700">
+              <button
+                onClick={() => navigate("/teacher-drafts")}
+                className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700"
+              >
                 View All Drafts
               </button>
             </div>
@@ -281,7 +287,10 @@ const TeacherDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700">
+              <button
+                onClick={() => navigate("/teacher-question-review")}
+                className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-700"
+              >
                 Review Questions
               </button>
             </div>

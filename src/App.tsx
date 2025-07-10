@@ -33,6 +33,9 @@ import TeacherResources from "./pages/TeacherResources";
 import UploadResource from "./pages/UploadResource";
 import TeacherActions from "./pages/TeacherActions";
 import CoursePreview from "./pages/CoursePreview";
+import TeacherAlerts from "./pages/TeacherAlerts";
+import TeacherDrafts from "./pages/TeacherDrafts";
+import TeacherQuestionReview from "./pages/TeacherQuestionReview";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminCourses from "./pages/AdminCourses";
@@ -95,6 +98,12 @@ const App = () => (
           <Route path="/upload-resource" element={<UploadResource />} />
           <Route path="/teacher-actions" element={<TeacherActions />} />
           <Route path="/course-preview/:courseId" element={<CoursePreview />} />
+          <Route path="/teacher-alerts" element={<TeacherAlerts />} />
+          <Route path="/teacher-drafts" element={<TeacherDrafts />} />
+          <Route
+            path="/teacher-question-review"
+            element={<TeacherQuestionReview />}
+          />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-teachers" element={<AdminTeachers />} />
           <Route path="/admin-courses" element={<AdminCourses />} />
