@@ -49,6 +49,9 @@ import AdminBilling from "./pages/AdminBilling";
 import DownloadInvoice from "./pages/DownloadInvoice";
 import Privacy from "./pages/Privacy";
 import EmailVerification from "./pages/EmailVerification";
+import PlatformAdminDashboard from "./pages/PlatformAdminDashboard";
+import PlatformAdminSchools from "./pages/PlatformAdminSchools";
+import CreateSchool from "./pages/CreateSchool";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
