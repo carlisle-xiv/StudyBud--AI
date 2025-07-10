@@ -360,10 +360,6 @@ const SignUp = () => {
               </div>
             </form>
           </Card>
-
-          <pre>
-            {JSON.stringify(form.watch(), null, 4)}
-          </pre>
         </div>
       </main>
 
