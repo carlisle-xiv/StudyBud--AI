@@ -25,7 +25,7 @@ const EmailVerification = () => {
   useEffect(() => {
     // If no email was passed, redirect back to signup
     if (!location.state?.email) {
-      navigate("/sign-up");
+      navigate("/signup");
     }
   }, [location.state, navigate]);
 
@@ -40,7 +40,7 @@ const EmailVerification = () => {
   };
 
   const handleChangeEmail = () => {
-    navigate("/sign-up", { state: { email, userType } });
+    navigate("/signup", { state: { email, userType } });
   };
 
   return (
@@ -52,7 +52,7 @@ const EmailVerification = () => {
           {/* Back to Sign Up */}
           <div className="text-center">
             <Link
-              to="/sign-up"
+              to="/signup"
               className="inline-flex items-center text-sm text-gray-600 hover:text-gray-800"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
