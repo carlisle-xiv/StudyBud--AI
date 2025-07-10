@@ -31,6 +31,7 @@ import ExamPreview from "./pages/ExamPreview";
 import StudentPerformance from "./pages/StudentPerformance";
 import TeacherResources from "./pages/TeacherResources";
 import UploadResource from "./pages/UploadResource";
+import TeacherActions from "./pages/TeacherActions";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminCourses from "./pages/AdminCourses";
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="/student-performance" element={<StudentPerformance />} />
           <Route path="/teacher-resources" element={<TeacherResources />} />
           <Route path="/upload-resource" element={<UploadResource />} />
+          <Route path="/teacher-actions" element={<TeacherActions />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-teachers" element={<AdminTeachers />} />
           <Route path="/admin-courses" element={<AdminCourses />} />

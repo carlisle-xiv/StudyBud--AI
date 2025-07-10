@@ -81,6 +81,16 @@ const TeacherNavigation: React.FC = () => {
               >
                 Resources
               </a>
+              <a
+                href="/teacher-actions"
+                className={`ml-6 font-medium transition-colors ${
+                  isActive("/teacher-actions")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                Actions
+              </a>
             </nav>
 
             {/* Right Section - Notifications and Profile */}
