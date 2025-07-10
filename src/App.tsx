@@ -36,6 +36,7 @@ import CoursePreview from "./pages/CoursePreview";
 import TeacherAlerts from "./pages/TeacherAlerts";
 import TeacherDrafts from "./pages/TeacherDrafts";
 import TeacherQuestionReview from "./pages/TeacherQuestionReview";
+import EditQuestion from "./pages/EditQuestion";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminCourses from "./pages/AdminCourses";
@@ -104,6 +105,7 @@ const App = () => (
             path="/teacher-question-review"
             element={<TeacherQuestionReview />}
           />
+          <Route path="/edit-question/:questionId" element={<EditQuestion />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin-teachers" element={<AdminTeachers />} />
           <Route path="/admin-courses" element={<AdminCourses />} />
