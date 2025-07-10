@@ -55,6 +55,7 @@ import PlatformAdminAnalytics from "./pages/PlatformAdminAnalytics";
 import PlatformAdminData from "./pages/PlatformAdminData";
 import PlatformAdminUsers from "./pages/PlatformAdminUsers";
 import PlatformAdminPlatform from "./pages/PlatformAdminPlatform";
+import PlatformAdminSettings from "./pages/PlatformAdminSettings";
 import CreateSchool from "./pages/CreateSchool";
 import NotFound from "./pages/NotFound";
 
@@ -148,6 +149,10 @@ const App = () => (
           <Route
             path="/platform-admin-platform"
             element={<PlatformAdminPlatform />}
+          />
+          <Route
+            path="/platform-admin-settings"
+            element={<PlatformAdminSettings />}
           />
           <Route path="/create-school" element={<CreateSchool />} />
           <Route path="*" element={<NotFound />} />
