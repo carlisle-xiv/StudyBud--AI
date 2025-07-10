@@ -180,7 +180,7 @@ const Login = () => {
               </div>
 
               {/* Social Login Buttons */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3">
                 <Button variant="outline" className="h-12">
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path
@@ -202,7 +202,7 @@ const Login = () => {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="h-12">
+                {/* <Button variant="outline" className="h-12">
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path fill="#00BCF2" d="M0 0h11.377v11.372H0V0z" />
                     <path fill="#00BCF2" d="M11.377 0H24v11.372H11.377V0z" />
@@ -213,7 +213,7 @@ const Login = () => {
                     />
                   </svg>
                   Microsoft
-                </Button>
+                </Button> */}
               </div>
 
               {/* Sign Up Link */}
@@ -230,49 +230,46 @@ const Login = () => {
           </Card>
 
           {/* User Type Selection */}
-          <Card className="p-6">
+          {/* <Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
               I am a:
             </h3>
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => setSelectedUserType("student")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "student"
-                    ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "student"
+                  ? "border-blue-600 bg-blue-50"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <User className="h-6 w-6 mx-auto mb-2 text-blue-600" />
                 <div className="text-sm font-medium text-gray-700">Student</div>
               </button>
               <button
                 onClick={() => setSelectedUserType("teacher")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "teacher"
-                    ? "border-cyan-600 bg-cyan-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "teacher"
+                  ? "border-cyan-600 bg-cyan-50"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <Users className="h-6 w-6 mx-auto mb-2 text-cyan-600" />
                 <div className="text-sm font-medium text-gray-700">Teacher</div>
               </button>
               <button
                 onClick={() => setSelectedUserType("admin")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "admin"
-                    ? "border-purple-600 bg-purple-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "admin"
+                  ? "border-purple-600 bg-purple-50"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <Shield className="h-6 w-6 mx-auto mb-2 text-purple-600" />
                 <div className="text-sm font-medium text-gray-700">Admin</div>
               </button>
             </div>
-          </Card>
+          </Card> */}
 
           {/* Features Section */}
-          <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+          {/* <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
             <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
               What you'll get:
             </h3>
@@ -302,7 +299,7 @@ const Login = () => {
                 </span>
               </div>
             </div>
-          </Card>
+          </Card> */}
         </div>
       </main>
 

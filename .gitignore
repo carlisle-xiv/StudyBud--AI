@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Cursor Directories
+.Cursor
+
+
+# Axios Api Directories
+Api/*
+.env

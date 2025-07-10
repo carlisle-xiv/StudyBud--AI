@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -15,62 +15,78 @@ import {
 import {
   GraduationCap,
   Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  Check,
-  X,
   User,
   Users,
   Building,
-  Brain,
-  TrendingUp,
-  Lightbulb,
-  Trophy,
   Shield,
+  LoaderPinwheel,
+  School,
+  Key,
 } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getSchools, validateSchoolName } from "@/Api/dataSource";
+import { toast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+import { SignupForm, SignupFormSchema } from "./Forms/SignupForm";
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const SignUp = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+  const [isAvailable, setIsAvailable] = useState<boolean>(false);
+
   const [selectedUserType, setSelectedUserType] = useState<
     "student" | "teacher" | "admin" | null
   >(null);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    school: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
+
+  const { data: SchoolsData, refetch } = useQuery({
+    queryKey: ["schoolsData"],
+    queryFn: getSchools
+  })
+
+  const form = useForm<SignupForm>({
+    resolver: zodResolver(SignupFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      school: "",
+      schoolName: "",
+      agreeToTerms: false
+    },
   });
 
-  const [passwordValidation, setPasswordValidation] = useState({
-    length: false,
-    uppercase: false,
-    number: false,
-  });
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ['validateSchoolName'],
+    mutationFn: validateSchoolName,
+    onSuccess: (response) => {
+      setIsAvailable(response.data.isValid);
+      response.data.isValid === true ?
+        form.setError("schoolName", { type: "custom", message: "Name is available" })
+        :
+        form.setError("schoolName", { type: "custom", message: "Name is not available" });
+      return;
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong'
+      })
+    }
+  }
+  )
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Password validation
-    if (name === "password") {
-      setPasswordValidation({
-        length: value.length >= 8,
-        uppercase: /[A-Z]/.test(value),
-        number: /\d/.test(value),
+  const validateName = async () => {
+    if (form.getValues('schoolName')) {
+      await mutateAsync({
+        data:
+          { name: form.getValues('schoolName') }
       });
     }
-  };
+  }
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent, data: SignupForm) => {
     e.preventDefault();
-    console.log("Sign up submitted:", formData, "User type:", selectedUserType);
+    console.log("Sign up submitted:", data);
     // In a real app, you'd create the account here
     // For demo purposes, redirect to dashboard
     navigate("/dashboard");
@@ -85,12 +101,12 @@ const SignUp = () => {
         <div className="w-full max-w-lg space-y-8">
           {/* Logo and Welcome Text */}
           <div className="text-center space-y-4">
-            <div className="flex justify-center items-center space-x-2">
+            {/* <div className="flex justify-center items-center space-x-2">
               <GraduationCap className="h-11 w-11 text-blue-600" />
               <span className="text-2xl font-bold text-gray-900">
                 StudyBud AI
               </span>
-            </div>
+            </div> */}
             <h1 className="text-3xl font-bold text-gray-900">
               Join StudyBud AI
             </h1>
@@ -99,51 +115,11 @@ const SignUp = () => {
             </p>
           </div>
 
-          {/* User Type Selection */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
-              I am a:
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <button
-                onClick={() => setSelectedUserType("student")}
-                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "student"
-                    ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <User className="h-6 w-6 mx-auto mb-3 text-blue-600" />
-                <div className="text-sm font-medium text-gray-700">Student</div>
-              </button>
-              <button
-                onClick={() => setSelectedUserType("teacher")}
-                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "teacher"
-                    ? "border-cyan-600 bg-cyan-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <Users className="h-6 w-6 mx-auto mb-3 text-cyan-600" />
-                <div className="text-sm font-medium text-gray-700">Teacher</div>
-              </button>
-              <button
-                onClick={() => setSelectedUserType("admin")}
-                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
-                  selectedUserType === "admin"
-                    ? "border-purple-600 bg-purple-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <Shield className="h-6 w-6 mx-auto mb-3 text-purple-600" />
-                <div className="text-sm font-medium text-gray-700">Admin</div>
-              </button>
-            </div>
-          </Card>
+
 
           {/* Sign Up Form */}
           <Card className="p-8 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={() => { handleSubmit }} className="space-y-6">
               {/* First Name & Last Name */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -159,8 +135,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="John"
                     className="h-12"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
+                    {...form.register("firstName")}
                     required
                   />
                 </div>
@@ -177,8 +152,7 @@ const SignUp = () => {
                     type="text"
                     placeholder="Doe"
                     className="h-12"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
+                    {...form.register("lastName")}
                     required
                   />
                 </div>
@@ -200,8 +174,7 @@ const SignUp = () => {
                     type="email"
                     placeholder="john@example.com"
                     className="pl-10 h-12"
-                    value={formData.email}
-                    onChange={handleInputChange}
+                    {...form.register("email")}
                     required
                   />
                 </div>
@@ -218,245 +191,84 @@ const SignUp = () => {
                 <div className="relative">
                   <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
                   <Select
-                    value={formData.school}
-                    onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, school: value }))
-                    }
+                    {...form.register("school")}
                   >
                     <SelectTrigger className="pl-10 h-12">
                       <SelectValue placeholder="Select your school or institution" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="harvard-university">
-                        Harvard University
-                      </SelectItem>
-                      <SelectItem value="stanford-university">
-                        Stanford University
-                      </SelectItem>
-                      <SelectItem value="mit">
-                        Massachusetts Institute of Technology (MIT)
-                      </SelectItem>
-                      <SelectItem value="oxford-university">
-                        University of Oxford
-                      </SelectItem>
-                      <SelectItem value="cambridge-university">
-                        University of Cambridge
-                      </SelectItem>
-                      <SelectItem value="caltech">
-                        California Institute of Technology
-                      </SelectItem>
-                      <SelectItem value="yale-university">
-                        Yale University
-                      </SelectItem>
-                      <SelectItem value="princeton-university">
-                        Princeton University
-                      </SelectItem>
-                      <SelectItem value="columbia-university">
-                        Columbia University
-                      </SelectItem>
-                      <SelectItem value="university-chicago">
-                        University of Chicago
-                      </SelectItem>
-                      <SelectItem value="ucla">
-                        University of California, Los Angeles (UCLA)
-                      </SelectItem>
-                      <SelectItem value="uc-berkeley">
-                        University of California, Berkeley
-                      </SelectItem>
-                      <SelectItem value="northwestern-university">
-                        Northwestern University
-                      </SelectItem>
-                      <SelectItem value="duke-university">
-                        Duke University
-                      </SelectItem>
-                      <SelectItem value="cornell-university">
-                        Cornell University
-                      </SelectItem>
-                      <SelectItem value="university-pennsylvania">
-                        University of Pennsylvania
-                      </SelectItem>
-                      <SelectItem value="johns-hopkins">
-                        Johns Hopkins University
-                      </SelectItem>
-                      <SelectItem value="dartmouth-college">
-                        Dartmouth College
-                      </SelectItem>
-                      <SelectItem value="brown-university">
-                        Brown University
-                      </SelectItem>
-                      <SelectItem value="vanderbilt-university">
-                        Vanderbilt University
-                      </SelectItem>
-                      <SelectItem value="rice-university">
-                        Rice University
-                      </SelectItem>
-                      <SelectItem value="university-notre-dame">
-                        University of Notre Dame
-                      </SelectItem>
-                      <SelectItem value="georgetown-university">
-                        Georgetown University
-                      </SelectItem>
-                      <SelectItem value="carnegie-mellon">
-                        Carnegie Mellon University
-                      </SelectItem>
-                      <SelectItem value="emory-university">
-                        Emory University
-                      </SelectItem>
-                      <SelectItem value="university-virginia">
-                        University of Virginia
-                      </SelectItem>
-                      <SelectItem value="wake-forest">
-                        Wake Forest University
-                      </SelectItem>
-                      <SelectItem value="university-michigan">
-                        University of Michigan
-                      </SelectItem>
-                      <SelectItem value="new-york-university">
-                        New York University (NYU)
-                      </SelectItem>
-                      <SelectItem value="boston-university">
-                        Boston University
-                      </SelectItem>
-                      <SelectItem value="university-southern-california">
-                        University of Southern California
-                      </SelectItem>
-                      <SelectItem value="tufts-university">
-                        Tufts University
-                      </SelectItem>
-                      <SelectItem value="university-rochester">
-                        University of Rochester
-                      </SelectItem>
-                      <SelectItem value="boston-college">
-                        Boston College
-                      </SelectItem>
-                      <SelectItem value="case-western">
-                        Case Western Reserve University
-                      </SelectItem>
-                      <SelectItem value="tulane-university">
-                        Tulane University
-                      </SelectItem>
-                      <SelectItem value="other">Other Institution</SelectItem>
-                    </SelectContent>
+                      {SchoolsData?.data.map((school) => (
+                        <SelectItem key={school.id} value={school.name}>{school.name}</SelectItem>
+                      ))}</SelectContent>
                   </Select>
                 </div>
               </div>
 
-              {/* Password Field */}
               <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
-                    className="pl-10 pr-10 h-12"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
+                <label htmlFor="schoolName" className="text-sm font-medium text-gray-700">School Name</label>
+                <div className="flex flex-row gap-3">
                   <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    type='button'
+                    onClick={validateName}
+                    className={`rounded-sm bg-blue-700 hover:bg-700/50 px-2 text-white min-w-fit`}>
+                    {isPending ? <LoaderPinwheel className="animate-spin" /> : `Check Availability`}
+                  </button>
+                  <Input
+                    type="text"
+                    id="schoolName"
+                    placeholder="Enter School Name"
+                    {...form.register("schoolName")}
+                  />
+                </div>
+                <span className={`${isAvailable ? "text-green-600" : "text-red-600"} text-sm`}>{form.formState.errors.schoolName?.message}</span>
+              </div>
+
+
+              {/* User Type Selection */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
+                  I am a:
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <button
+                    onClick={() => setSelectedUserType("student")}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "student"
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
+                      }`}
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
+                    <User className="h-6 w-6 mx-auto mb-3 text-blue-600" />
+                    <div className="text-sm font-medium text-gray-700">Student</div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedUserType("teacher")}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "teacher"
+                      ? "border-cyan-600 bg-cyan-50"
+                      : "border-gray-200 hover:border-gray-300"
+                      }`}
+                  >
+                    <Users className="h-6 w-6 mx-auto mb-3 text-cyan-600" />
+                    <div className="text-sm font-medium text-gray-700">Teacher</div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedUserType("admin")}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "admin"
+                      ? "border-purple-600 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                      }`}
+                  >
+                    <Shield className="h-6 w-6 mx-auto mb-3 text-purple-600" />
+                    <div className="text-sm font-medium text-gray-700">Admin</div>
                   </button>
                 </div>
               </div>
 
-              {/* Confirm Password Field */}
-              <div className="space-y-2">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
-                    className="pl-10 pr-10 h-12"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Password Requirements */}
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-sm font-medium text-gray-700 mb-2">
-                  Password must contain:
-                </p>
-                <div className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    {passwordValidation.length ? (
-                      <Check className="h-3.5 w-3.5 text-green-500" />
-                    ) : (
-                      <X className="h-3.5 w-3.5 text-red-500" />
-                    )}
-                    <span className="text-sm text-gray-600">
-                      At least 8 characters
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {passwordValidation.uppercase ? (
-                      <Check className="h-3.5 w-3.5 text-green-500" />
-                    ) : (
-                      <X className="h-3.5 w-3.5 text-red-500" />
-                    )}
-                    <span className="text-sm text-gray-600">
-                      One uppercase letter
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {passwordValidation.number ? (
-                      <Check className="h-3.5 w-3.5 text-green-500" />
-                    ) : (
-                      <X className="h-3.5 w-3.5 text-red-500" />
-                    )}
-                    <span className="text-sm text-gray-600">One number</span>
-                  </div>
-                </div>
-              </div>
 
               {/* Terms & Privacy Policy */}
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="terms"
-                  checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      agreeToTerms: checked as boolean,
-                    }))
-                  }
+                  {...form.register("agreeToTerms")}
                 />
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   I agree to the{" "}
@@ -480,13 +292,13 @@ const SignUp = () => {
               <Button
                 type="submit"
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700"
-                disabled={!formData.agreeToTerms}
+                disabled={!form.formState.isValid || form.formState.isSubmitting}
               >
                 Create Account
               </Button>
 
               {/* Divider */}
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300" />
                 </div>
@@ -495,10 +307,10 @@ const SignUp = () => {
                     Or sign up with
                   </span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Social Login Buttons */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* <div className="grid grid-cols-2 gap-3">
                 <Button variant="outline" className="h-12">
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path
@@ -532,7 +344,7 @@ const SignUp = () => {
                   </svg>
                   Microsoft
                 </Button>
-              </div>
+              </div> */}
 
               {/* Sign In Link */}
               <div className="text-center">
@@ -548,7 +360,7 @@ const SignUp = () => {
           </Card>
 
           {/* Start Your Journey Section */}
-          <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+          {/* <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
             <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
               Start your journey with:
             </h3>
@@ -578,12 +390,12 @@ const SignUp = () => {
                 </div>
               </div>
             </div>
-          </Card>
+          </Card> */}
         </div>
-      </main>
+      </main >
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
+      <footer className="bg-gray-900 text-white py-8" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
@@ -609,7 +421,7 @@ const SignUp = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 };
 

@@ -55,11 +55,10 @@ const Navigation = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  isActive(link.path)
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
+                className={`relative px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${isActive(link.path)
+                  ? "text-blue-600 bg-blue-50"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
               >
                 {link.label}
                 {isActive(link.path) && (
@@ -73,21 +72,19 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/login"
-              className={`font-medium transition-colors ${
-                isActive("/login")
-                  ? "text-blue-700"
-                  : "text-blue-600 hover:text-blue-700"
-              }`}
+              className={`font-medium transition-colors ${isActive("/login")
+                ? "text-blue-700"
+                : "text-blue-600 hover:text-blue-700"
+                }`}
             >
               Login
             </Link>
             <Link to="/signup">
               <Button
-                className={`transition-all duration-200 ${
-                  isActive("/signup")
-                    ? "bg-blue-700 hover:bg-blue-800"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
+                className={`transition-all duration-200 ${isActive("/signup")
+                  ? "bg-blue-700 hover:bg-blue-800"
+                  : "bg-blue-600 hover:bg-blue-700"
+                  }`}
               >
                 Sign Up
               </Button>
@@ -120,11 +117,10 @@ const Navigation = () => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
-                    isActive(link.path)
-                      ? "text-blue-600 bg-blue-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${isActive(link.path)
+                    ? "text-blue-600 bg-blue-50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -135,22 +131,20 @@ const Navigation = () => {
               <div className="pt-4 pb-2 space-y-2">
                 <Link
                   to="/login"
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    isActive("/login")
-                      ? "text-blue-700 bg-blue-50"
-                      : "text-blue-600 hover:text-blue-700 hover:bg-gray-50"
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${isActive("/login")
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-blue-600 hover:text-blue-700 hover:bg-gray-50"
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button
-                    className={`w-full transition-all duration-200 ${
-                      isActive("/signup")
-                        ? "bg-blue-700 hover:bg-blue-800"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
+                    className={`w-full transition-all duration-200 ${isActive("/signup")
+                      ? "bg-blue-700 hover:bg-blue-800"
+                      : "bg-blue-600 hover:bg-blue-700"
+                      }`}
                   >
                     Sign Up
                   </Button>
