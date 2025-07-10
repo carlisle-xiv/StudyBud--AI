@@ -28,7 +28,10 @@ import { getSchools, validateSchoolName } from "@/Api/dataSource";
 import { toast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { SignupForm, SignupFormSchema } from "./Forms/SignupForm";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { processErrorResponse } from "@/_shared/services/errorService";
+import { apiPost } from "@/_shared/services/apiService";
+import { SignUpResponse, SignUpVariables } from "@/_shared/generated";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -38,10 +41,25 @@ const SignUp = () => {
     "student" | "teacher" | "admin" | null
   >(null);
 
+  const signup = useMutation({
+    mutationFn: registerUser,
+    onError: (err) => {
+      return processErrorResponse(err, {
+        fixedErrorMessage:
+          "Sorry your account could not be created at this time. Please try again. If the issue persist, please contact us",
+      });
+    },
+    onSuccess: (data, variables) => {
+      console.log(data.data?.schoolId);
+      // TODO: redirect to OTP screen
+      navigate(`/auth/verify/otp?email=${variables.user.email}`);
+    },
+  });
+
   const { data: SchoolsData, refetch } = useQuery({
     queryKey: ["schoolsData"],
-    queryFn: getSchools
-  })
+    queryFn: getSchools,
+  });
 
   const form = useForm<SignupForm>({
     resolver: zodResolver(SignupFormSchema),
@@ -51,38 +69,41 @@ const SignUp = () => {
       email: "",
       school: "",
       schoolName: "",
-      agreeToTerms: false
+      agreeToTerms: false,
     },
   });
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationKey: ['validateSchoolName'],
+  const { mutateAsync, isLoading } = useMutation({
+    mutationKey: ["validateSchoolName"],
     mutationFn: validateSchoolName,
     onSuccess: (response) => {
       setIsAvailable(response.data.isValid);
-      response.data.isValid === true ?
-        form.setError("schoolName", { type: "custom", message: "Name is available" })
-        :
-        form.setError("schoolName", { type: "custom", message: "Name is not available" });
+      response.data.isValid === true
+        ? form.setError("schoolName", {
+            type: "custom",
+            message: "Name is available",
+          })
+        : form.setError("schoolName", {
+            type: "custom",
+            message: "Name is not available",
+          });
       return;
     },
     onError: () => {
       toast({
-        title: 'Error',
-        description: 'Something went wrong'
-      })
-    }
-  }
-  )
+        title: "Error",
+        description: "Something went wrong",
+      });
+    },
+  });
 
   const validateName = async () => {
-    if (form.getValues('schoolName')) {
+    if (form.getValues("schoolName")) {
       await mutateAsync({
-        data:
-          { name: form.getValues('schoolName') }
+        data: { name: form.getValues("schoolName") },
       });
     }
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent, data: SignupForm) => {
     e.preventDefault();
@@ -115,11 +136,14 @@ const SignUp = () => {
             </p>
           </div>
 
-
-
           {/* Sign Up Form */}
           <Card className="p-8 shadow-lg">
-            <form onSubmit={() => { handleSubmit }} className="space-y-6">
+            <form
+              onSubmit={() => {
+                handleSubmit;
+              }}
+              className="space-y-6"
+            >
               {/* First Name & Last Name */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -190,28 +214,39 @@ const SignUp = () => {
                 </label>
                 <div className="relative">
                   <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-                  <Select
-                    {...form.register("school")}
-                  >
+                  <Select {...form.register("school")}>
                     <SelectTrigger className="pl-10 h-12">
                       <SelectValue placeholder="Select your school or institution" />
                     </SelectTrigger>
                     <SelectContent>
                       {SchoolsData?.data.map((school) => (
-                        <SelectItem key={school.id} value={school.name}>{school.name}</SelectItem>
-                      ))}</SelectContent>
+                        <SelectItem key={school.id} value={school.name}>
+                          {school.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="schoolName" className="text-sm font-medium text-gray-700">School Name</label>
+                <label
+                  htmlFor="schoolName"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  School Name
+                </label>
                 <div className="flex flex-row gap-3">
                   <button
-                    type='button'
+                    type="button"
                     onClick={validateName}
-                    className={`rounded-sm bg-blue-700 hover:bg-700/50 px-2 text-white min-w-fit`}>
-                    {isPending ? <LoaderPinwheel className="animate-spin" /> : `Check Availability`}
+                    className={`rounded-sm bg-blue-700 hover:bg-700/50 px-2 text-white min-w-fit`}
+                  >
+                    {isLoading ? (
+                      <LoaderPinwheel className="animate-spin" />
+                    ) : (
+                      `Check Availability`
+                    )}
                   </button>
                   <Input
                     type="text"
@@ -220,9 +255,12 @@ const SignUp = () => {
                     {...form.register("schoolName")}
                   />
                 </div>
-                <span className={`${isAvailable ? "text-green-600" : "text-red-600"} text-sm`}>{form.formState.errors.schoolName?.message}</span>
+                <span
+                  className={`${isAvailable ? "text-green-600" : "text-red-600"} text-sm`}
+                >
+                  {form.formState.errors.schoolName?.message}
+                </span>
               </div>
-
 
               {/* User Type Selection */}
               <div>
@@ -232,44 +270,49 @@ const SignUp = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <button
                     onClick={() => setSelectedUserType("student")}
-                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "student"
-                      ? "border-blue-600 bg-blue-50"
-                      : "border-gray-200 hover:border-gray-300"
-                      }`}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                      selectedUserType === "student"
+                        ? "border-blue-600 bg-blue-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
                   >
                     <User className="h-6 w-6 mx-auto mb-3 text-blue-600" />
-                    <div className="text-sm font-medium text-gray-700">Student</div>
+                    <div className="text-sm font-medium text-gray-700">
+                      Student
+                    </div>
                   </button>
                   <button
                     onClick={() => setSelectedUserType("teacher")}
-                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "teacher"
-                      ? "border-cyan-600 bg-cyan-50"
-                      : "border-gray-200 hover:border-gray-300"
-                      }`}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                      selectedUserType === "teacher"
+                        ? "border-cyan-600 bg-cyan-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
                   >
                     <Users className="h-6 w-6 mx-auto mb-3 text-cyan-600" />
-                    <div className="text-sm font-medium text-gray-700">Teacher</div>
+                    <div className="text-sm font-medium text-gray-700">
+                      Teacher
+                    </div>
                   </button>
                   <button
                     onClick={() => setSelectedUserType("admin")}
-                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "admin"
-                      ? "border-purple-600 bg-purple-50"
-                      : "border-gray-200 hover:border-gray-300"
-                      }`}
+                    className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                      selectedUserType === "admin"
+                        ? "border-purple-600 bg-purple-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
                   >
                     <Shield className="h-6 w-6 mx-auto mb-3 text-purple-600" />
-                    <div className="text-sm font-medium text-gray-700">Admin</div>
+                    <div className="text-sm font-medium text-gray-700">
+                      Admin
+                    </div>
                   </button>
                 </div>
               </div>
 
-
               {/* Terms & Privacy Policy */}
               <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="terms"
-                  {...form.register("agreeToTerms")}
-                />
+                <Checkbox id="terms" {...form.register("agreeToTerms")} />
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   I agree to the{" "}
                   <Link
@@ -292,7 +335,9 @@ const SignUp = () => {
               <Button
                 type="submit"
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700"
-                disabled={!form.formState.isValid || form.formState.isSubmitting}
+                disabled={
+                  !form.formState.isValid || form.formState.isSubmitting
+                }
               >
                 Create Account
               </Button>
@@ -392,10 +437,10 @@ const SignUp = () => {
             </div>
           </Card> */}
         </div>
-      </main >
+      </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8" >
+      <footer className="bg-gray-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
@@ -421,8 +466,15 @@ const SignUp = () => {
           </div>
         </div>
       </footer>
-    </div >
+    </div>
   );
 };
+
+function registerUser(variables: SignUpVariables) {
+  return apiPost<SignUpResponse, { data: SignUpVariables }>({
+    path: "/schools",
+    variables: { data: variables },
+  });
+}
 
 export default SignUp;

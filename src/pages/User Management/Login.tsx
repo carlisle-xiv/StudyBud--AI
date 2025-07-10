@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,21 @@ import {
   Users,
   Shield,
 } from "lucide-react";
+import {
+  GetGoogleConsent,
+  VerifiedEmail,
+  VerifiedUserLogin,
+} from "@/_shared/generated";
+import axios, { AxiosError } from "axios";
+import { GetGoogleLoginUrlQueryKey } from "@/_shared/generated";
+import { Maybe } from "@/_shared/lib/api";
+import { getBaseApiUrl } from "@/_shared/services/authService";
+import { processErrorResponse } from "@/_shared/services/errorService";
+import { toast } from "sonner";
+import { useAuthUserVerification } from "./hooks/useAuthUserVerification";
+import { getOperationMode } from "@/_shared/services/generalService";
+import ERRORS from "@/_shared/errors";
+import { useMutation } from "@tanstack/react-query";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +68,91 @@ const Login = () => {
     }
   };
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [submissionText, setSubmissionText] = useState<string>();
+  const googleOAuthAccess = useMutation(getGoogleOAuthURL);
+  const { setSubmitting, isVerifying, currentStage, verifyUser } =
+    useAuthUserVerification();
+
+  const { mutate: loginMutation } = useMutation(getAuthUserByGoogleOAuthCode, {
+    onSuccess: (data) => verifyUser(data),
+    onError: (error) => {
+      processErrorResponse(error, { customErrors: ERRORS });
+      setSubmitting(undefined);
+      setSearchParams(
+        (params) => {
+          params.delete("code");
+          return params;
+        },
+        { replace: true },
+      );
+    },
+  });
+
+  const authorizationCode = searchParams.get("code");
+
+  useEffect(() => {
+    if (!authorizationCode) return;
+    setSubmitting("Verifying Authorization Code...");
+    loginMutation({
+      code: authorizationCode,
+      redirectMode: getOperationMode(),
+    });
+  }, [authorizationCode, loginMutation, setSubmitting]);
+
+  function accessGoogleLoginWebsite(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (isVerifying) return toast.error("Your account is still being verified");
+    setSubmissionText("Accessing your google account...");
+    googleOAuthAccess.mutate(getOperationMode(), {
+      onError: (error) => {
+        setSubmissionText(undefined);
+        processErrorResponse(error, {
+          fixedErrorMessage:
+            "Sorry unable to gain authorization to login with Google",
+        });
+      },
+      onSuccess: (data) => {
+        if (!data?.url)
+          return toast.error(
+            "Unable to get google login url. Please try again",
+          );
+        window.location.assign(data?.url);
+      },
+    });
+  }
+
+  const [email, setEmail] = useState("");
+  const mutation = useMutation(verifyEmail);
+
+  const redirectPath = searchParams.get("redirect");
+
+  function handleEmailVerification(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!formData.email)
+      return toast.error("Cannot login without an email address");
+    mutation.mutate(formData.email, {
+      onSuccess(response) {
+        if (!response.data.success) return toast.error("Authentication failed");
+        const urlParams = new URLSearchParams();
+        urlParams.set("email", email);
+        if (redirectPath) urlParams.set("redirect", redirectPath);
+        // TODO: navigate to the otp verification page
+        return navigate(`/auth/verify/otp?${urlParams}`);
+      },
+      onError(error) {
+        const message =
+          error instanceof AxiosError
+            ? error.response?.data?.message
+            : (error as Error).message;
+        toast.error(message);
+      },
+    });
+  }
+
+  const loading = !!submissionText || isVerifying;
+  const message = submissionText ?? currentStage;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -76,7 +176,11 @@ const Login = () => {
 
           {/* Login Form */}
           <Card className="p-8 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {/* for otp flow */}
+            {/* <form onSubmit={handleEmailVerification} className="space-y-6"> */}
+
+            {/* for google flow */}
+            <form onSubmit={accessGoogleLoginWebsite} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
                 <label
@@ -333,5 +437,35 @@ const Login = () => {
     </div>
   );
 };
+
+async function getGoogleOAuthURL(redirectMode: string) {
+  const params = new URLSearchParams();
+  params.set("redirectMode", redirectMode);
+  const url = GetGoogleLoginUrlQueryKey + "?" + params.toString();
+  const response = await axios.get<{ data?: Maybe<GetGoogleConsent> }>(url, {
+    baseURL: getBaseApiUrl(),
+  });
+  return response.data?.data;
+}
+
+async function getAuthUserByGoogleOAuthCode(args: {
+  code: string;
+  redirectMode: string;
+}) {
+  const response = await axios.post<{ data: VerifiedUserLogin }>(
+    "/login",
+    { code: args.code, redirectMode: args.redirectMode },
+    { baseURL: getBaseApiUrl() },
+  );
+  return response.data.data;
+}
+
+function verifyEmail(email: string) {
+  return axios.post<VerifiedEmail>(
+    "/verifyEmail",
+    { data: { email } },
+    { baseURL: getBaseApiUrl() },
+  );
+}
 
 export default Login;

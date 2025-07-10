@@ -1,0 +1,113 @@
+type GoogleLoginUrlInput {
+    redirectMode String
+}
+
+type GetGoogleConsent {
+    url String!
+}
+
+get GoogleLoginUrl("/googleConsentUrl", GoogleLoginUrlInput): GetGoogleConsent
+
+input LoginWithGoogleInput {
+    code String
+    redirectMode String
+}
+
+type UserRole {
+    id      Int
+    role    String
+}
+
+type School {
+    id                  Int
+    name                String
+    address             String!
+    createdAt           String!
+    updatedAt           String!
+}
+
+type AuthenticatedUser {
+    id              Int
+    email           String
+    firstName       String?
+    middleName      String?
+    lastName        String?
+    phoneNumber     String?
+    picture         String?
+    roles           UserRole[]
+    privileges      String[]
+    schools         School[]
+}
+
+type VerifiedUserLogin {
+    accessToken String!
+    refreshToken String!
+    user AuthenticatedUser!
+}
+
+post LoginWithGoogle("/login", LoginWithGoogleInput): VerifiedUserLogin
+
+type VerifyUserEmailInputVariables {
+    email String
+}
+
+input VerifyEmailInput {
+    data VerifyUserEmailInputVariables
+}
+
+type VerifiedEmail {
+    success  Boolean
+}
+
+post VerifyEmail("/verifyEmail", VerifyEmailInput): VerifiedEmail
+
+type VerifyOtpVariables {
+    email String
+    otp String
+}
+
+input VerifyOtpInput {
+    data VerifyOtpVariables
+}
+
+post VerifyOtp("/verifyOtp", VerifyOtpInput): VerifiedUserLogin
+
+type RefreshAccessTokenVariables {
+    refreshToken      String
+}
+
+input RefreshAccessTokenInput {
+    data      RefreshAccessTokenVariables
+}
+
+post RefreshToken("/refreshToken", RefreshAccessTokenInput): VerifiedUserLogin
+
+type NewUser {
+    firstName    String
+    middleName   String!
+    lastName     String
+    email        String
+    picture      String!
+}
+
+type NewSchool {
+    name         String
+    address      String!
+}
+
+type SignUpVariables {
+    user         NewUser
+    school       NewSchool!
+    schoolId     Int!
+    roles        Int[]!
+}
+
+input SignUpInput {
+    data         SignUpVariables
+}
+
+type SignUpResponse {
+    schoolId     Int
+}
+
+post SignUp("/schools", SignUpInput): SignUpResponse
