@@ -8,13 +8,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   GraduationCap,
   Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  Check,
-  User,
-  Users,
-  Shield,
 } from "lucide-react";
 import {
   GetGoogleConsent,
@@ -22,21 +15,20 @@ import {
   VerifiedUserLogin,
 } from "@/_shared/generated";
 import axios, { AxiosError } from "axios";
-import { GetGoogleLoginUrlQueryKey } from "@/_shared/generated";
-import { Maybe } from "@/_shared/lib/api";
 import { getBaseApiUrl } from "@/_shared/services/authService";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
-import { useAuthUserVerification } from "./hooks/useAuthUserVerification";
+import { useAuthUserVerification } from "../../hooks/useAuthUserVerification";
 import { getOperationMode } from "@/_shared/services/generalService";
 import ERRORS from "@/_shared/errors";
 import { useMutation } from "@tanstack/react-query";
+import { getAuthUserByGoogleOAuthCode, getGoogleOAuthURL } from "@/Api/dataSource";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [selectedUserType, setSelectedUserType] = useState<
     "student" | "teacher" | "admin" | null
   >(null);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -70,11 +62,12 @@ const Login = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [submissionText, setSubmissionText] = useState<string>();
-  const googleOAuthAccess = useMutation(getGoogleOAuthURL);
+  const googleOAuthAccess = useMutation({ mutationFn: getGoogleOAuthURL });
   const { setSubmitting, isVerifying, currentStage, verifyUser } =
     useAuthUserVerification();
 
-  const { mutate: loginMutation } = useMutation(getAuthUserByGoogleOAuthCode, {
+  const { mutate: loginMutation } = useMutation({
+    mutationFn: getAuthUserByGoogleOAuthCode,
     onSuccess: (data) => verifyUser(data),
     onError: (error) => {
       processErrorResponse(error, { customErrors: ERRORS });
@@ -104,7 +97,7 @@ const Login = () => {
     event.preventDefault();
     if (isVerifying) return toast.error("Your account is still being verified");
     setSubmissionText("Accessing your google account...");
-    googleOAuthAccess.mutate(getOperationMode(), {
+    googleOAuthAccess.mutate(undefined, {
       onError: (error) => {
         setSubmissionText(undefined);
         processErrorResponse(error, {
@@ -123,7 +116,8 @@ const Login = () => {
   }
 
   const [email, setEmail] = useState("");
-  const mutation = useMutation(verifyEmail);
+
+  const mutation = useMutation({ mutationFn: verifyEmail });
 
   const redirectPath = searchParams.get("redirect");
 
@@ -154,7 +148,7 @@ const Login = () => {
   const message = submissionText ?? currentStage;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
       <Navigation />
 
       {/* Main Content */}
@@ -180,7 +174,7 @@ const Login = () => {
             {/* <form onSubmit={handleEmailVerification} className="space-y-6"> */}
 
             {/* for google flow */}
-            <form onSubmit={accessGoogleLoginWebsite} className="space-y-6">
+            <form onSubmit={handleEmailVerification} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
                 <label
@@ -205,7 +199,7 @@ const Login = () => {
               </div>
 
               {/* Password Field */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label
                   htmlFor="password"
                   className="text-sm font-medium text-gray-700"
@@ -236,7 +230,7 @@ const Login = () => {
                     )}
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
@@ -255,12 +249,7 @@ const Login = () => {
                     Remember me
                   </label>
                 </div>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-blue-600 hover:text-blue-700"
-                >
-                  Forgot password?
-                </Link>
+
               </div>
 
               {/* Sign In Button */}
@@ -285,7 +274,7 @@ const Login = () => {
 
               {/* Social Login Buttons */}
               <div className="grid grid-cols-1 gap-3">
-                <Button variant="outline" className="h-12">
+                <Button variant="outline" className="h-12" onClick={() => accessGoogleLoginWebsite}>
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path
                       fill="#EA4335"
@@ -332,78 +321,6 @@ const Login = () => {
               </div>
             </form>
           </Card>
-
-          {/* User Type Selection */}
-          {/* <Card className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
-              I am a:
-            </h3>
-            <div className="grid grid-cols-3 gap-3">
-              <button
-                onClick={() => setSelectedUserType("student")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "student"
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-200 hover:border-gray-300"
-                  }`}
-              >
-                <User className="h-6 w-6 mx-auto mb-2 text-blue-600" />
-                <div className="text-sm font-medium text-gray-700">Student</div>
-              </button>
-              <button
-                onClick={() => setSelectedUserType("teacher")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "teacher"
-                  ? "border-cyan-600 bg-cyan-50"
-                  : "border-gray-200 hover:border-gray-300"
-                  }`}
-              >
-                <Users className="h-6 w-6 mx-auto mb-2 text-cyan-600" />
-                <div className="text-sm font-medium text-gray-700">Teacher</div>
-              </button>
-              <button
-                onClick={() => setSelectedUserType("admin")}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${selectedUserType === "admin"
-                  ? "border-purple-600 bg-purple-50"
-                  : "border-gray-200 hover:border-gray-300"
-                  }`}
-              >
-                <Shield className="h-6 w-6 mx-auto mb-2 text-purple-600" />
-                <div className="text-sm font-medium text-gray-700">Admin</div>
-              </button>
-            </div>
-          </Card> */}
-
-          {/* Features Section */}
-          {/* <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
-              What you'll get:
-            </h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                <span className="text-sm text-gray-700">
-                  AI-powered exam analysis
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                <span className="text-sm text-gray-700">
-                  Personalized study recommendations
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                <span className="text-sm text-gray-700">
-                  Performance tracking & insights
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                <span className="text-sm text-gray-700">
-                  Access to practice tests
-                </span>
-              </div>
-            </div>
-          </Card> */}
         </div>
       </main>
 
@@ -438,27 +355,7 @@ const Login = () => {
   );
 };
 
-async function getGoogleOAuthURL(redirectMode: string) {
-  const params = new URLSearchParams();
-  params.set("redirectMode", redirectMode);
-  const url = GetGoogleLoginUrlQueryKey + "?" + params.toString();
-  const response = await axios.get<{ data?: Maybe<GetGoogleConsent> }>(url, {
-    baseURL: getBaseApiUrl(),
-  });
-  return response.data?.data;
-}
 
-async function getAuthUserByGoogleOAuthCode(args: {
-  code: string;
-  redirectMode: string;
-}) {
-  const response = await axios.post<{ data: VerifiedUserLogin }>(
-    "/login",
-    { code: args.code, redirectMode: args.redirectMode },
-    { baseURL: getBaseApiUrl() },
-  );
-  return response.data.data;
-}
 
 function verifyEmail(email: string) {
   return axios.post<VerifiedEmail>(

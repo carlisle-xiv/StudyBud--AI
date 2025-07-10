@@ -9,7 +9,8 @@ export const SignupFormSchema = z.object({
     .min(4, { message: "Last Name must be at least 4 Characters" }),
   email: z.string({ message: "Email is required." }),
   school: z.string({ message: "School Name is required." }),
-  schoolName: z.string({ message: "Name is not available" }),
+  schoolName: z.string({ message: "Name is not available" }).optional(),
+  roleID: z.string().optional(),
   agreeToTerms: z.boolean(),
 });
 
