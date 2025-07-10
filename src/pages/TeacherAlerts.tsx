@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TeacherNavigation from "@/components/TeacherNavigation";
+import StudentViewModal from "@/components/StudentViewModal";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -32,6 +33,8 @@ const TeacherAlerts = () => {
   const [filterType, setFilterType] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
 
   // Mock alerts data
   const [alerts, setAlerts] = useState([
@@ -207,6 +210,11 @@ const TeacherAlerts = () => {
       alert.title.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesType && matchesStatus && matchesSearch;
   });
+
+  const handleViewStudent = (alert: any) => {
+    setSelectedStudent(alert);
+    setIsStudentModalOpen(true);
+  };
 
   const unreadCount = alerts.filter(
     (alert) => alert.status === "unread",
@@ -441,6 +449,7 @@ const TeacherAlerts = () => {
                     variant="outline"
                     size="sm"
                     className="flex items-center"
+                    onClick={() => handleViewStudent(alert)}
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     View Student
@@ -487,6 +496,18 @@ const TeacherAlerts = () => {
           )}
         </div>
       </div>
+
+      {/* Student View Modal */}
+      <StudentViewModal
+        isOpen={isStudentModalOpen}
+        onClose={() => {
+          setIsStudentModalOpen(false);
+          setSelectedStudent(null);
+        }}
+        studentName={selectedStudent?.student || ""}
+        course={selectedStudent?.course || ""}
+        alertType={selectedStudent?.type || ""}
+      />
     </div>
   );
 };
