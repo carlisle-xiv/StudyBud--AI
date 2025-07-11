@@ -26,7 +26,7 @@ import {
 const PlatformAdminPlatform: React.FC = () => {
   const [platformSettings, setPlatformSettings] = useState({
     // General Settings
-    platformName: "StudyBud AI",
+    platformName: "StudyBud",
     platformDescription: "AI-powered educational assessment platform",
     maintenanceMode: false,
     allowNewRegistrations: true,

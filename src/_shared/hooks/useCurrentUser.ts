@@ -41,7 +41,7 @@ export function useCurrentUser() {
       token: user?.token,
     });
     localStorage.clear();
-    navigate("/login", { replace: true });
+    navigate("/auth/login", { replace: true });
   }
 
   return {

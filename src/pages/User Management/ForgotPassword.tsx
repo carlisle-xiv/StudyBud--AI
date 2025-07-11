@@ -38,7 +38,7 @@ const ForgotPassword = () => {
           {/* Back to Login */}
           <div className="text-center">
             <Link
-              to="/login"
+              to="/auth/login"
               className="inline-flex items-center text-sm text-gray-600 hover:text-gray-800"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -112,7 +112,7 @@ const ForgotPassword = () => {
                     Remember your password?{" "}
                   </span>
                   <Link
-                    to="/login"
+                    to="/auth/login"
                     className="text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Sign in
@@ -165,7 +165,7 @@ const ForgotPassword = () => {
                       )}
                     </Button>
 
-                    <Link to="/login">
+                    <Link to="/auth/login">
                       <Button
                         variant="outline"
                         className="w-full h-12 border-gray-300"

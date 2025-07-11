@@ -139,7 +139,7 @@ const PlatformAdminDashboard: React.FC = () => {
               <h1 className="text-2xl font-bold text-gray-900">
                 Platform Overview
               </h1>
-              <p className="text-gray-600">StudyBud AI Global Administration</p>
+              <p className="text-gray-600">StudyBud Global Administration</p>
             </div>
 
             <div className="flex items-center gap-4">

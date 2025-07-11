@@ -46,7 +46,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">StudyBud AI</span>
+            <span className="text-xl font-bold text-gray-900">StudyBud</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -71,8 +71,8 @@ const Navigation = () => {
           {/* Desktop Auth buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to="/login"
-              className={`font-medium transition-colors ${isActive("/login")
+              to="/auth/login"
+              className={`font-medium transition-colors ${isActive("/auth/login")
                 ? "text-blue-700"
                 : "text-blue-600 hover:text-blue-700"
                 }`}
@@ -130,8 +130,8 @@ const Navigation = () => {
               {/* Mobile Auth buttons */}
               <div className="pt-4 pb-2 space-y-2">
                 <Link
-                  to="/login"
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${isActive("/login")
+                  to="/auth/login"
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${isActive("/auth/login")
                     ? "text-blue-700 bg-blue-50"
                     : "text-blue-600 hover:text-blue-700 hover:bg-gray-50"
                     }`}

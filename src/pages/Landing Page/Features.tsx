@@ -38,7 +38,7 @@ const Features = () => {
               Powerful AI Features
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover how StudyBud AI transforms your learning experience with
+              Discover how StudyBud transforms your learning experience with
               cutting-edge artificial intelligence and personalized insights.
             </p>
             <Button
@@ -446,7 +446,7 @@ const Features = () => {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                   <BookOpen className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">StudyBud AI</span>
+                <span className="text-xl font-bold">StudyBud</span>
               </div>
               <p className="text-gray-400">
                 Empowering students with AI-powered learning insights.
@@ -528,7 +528,7 @@ const Features = () => {
 
           <div className="border-t border-gray-800 pt-8">
             <p className="text-center text-gray-400">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
           </div>
         </div>

@@ -42,3 +42,21 @@ export type SchoolWithRoles = {
 export type SchoolWithRolesResponse = {
   data: SchoolWithRoles;
 };
+
+// Courses
+export type Course = {
+  id: number;
+  title: string;
+  instructor: string;
+  department: string;
+  submittedDate: string;
+  status: string;
+  description: string;
+  level: string;
+  credits: number;
+  modules: number;
+  estimatedHours: number;
+  flagged: boolean;
+  flagReason?: string;
+  rejectionReason?: string;
+};

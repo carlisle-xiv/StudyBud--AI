@@ -51,7 +51,7 @@ const HowItWorks = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto space-y-8">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">
-              How StudyBud AI Works
+              How StudyBud Works
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Transform your study routine with AI-powered insights in just
@@ -397,7 +397,7 @@ const HowItWorks = () => {
               Proven Results
             </h2>
             <p className="text-xl text-blue-100">
-              See the impact StudyBud AI has on student performance
+              See the impact StudyBud has on student performance
             </p>
           </div>
 
@@ -431,7 +431,7 @@ const HowItWorks = () => {
                 Frequently Asked Questions
               </h2>
               <p className="text-xl text-gray-600">
-                Everything you need to know about how StudyBud AI works
+                Everything you need to know about how StudyBud works
               </p>
             </div>
 
@@ -448,7 +448,7 @@ const HowItWorks = () => {
                     "Most students see improvement within 2-3 weeks of consistent practice. Our data shows an average grade increase of 1.5 letter grades within a month.",
                 },
                 {
-                  question: "Can I use StudyBud AI for any subject?",
+                  question: "Can I use StudyBud for any subject?",
                   answer:
                     "Yes! We support over 50 subjects including STEM, humanities, languages, and professional certifications. Our AI adapts to each subject's unique requirements.",
                 },
@@ -490,7 +490,7 @@ const HowItWorks = () => {
             </h2>
             <p className="text-xl text-gray-600">
               Join thousands of students who are already achieving better
-              results with StudyBud AI
+              results with StudyBud
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -520,7 +520,7 @@ const HowItWorks = () => {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                   <BookOpen className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">StudyBud AI</span>
+                <span className="text-xl font-bold">StudyBud</span>
               </div>
               <p className="text-gray-400">
                 Empowering students with AI-powered learning insights.
@@ -602,7 +602,7 @@ const HowItWorks = () => {
 
           <div className="border-t border-gray-800 pt-8">
             <p className="text-center text-gray-400">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
           </div>
         </div>

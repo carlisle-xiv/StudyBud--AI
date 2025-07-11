@@ -45,7 +45,7 @@ type VerifiedUserLogin {
     user AuthenticatedUser!
 }
 
-post LoginWithGoogle("/login", LoginWithGoogleInput): VerifiedUserLogin
+post LoginWithGoogle("/auth/login", LoginWithGoogleInput): VerifiedUserLogin
 
 type VerifyUserEmailInputVariables {
     email String

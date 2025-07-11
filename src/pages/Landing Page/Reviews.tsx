@@ -31,7 +31,7 @@ const Reviews = () => {
             </h1>
             <p className="text-xl text-gray-600 mb-16">
               Join thousands of students and educators who have transformed
-              their learning and teaching experience with StudyBud AI
+              their learning and teaching experience with StudyBud
             </p>
 
             {/* Statistics */}
@@ -80,11 +80,10 @@ const Reviews = () => {
                 <Button
                   key={filter}
                   variant={activeFilter === filter ? "default" : "secondary"}
-                  className={`rounded-full px-6 py-3 ${
-                    activeFilter === filter
+                  className={`rounded-full px-6 py-3 ${activeFilter === filter
                       ? "bg-blue-600 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
+                    }`}
                   onClick={() => setActiveFilter(filter)}
                 >
                   {filter}
@@ -129,7 +128,7 @@ const Reviews = () => {
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed mb-6">
-                "StudyBud AI completely changed how I prepare for exams. The
+                "StudyBud completely changed how I prepare for exams. The
                 AI-generated insights helped me identify my weak points in
                 algorithms and data structures. I went from struggling with C+
                 grades to consistently scoring A's. The personalized study
@@ -170,7 +169,7 @@ const Reviews = () => {
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed mb-6">
-                "As an educator with 15 years of experience, StudyBud AI is the
+                "As an educator with 15 years of experience, StudyBud is the
                 most innovative tool I've encountered. It saves me 12+ hours
                 weekly on grading and provides insights I never had before. My
                 students are more engaged and their performance has improved
@@ -397,7 +396,7 @@ const Reviews = () => {
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed mb-6">
-                "StudyBud AI has transformed my teaching methodology. The
+                "StudyBud has transformed my teaching methodology. The
                 detailed analytics help me understand each student's learning
                 patterns. I can now provide targeted interventions that actually
                 work. My class average has improved by 18% this semester."
@@ -460,7 +459,7 @@ const Reviews = () => {
               Proven Results
             </h2>
             <p className="text-xl text-blue-100">
-              See the impact StudyBud AI has on student performance
+              See the impact StudyBud has on student performance
             </p>
           </div>
 
@@ -508,7 +507,7 @@ const Reviews = () => {
                     />
                   </svg>
                 </div>
-                <span className="text-xl font-bold">StudyBud AI</span>
+                <span className="text-xl font-bold">StudyBud</span>
               </div>
               <p className="text-gray-400 mb-4">
                 Empowering education through AI-driven insights and personalized
@@ -597,7 +596,7 @@ const Reviews = () => {
 
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 mb-4 md:mb-0">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white">

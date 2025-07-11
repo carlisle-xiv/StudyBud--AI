@@ -1,9 +1,9 @@
-import { GetGoogleConsent, GetGoogleLoginUrlQueryKey, SignUpResponse, SignUpVariables, VerifiedUserLogin } from '@/_shared/generated';
+import { GetGoogleConsent, GetGoogleLoginUrlQueryKey, SignUpResponse, SignUpVariables, VerifiedEmail, VerifiedUserLogin } from '@/_shared/generated';
 import { Maybe } from '@/_shared/lib/api';
 import { apiPost } from '@/_shared/services/apiService';
 import { getBaseApiUrl } from '@/_shared/services/authService';
 import { client } from '@/Api/axios.client';
-import { School, SchoolListResponse, SchoolWithRolesResponse, ValidateNameRequest, ValidationResponse } from '@/Types/Types';
+import { SchoolListResponse, SchoolWithRolesResponse, ValidateNameRequest, ValidationResponse } from '@/Types/Types';
 
 export const getSchools = async (): Promise<SchoolListResponse> => {
     const response = await client.get<SchoolListResponse>('/schools');
@@ -43,7 +43,6 @@ export const validateSchoolName = async (request: ValidateNameRequest) => {
 }
 
 
-
 export async function getGoogleOAuthURL(redirectMode: string) {
     const params = new URLSearchParams();
     params.set("redirectMode", redirectMode);
@@ -59,7 +58,7 @@ export async function getAuthUserByGoogleOAuthCode(args: {
     redirectMode: string;
 }) {
     const response = await client.post<{ data: VerifiedUserLogin }>(
-        "/login",
+        "/auth/login",
         { code: args.code, redirectMode: args.redirectMode },
         { baseURL: getBaseApiUrl() },
     );
@@ -71,4 +70,12 @@ export async function registerUser(variables: SignUpVariables) {
         path: "/schools",
         variables: { data: variables },
     });
+}
+
+export function verifyEmail(email: string) {
+    return client.post<VerifiedEmail>(
+        "/verifyEmail",
+        { data: { email } },
+        { baseURL: getBaseApiUrl() },
+    );
 }

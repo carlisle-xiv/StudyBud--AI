@@ -297,7 +297,7 @@ const ForRecruiters = () => {
                 </div>
               </div>
               <p className="text-gray-700 mb-6">
-                "StudyBud AI revolutionized our campus recruitment. We can now
+                "StudyBud revolutionized our campus recruitment. We can now
                 identify top performers before they even graduate. Our new hire
                 success rate increased by 40% and time-to-productivity decreased
                 significantly."
@@ -453,7 +453,7 @@ const ForRecruiters = () => {
             Ready to Find Your Next Star Performer?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join 500+ companies already using StudyBud AI to identify and
+            Join 500+ companies already using StudyBud to identify and
             recruit top talent
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -482,7 +482,7 @@ const ForRecruiters = () => {
                   <span className="text-white font-bold">S</span>
                 </div>
                 <span className="text-xl font-bold text-white">
-                  StudyBud AI
+                  StudyBud
                 </span>
               </div>
               <p className="text-gray-400">

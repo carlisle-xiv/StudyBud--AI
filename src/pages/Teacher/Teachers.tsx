@@ -41,7 +41,7 @@ const Teachers = () => {
               <p className="text-xl text-gray-600 leading-relaxed">
                 Create intelligent assessments, track student progress, and
                 provide personalized feedback at scale. Transform your classroom
-                with StudyBud AI for educators.
+                with StudyBud for educators.
               </p>
               <div className="flex gap-4">
                 <Button
@@ -62,7 +62,7 @@ const Teachers = () => {
             <div className="flex justify-center">
               <img
                 src="https://cdn.builder.io/api/v1/assets/31d5e77294e94056b9c909990ecdfd2f/figma-screenshot-3b0b60?format=webp&width=800"
-                alt="Teacher using StudyBud AI"
+                alt="Teacher using StudyBud"
                 className="w-96 h-96 object-cover rounded-2xl shadow-2xl"
               />
             </div>
@@ -70,12 +70,12 @@ const Teachers = () => {
         </div>
       </section>
 
-      {/* Why Teachers Choose StudyBud AI */}
+      {/* Why Teachers Choose StudyBud */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-20">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Teachers Choose StudyBud AI
+              Why Teachers Choose StudyBud
             </h2>
             <p className="text-xl text-gray-600">
               Save time, improve outcomes, and gain deeper insights into student
@@ -349,7 +349,7 @@ const Teachers = () => {
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed">
-                "StudyBud AI has revolutionized how I assess student
+                "StudyBud has revolutionized how I assess student
                 understanding. The insights help me identify struggling students
                 weeks earlier than before."
               </p>
@@ -540,7 +540,7 @@ const Teachers = () => {
                     />
                   </svg>
                 </div>
-                <span className="text-xl font-bold">StudyBud AI</span>
+                <span className="text-xl font-bold">StudyBud</span>
               </div>
               <p className="text-gray-400 mb-4">
                 Empowering education through AI-driven insights and personalized
@@ -629,7 +629,7 @@ const Teachers = () => {
 
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 mb-4 md:mb-0">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white">

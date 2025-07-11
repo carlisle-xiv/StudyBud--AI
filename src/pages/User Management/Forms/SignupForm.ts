@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SignupFormSchema = z.object({
+export const ISignupFormSchema = z.object({
   firstName: z
     .string({ message: "First Name is required." })
     .min(4, { message: "First Name must be at least 4 Characters" }),
@@ -14,4 +14,4 @@ export const SignupFormSchema = z.object({
   agreeToTerms: z.boolean(),
 });
 
-export type SignupForm = z.infer<typeof SignupFormSchema>;
+export type SignupForm = z.infer<typeof ISignupFormSchema>;

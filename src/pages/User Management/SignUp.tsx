@@ -21,23 +21,23 @@ import {
   Shield,
   LoaderPinwheel,
   Check,
+  LoaderIcon,
 } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSchool, getSchools, registerUser, validateSchoolName } from "@/Api/dataSource";
 import { useForm, Controller } from "react-hook-form";
-import { SignupForm, SignupFormSchema } from "./Forms/SignupForm";
+import { SignupForm, ISignupFormSchema } from "./Forms/SignupForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
-import { UserType } from "@/Types/Types";
 import RoleCard from "@/components/RoleCard";
+import { SignUpInput, SignUpVariables } from "@/_shared/generated";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
-  const [selectedUserType, setSelectedUserType] = useState<UserType>(null);
 
-  const { mutate: signup } = useMutation({
+  const signup = useMutation({
     mutationFn: registerUser,
     onError: (err) => {
       return processErrorResponse(err, {
@@ -48,29 +48,36 @@ const SignUp = () => {
     onSuccess: (data, variables) => {
       console.log(data.data?.schoolId);
       // TODO: redirect to OTP screen
-      // navigate(`/auth/verify/otp?email=${variables.user.email}`);
+      navigate(`/email-verification`,
+        {
+          state:
+          {
+            email: form.watch('email'),
+            userType: SchoolWithRolesData?.data?.roles.find((role) =>
+              role.id === Number(form.watch('roleID'))
+            ) || undefined
+          }
+        });
     },
   });
 
-  const { data: SchoolsData } = useQuery({
-    queryKey: ["schoolsData"],
-    queryFn: getSchools,
-  });
+
 
   const { formState: { errors, isValid, isSubmitting }, ...form } = useForm<SignupForm>({
-    resolver: zodResolver(SignupFormSchema),
+    resolver: zodResolver(ISignupFormSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       school: "",
       schoolName: "",
+      agreeToTerms: false
     },
   });
 
   const schoolID = form.watch('school');
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationKey: ["validateSchoolName"],
     mutationFn: validateSchoolName,
     onError: () => {
@@ -104,28 +111,42 @@ const SignUp = () => {
     return form.setError('schoolName', { type: "custom", message: "" });
   }
 
-  const handleSignUp = () => {
-    signup({
+  const handleSignUp = async () => {
+    let request: SignUpVariables = {
       user: {
         firstName: form.watch('firstName'),
+        middleName: " ",
         lastName: form.watch('lastName'),
         email: form.watch('email'),
-        middleName: "",
-        picture: ""
-      },
-      school: {
-        name: form.watch('schoolName'),
-        address: ""
-      },
-      schoolId: Number(schoolID),
-      roles: []
-    })
+        picture: "No Picture"
+      }
+    }
+    if (schoolID === "Other") {
+      request = {
+        ...request,
+        school: {
+          name: form.watch('schoolName'),
+          address: "schoolAddress"
+        }
+      }
+    } else {
+      request = {
+        ...request,
+        schoolId: Number(schoolID),
+        roles: [Number(form.watch('roleID'))]
+      }
+    }
+    await signup.mutateAsync(request);
   }
 
+  const { data: SchoolsData, isFetching } = useQuery({
+    queryKey: ["schoolsData"],
+    queryFn: getSchools,
+  });
 
   const { data: SchoolWithRolesData, isFetching: isFetchingSchoolRoles } = useQuery({
     queryKey: ["rolesData", schoolID],
-    queryFn: async () => getSchool(schoolID), // Call getSchool with no arguments or provide the required argument if needed
+    queryFn: async () => getSchool(schoolID),
     enabled: schoolID !== "Other" && schoolID !== ""
   })
 
@@ -152,11 +173,11 @@ const SignUp = () => {
             {/* <div className="flex justify-center items-center space-x-2">
               <GraduationCap className="h-11 w-11 text-blue-600" />
               <span className="text-2xl font-bold text-gray-900">
-                StudyBud AI
+                StudyBud
               </span>
             </div> */}
             <h1 className="text-3xl font-bold text-gray-900">
-              Join StudyBud AI
+              Join StudyBud
             </h1>
             <p className="text-gray-600">
               Create your account and start studying smarter today
@@ -242,14 +263,13 @@ const SignUp = () => {
                 </label>
                 <div className="relative">
                   <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-                  <Controller name="school" control={form.control} render={(field) =>
+                  <Controller name="school" control={form.control} render={({ field }) =>
                     <Select
                       {...form.register('school')}
-                      onValueChange={field.field.onChange}
+                      onValueChange={field.onChange}
                     >
                       <SelectTrigger className="pl-10 h-12">
-                        <SelectValue placeholder="Select your school or institution" />
-                      </SelectTrigger>
+                        {isFetching ? <LoaderPinwheel className="w-6 h-6 animate-spin stroke-blue-600" /> : <SelectValue placeholder="Select your school or institution" />}                      </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Other">Not listed</SelectItem>
                         {SchoolsData?.data.map((school) => (
@@ -277,7 +297,7 @@ const SignUp = () => {
                     onClick={validateName}
                     className={`rounded-sm bg-blue-700 hover:bg-700/50 px-2 text-white min-w-fit`}
                   >
-                    {(isPending ? (
+                    {(isLoading ? (
                       <LoaderPinwheel className="animate-spin" />
                     ) : (isAvailable ?
                       <Check className="stroke-white" />
@@ -302,7 +322,7 @@ const SignUp = () => {
                   </h3>
                   {isFetchingSchoolRoles ?
                     <div className="w-full h-9 flex flex-col items-center">
-                      <LoaderPinwheel className="animate-spin" />
+                      <LoaderPinwheel className="animate-spin stroke-blue-600" />
                     </div>
                     :
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -319,7 +339,13 @@ const SignUp = () => {
 
               {/* Terms & Privacy Policy */}
               <div className="flex items-center space-x-2">
-                <Checkbox id="terms" {...form.register("agreeToTerms")} onCheckedChange={(e: boolean) => form.setValue('agreeToTerms', e)} />
+                <Controller
+                  control={form.control}
+                  name="agreeToTerms"
+                  render={({ field }) => (
+                    <Checkbox id="terms" {...form.register("agreeToTerms")} defaultChecked={field.value} onCheckedChange={field.onChange} />
+                  )}
+                />
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   I agree to the{" "}
                   <Link
@@ -343,7 +369,7 @@ const SignUp = () => {
                 type="submit"
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700"
                 disabled={
-                  !isValid || isSubmitting
+                  isSubmitting || form.watch('agreeToTerms') === false
                 }
               >
                 Create Account
@@ -352,7 +378,7 @@ const SignUp = () => {
               <div className="text-center">
                 <span className="text-gray-600">Already have an account? </span>
                 <Link
-                  to="/login"
+                  to="/auth/login"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Sign in
@@ -369,7 +395,7 @@ const SignUp = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-6 w-6 text-blue-400" />
-              <span className="text-lg font-bold">StudyBud AI</span>
+              <span className="text-lg font-bold">StudyBud</span>
             </div>
             <div className="flex space-x-6">
               <Link to="/privacy" className="text-sm hover:text-gray-300">
@@ -385,7 +411,7 @@ const SignUp = () => {
           </div>
           <div className="mt-6 pt-6 border-t border-gray-800 text-center">
             <p className="text-sm text-gray-400">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
           </div>
         </div>

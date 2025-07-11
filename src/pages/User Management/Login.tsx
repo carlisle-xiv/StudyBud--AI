@@ -13,6 +13,7 @@ import {
   GetGoogleConsent,
   VerifiedEmail,
   VerifiedUserLogin,
+  VerifyUserEmailInputVariables,
 } from "@/_shared/generated";
 import axios, { AxiosError } from "axios";
 import { getBaseApiUrl } from "@/_shared/services/authService";
@@ -22,49 +23,46 @@ import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
 import { getOperationMode } from "@/_shared/services/generalService";
 import ERRORS from "@/_shared/errors";
 import { useMutation } from "@tanstack/react-query";
-import { getAuthUserByGoogleOAuthCode, getGoogleOAuthURL } from "@/Api/dataSource";
+import { getAuthUserByGoogleOAuthCode, getGoogleOAuthURL, verifyEmail } from "@/Api/dataSource";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginForm, ILoginFormSchema } from "@/pages/User Management/Forms/LoginForm";
 
 const Login = () => {
-  const [selectedUserType, setSelectedUserType] = useState<
-    "student" | "teacher" | "admin" | null
-  >(null);
+  // const [formData, setFormData] = useState({
+  //   email: "",
+  //   rememberMe: false,
+  // });
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { formState: { errors, isValid, isSubmitting }, control, ...form } = useForm<LoginForm>({
+    resolver: zodResolver(ILoginFormSchema)
+  })
 
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login submitted:", formData, "User type:", selectedUserType);
+    console.log("Login submitted:", "User type:",);
 
     // Store user type for future reference
-    localStorage.setItem("userType", selectedUserType || "student");
-    localStorage.setItem("authToken", "demo-token");
+    // localStorage.setItem("authToken", "demo-token");
 
     // Redirect based on user type
-    if (selectedUserType === "teacher") {
-      navigate("/teacher-dashboard");
-    } else if (selectedUserType === "admin") {
-      navigate("/admin-dashboard");
-    } else {
-      navigate("/dashboard"); // Student dashboard
-    }
+    // if (selectedUserType === "teacher") {
+    //   navigate("/teacher-dashboard");
+    // } else if (selectedUserType === "admin") {
+    //   navigate("/admin-dashboard");
+    // } else {
+    //   navigate("/dashboard"); // Student dashboard
+    // }
   };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [submissionText, setSubmissionText] = useState<string>();
   const googleOAuthAccess = useMutation({ mutationFn: getGoogleOAuthURL });
-  const { setSubmitting, isVerifying, currentStage, verifyUser } =
-    useAuthUserVerification();
+
+  const { setSubmitting, isVerifying, currentStage, verifyUser } = useAuthUserVerification();
 
   const { mutate: loginMutation } = useMutation({
     mutationFn: getAuthUserByGoogleOAuthCode,
@@ -93,11 +91,12 @@ const Login = () => {
     });
   }, [authorizationCode, loginMutation, setSubmitting]);
 
-  function accessGoogleLoginWebsite(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+
+  function accessGoogleLoginWebsite(event) {
     if (isVerifying) return toast.error("Your account is still being verified");
+
     setSubmissionText("Accessing your google account...");
-    googleOAuthAccess.mutate(undefined, {
+    googleOAuthAccess.mutate(getOperationMode(), {
       onError: (error) => {
         setSubmissionText(undefined);
         processErrorResponse(error, {
@@ -117,29 +116,31 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
 
-  const mutation = useMutation({ mutationFn: verifyEmail });
+  const { mutate: verifyUserEmail } = useMutation({ mutationFn: verifyEmail });
 
   const redirectPath = searchParams.get("redirect");
 
-  function handleEmailVerification(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!formData.email)
-      return toast.error("Cannot login without an email address");
-    mutation.mutate(formData.email, {
-      onSuccess(response) {
-        if (!response.data.success) return toast.error("Authentication failed");
-        const urlParams = new URLSearchParams();
-        urlParams.set("email", email);
-        if (redirectPath) urlParams.set("redirect", redirectPath);
-        // TODO: navigate to the otp verification page
-        return navigate(`/auth/verify/otp?${urlParams}`);
-      },
+  const handleEmailVerification = async () => {
+
+    verifyUserEmail(form.watch('email'), {
       onError(error) {
         const message =
           error instanceof AxiosError
             ? error.response?.data?.message
             : (error as Error).message;
         toast.error(message);
+      },
+      onSuccess(response, variables) {
+        if (!response.data.success) return toast.error("Authentication failed");
+        // const urlParams = new URLSearchParams();
+        // urlParams.set("email", email);
+        // if (redirectPath) urlParams.set("redirect", redirectPath);
+        // // TODO: navigate to the otp verification page
+        return navigate(`/email-verification`, {
+          state: {
+            email: variables
+          }
+        });
       },
     });
   }
@@ -159,7 +160,7 @@ const Login = () => {
             <div className="flex justify-center items-center space-x-2">
               <GraduationCap className="h-9 w-9 text-blue-600" />
               <span className="text-2xl font-bold text-gray-900">
-                StudyBud AI
+                StudyBud
               </span>
             </div>
             <h1 className="text-3xl font-bold text-gray-900">Welcome back!</h1>
@@ -171,9 +172,6 @@ const Login = () => {
           {/* Login Form */}
           <Card className="p-8 shadow-lg">
             {/* for otp flow */}
-            {/* <form onSubmit={handleEmailVerification} className="space-y-6"> */}
-
-            {/* for google flow */}
             <form onSubmit={handleEmailVerification} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
@@ -185,66 +183,31 @@ const Login = () => {
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="pl-10 h-12"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  <Controller control={control} name="email" render={({ field }) => (
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="pl-10 h-12"
+                      value={field.value}
+                      onChange={field.onChange}
+                      required
+                    />
+                  )} />
                 </div>
               </div>
-
-              {/* Password Field */}
-              {/* <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    className="pl-10 pr-10 h-12"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div> */}
 
               {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="remember"
-                    checked={formData.rememberMe}
-                    onCheckedChange={(checked) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        rememberMe: checked as boolean,
-                      }))
-                    }
-                  />
+                  <Controller name="rememberMe" control={control} render={({ field }) => (
+                    <Checkbox
+                      id="remember"
+                      defaultChecked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )} />
                   <label htmlFor="remember" className="text-sm text-gray-700">
                     Remember me
                   </label>
@@ -272,9 +235,9 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Social Login Buttons */}
+              {/* Googles Login Buttons */}
               <div className="grid grid-cols-1 gap-3">
-                <Button variant="outline" className="h-12" onClick={() => accessGoogleLoginWebsite}>
+                <Button type="button" variant="outline" className="h-12" onClick={accessGoogleLoginWebsite}>
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path
                       fill="#EA4335"
@@ -295,18 +258,6 @@ const Login = () => {
                   </svg>
                   Google
                 </Button>
-                {/* <Button variant="outline" className="h-12">
-                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                    <path fill="#00BCF2" d="M0 0h11.377v11.372H0V0z" />
-                    <path fill="#00BCF2" d="M11.377 0H24v11.372H11.377V0z" />
-                    <path fill="#00BCF2" d="M0 11.372h11.377V24H0V11.372z" />
-                    <path
-                      fill="#FFC72C"
-                      d="M11.377 11.372H24V24H11.377V11.372z"
-                    />
-                  </svg>
-                  Microsoft
-                </Button> */}
               </div>
 
               {/* Sign Up Link */}
@@ -330,7 +281,7 @@ const Login = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-6 w-6 text-blue-400" />
-              <span className="text-lg font-bold">StudyBud AI</span>
+              <span className="text-lg font-bold">StudyBud</span>
             </div>
             <div className="flex space-x-6">
               <Link to="/privacy" className="text-sm hover:text-gray-300">
@@ -346,7 +297,7 @@ const Login = () => {
           </div>
           <div className="mt-6 pt-6 border-t border-gray-800 text-center">
             <p className="text-sm text-gray-400">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
           </div>
         </div>
@@ -357,12 +308,6 @@ const Login = () => {
 
 
 
-function verifyEmail(email: string) {
-  return axios.post<VerifiedEmail>(
-    "/verifyEmail",
-    { data: { email } },
-    { baseURL: getBaseApiUrl() },
-  );
-}
+
 
 export default Login;

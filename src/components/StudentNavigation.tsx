@@ -35,7 +35,7 @@ const StudentNavigation = () => {
     sessionStorage.clear();
 
     // Navigate to login page
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   return (
@@ -59,11 +59,10 @@ const StudentNavigation = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`text-base font-medium transition-colors ${
-                    isActivePath(item.path)
+                  className={`text-base font-medium transition-colors ${isActivePath(item.path)
                       ? "text-indigo-600"
                       : "text-gray-600 hover:text-gray-900"
-                  }`}
+                    }`}
                 >
                   {item.name}
                 </Link>

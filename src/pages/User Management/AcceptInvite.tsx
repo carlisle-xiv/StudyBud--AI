@@ -120,7 +120,7 @@ const AcceptInvite = () => {
 
       // Redirect after acceptance
       setTimeout(() => {
-        navigate("/login");
+        navigate("/auth/login");
       }, 2000);
     }, 2000);
   };

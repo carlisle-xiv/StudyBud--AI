@@ -9,7 +9,7 @@ const TeacherNavigation: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     sessionStorage.clear();
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -33,51 +33,46 @@ const TeacherNavigation: React.FC = () => {
             <nav className="flex items-center">
               <a
                 href="/teacher-dashboard"
-                className={`font-medium transition-colors ${
-                  isActive("/teacher-dashboard")
+                className={`font-medium transition-colors ${isActive("/teacher-dashboard")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 Dashboard
               </a>
               <a
                 href="/teacher-courses"
-                className={`ml-6 font-medium transition-colors ${
-                  isActive("/teacher-courses")
+                className={`ml-6 font-medium transition-colors ${isActive("/teacher-courses")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 Courses
               </a>
               <a
                 href="/teacher-exam-creation"
-                className={`ml-6 font-medium transition-colors ${
-                  isActive("/teacher-exam-creation")
+                className={`ml-6 font-medium transition-colors ${isActive("/teacher-exam-creation")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 Exams
               </a>
               <a
                 href="/student-performance"
-                className={`ml-6 font-medium transition-colors ${
-                  isActive("/student-performance")
+                className={`ml-6 font-medium transition-colors ${isActive("/student-performance")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 Students
               </a>
               <a
                 href="/teacher-resources"
-                className={`ml-6 font-medium transition-colors ${
-                  isActive("/teacher-resources")
+                className={`ml-6 font-medium transition-colors ${isActive("/teacher-resources")
                     ? "text-indigo-600"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 Resources
               </a>

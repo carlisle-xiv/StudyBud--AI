@@ -20,6 +20,6 @@ export function isDev(): boolean {
  */
 export async function getSecureAxiosInstance(baseUrl?: string) {
   return axios.create({
-    baseURL: baseUrl ? baseUrl : getBaseApiUrl(),
+    baseURL: baseUrl ?? getBaseApiUrl(),
   });
 }

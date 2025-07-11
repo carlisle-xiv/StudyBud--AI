@@ -21,7 +21,7 @@ const PlatformAdminNavigation: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     sessionStorage.clear();
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const isActive = (path: string) => location.pathname === path;
@@ -81,7 +81,7 @@ const PlatformAdminNavigation: React.FC = () => {
           </div>
           <div>
             <h1 className="text-lg font-bold">Platform Admin</h1>
-            <p className="text-xs text-gray-400">StudyBud AI</p>
+            <p className="text-xs text-gray-400">StudyBud</p>
           </div>
         </div>
       </div>
@@ -96,29 +96,26 @@ const PlatformAdminNavigation: React.FC = () => {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-left transition-colors duration-200 group ${
-                active
-                  ? "bg-purple-600 text-white"
-                  : "text-gray-300 hover:bg-gray-800 hover:text-white"
-              }`}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-left transition-colors duration-200 group ${active
+                ? "bg-purple-600 text-white"
+                : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                }`}
             >
               <div className="flex items-center space-x-3">
                 <IconComponent
-                  className={`w-5 h-5 ${
-                    active
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  }`}
+                  className={`w-5 h-5 ${active
+                    ? "text-white"
+                    : "text-gray-400 group-hover:text-white"
+                    }`}
                 />
                 <span className="font-medium">{item.name}</span>
               </div>
               {item.badge && (
                 <span
-                  className={`px-2 py-0.5 text-xs rounded-full ${
-                    active
-                      ? "bg-purple-500 text-white"
-                      : "bg-gray-700 text-gray-300"
-                  }`}
+                  className={`px-2 py-0.5 text-xs rounded-full ${active
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-700 text-gray-300"
+                    }`}
                 >
                   {item.badge}
                 </span>

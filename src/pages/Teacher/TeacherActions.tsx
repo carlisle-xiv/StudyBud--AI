@@ -26,16 +26,18 @@ import {
   Search,
   Download,
 } from "lucide-react";
+import { Course } from "@/Types/Types";
+
 
 const TeacherActions = () => {
   const navigate = useNavigate();
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   // Mock data for pending course reviews
-  const [pendingCourses, setPendingCourses] = useState([
+  const [pendingCourses, setPendingCourses] = useState<Course[]>([
     {
       id: 1,
       title: "Advanced Data Structures",

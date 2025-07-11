@@ -18,7 +18,7 @@ import AdminStudents from "@/pages/Admin/AdminStudents";
 import AdminExams from "@/pages/Admin/AdminExams";
 import AddNewAdmin from "@/pages/Admin/AddNewAdmin";
 import AdminReports from "@/pages/Report/AdminReports";
-import AdminBilling from "@/pages/Resources/Billing/AdminBilling";
+import AdminBilling from "@/pages/Billing/AdminBilling";
 import DownloadInvoice from "@/pages/Resources/DownloadInvoice";
 import NotFound from "@/pages/NotFound";
 import Index from "@/pages/Landing Page/Index";
@@ -39,6 +39,7 @@ import ExamInterface from "@/pages/Exams/ExamInterface";
 import ExamProcessing from "@/pages/Exams/ExamProcessing";
 import Reports from "@/pages/Report/Reports";
 import AdminSettings from "@/pages/Settings/AdminSettings";
+import EmailVerification from "./pages/User Management/EmailVerification";
 
 export const Router = createBrowserRouter([
     {
@@ -70,7 +71,7 @@ export const Router = createBrowserRouter([
         element: <Privacy />,
     },
     {
-        path: "/login",
+        path: "/auth/login",
         element: <Login />,
     },
     {
@@ -196,6 +197,10 @@ export const Router = createBrowserRouter([
     {
         path: "/download-invoice/:invoiceId",
         element: <DownloadInvoice />,
+    },
+    {
+        path: "/email-verification",
+        element: <EmailVerification />
     },
     {
         path: "*",

@@ -112,12 +112,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How StudyBud AI Works */}
+      {/* How StudyBud Works */}
       <section id="how-it-works" className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              How StudyBud AI Works
+              How StudyBud Works
             </h2>
             <p className="text-xl text-gray-600">
               Three simple steps to transform your study experience
@@ -340,7 +340,7 @@ const Index = () => {
                   ))}
                 </div>
                 <p className="text-gray-600 mb-6">
-                  "StudyBud AI helped me identify my weak areas in calculus. I
+                  "StudyBud helped me identify my weak areas in calculus. I
                   improved my grade from C+ to A in just one semester!"
                 </p>
                 <div className="flex items-center space-x-3">
@@ -505,7 +505,7 @@ const Index = () => {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                   <BookOpen className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">StudyBud AI</span>
+                <span className="text-xl font-bold">StudyBud</span>
               </div>
               <p className="text-gray-400">
                 Empowering students with AI-driven learning insights.
@@ -587,7 +587,7 @@ const Index = () => {
 
           <div className="border-t border-gray-800 pt-8">
             <p className="text-center text-gray-400">
-              © 2024 StudyBud AI. All rights reserved.
+              © 2024 StudyBud. All rights reserved.
             </p>
           </div>
         </div>
