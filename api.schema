@@ -115,3 +115,18 @@ type SignUpResponse {
 }
 
 post SignUp("/schools", SignUpInput): SignUpResponse
+
+input GetSchoolDetailsInput {
+    schoolId   Int
+}
+
+type SchoolDetails {
+    id           Int
+    name         String
+    address      String!
+    createdAt    String
+    updatedAt    String
+    roles        UserRole[]
+}
+
+get GetSchoolDetails("/schools/[schoolId]", GetSchoolDetailsInput): SchoolDetails

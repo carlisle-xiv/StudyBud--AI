@@ -123,3 +123,23 @@ export function postSignUp(args: { variables: SignUpInput; headers:Headers; }){
 export function useSignUpMutation(options?:UseMutationOptions<ApiRequestResult<SignUpResponse>, AxiosError<ServerErrorResponse<unknown>>, {headers:Headers; variables:SignUpInput}>){
 	return useMutation((args: {variables:SignUpInput; headers:Headers}) => postSignUp({headers:args.headers, variables:args.variables}), options);}
 
+export interface GetSchoolDetailsInput {
+schoolId: number;
+}
+export interface SchoolDetails {
+id: number;
+name: string;
+address?: Maybe<string>;
+createdAt: string;
+updatedAt: string;
+roles: Array<UserRole>;
+}
+export const GetGetSchoolDetailsQueryKey = "/schools/[schoolId]";
+export function getGetSchoolDetails(args:{variables: GetSchoolDetailsInput; headers: Headers; signal?: AbortSignal}){
+	return apiGet<SchoolDetails>({path: GetGetSchoolDetailsQueryKey, signal: args.signal, headers: args.headers, variables: args.variables })}
+export function useGetGetSchoolDetailsQuery<T = ApiRequestResult<SchoolDetails>>(options: UseQueryOptions<ApiRequestResult<SchoolDetails>, AxiosError<ServerErrorResponse<unknown>>, T, [string, GetSchoolDetailsInput, Headers]> & {variables: GetSchoolDetailsInput; headers:Headers}){
+	return useQuery({
+				...options,
+				queryKey: [GetGetSchoolDetailsQueryKey, options.variables, options.headers],
+				queryFn: async ({signal}) => getGetSchoolDetails({signal, headers: options.headers, variables: options.variables}),});}
+export function useGetGetSchoolDetailsLazyQuery(options?: UseMutationOptions<ApiRequestResult<SchoolDetails>, AxiosError<ServerErrorResponse<unknown>>, {headers?:Headers;variables:GetSchoolDetailsInput}>) { return useMutation((args: { headers: Headers; variables: GetSchoolDetailsInput}) => getGetSchoolDetails({headers:args.headers,variables:args.variables}), options);}
