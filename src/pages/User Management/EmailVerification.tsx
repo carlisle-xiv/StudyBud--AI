@@ -1,42 +1,54 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
+import { CheckCircle, Mail, RefreshCw, ArrowLeft, Clock } from "lucide-react";
 import {
-  CheckCircle,
-  Mail,
-  RefreshCw,
-  ArrowLeft,
-  Clock,
-} from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Controller, useForm } from "react-hook-form";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
-import { IOTPFormSchema, OTPForm } from "@/pages/User Management/Forms/OTPForm"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { IOTPFormSchema, OTPForm } from "@/pages/User Management/Forms/OTPForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { getAuthUserViaOTPVerification } from "@/Api/dataSource";
+import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
 
 const EmailVerification = () => {
+  const [searchParams] = useSearchParams();
+
   const [isResending, setIsResending] = useState(false);
-  const location = useLocation();
+  const [submission, setSubmission] = useState<string>();
+
   const navigate = useNavigate();
 
   // Get email from state passed from SignUp page, or use a default
-  const email = location.state?.email || "your-email@example.com";
-  const userType = location.state?.userType || "student";
+  const email = searchParams.get("email") ?? "";
 
-  useEffect(() => {
-    // If no email was passed, redirect back to signup
-    if (!location.state?.email) {
-      navigate("/signup");
-    }
-  }, [location.state, navigate]);
+  const verifyOtpMutation = useMutation(getAuthUserViaOTPVerification);
+  const { verifyUser } = useAuthUserVerification();
 
-
-  const { formState: { errors, isSubmitting }, control, ...form } = useForm<OTPForm>({
-    resolver: zodResolver(IOTPFormSchema)
-  })
+  const {
+    formState: { errors, isSubmitting },
+    control,
+    ...form
+  } = useForm<OTPForm>({
+    resolver: zodResolver(IOTPFormSchema),
+  });
 
   const handleResendOTP = async () => {
     setIsResending(true);
@@ -44,10 +56,9 @@ const EmailVerification = () => {
     // Simulate API call
     setTimeout(() => {
       setIsResending(false);
-      toast.success('Verification OTP sent successfully!')
+      toast.success("Verification OTP sent successfully!");
     }, 2000);
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -55,7 +66,6 @@ const EmailVerification = () => {
 
       <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
         <div className="w-full max-w-md space-y-6">
-
           {/* Main Verification Card */}
           <Card className="p-8 shadow-lg">
             <div className="text-center">
@@ -72,34 +82,60 @@ const EmailVerification = () => {
 
               <div className="space-y-4">
                 <div className="w-full py-2 flex flex-row justify-center">
-                  <Controller name='otp' control={control} render={({ field }) => (
-                    <InputOTP
-                      maxLength={6}
-                      {...field}
-                      disabled={isSubmitting}
-                      onChange={(value) => {
-                        field.onChange(value);
-                        // Watch the last OTP input field (index 5)
-                        const lastDigit = value?.[5] ?? "";
-                        if (lastDigit !== "") return handleResendOTP();
-                        // You can do something with lastDigit here, e.g., log or trigger logic
-                        // console.log("Last OTP digit:", lastDigit);
-                      }}
-                    >
-                      <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                      </InputOTPGroup>
-                      <InputOTPSeparator />
-                      <InputOTPGroup>
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP>
-                  )} />
-                  <span className="text-red-600 text-sm font-medium">{errors && errors.otp && errors.otp.message}</span>
+                  <Controller
+                    name="otp"
+                    control={control}
+                    render={({ field }) => (
+                      <InputOTP
+                        maxLength={6}
+                        {...field}
+                        disabled={isSubmitting}
+                        onChange={async (value) => {
+                          field.onChange(value);
+                          // Watch the last OTP input field (index 5)
+                          const lastDigit = value?.[5] ?? "";
+                          if (lastDigit !== "") return handleResendOTP();
+                          // You can do something with lastDigit here, e.g., log or trigger logic
+                          // console.log("Last OTP digit:", lastDigit);
+
+                          // Once use finishes typing the OTP, verify the OTP
+                          setSubmission("Verifying OTP...");
+
+                          const verifiedResponse =
+                            await verifyOtpMutation.mutateAsync(
+                              {
+                                email,
+                                otp: value,
+                              },
+                              {
+                                onError(error: string) {
+                                  setSubmission(undefined);
+                                  toast.error(error);
+                                },
+                              },
+                            );
+
+                          setSubmission(undefined);
+                          await verifyUser(verifiedResponse);
+                        }}
+                      >
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup>
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                    )}
+                  />
+                  <span className="text-red-600 text-sm font-medium">
+                    {errors && errors.otp && errors.otp.message}
+                  </span>
                 </div>
 
                 <div className="flex flex-col space-y-3">
@@ -117,13 +153,14 @@ const EmailVerification = () => {
                           ) : (
                             <>
                               <RefreshCw className="w-4 h-4" />
-
                             </>
                           )}
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p className="text-sm text-gray-600 font-medium">Resend OTP</p>
+                        <p className="text-sm text-gray-600 font-medium">
+                          Resend OTP
+                        </p>
                       </TooltipContent>
                     </Tooltip>
                     {/* <Button
@@ -153,7 +190,6 @@ const EmailVerification = () => {
                       Go to sign up
                     </Link>
                   </div>
-
                 </div>
               </div>
             </div>

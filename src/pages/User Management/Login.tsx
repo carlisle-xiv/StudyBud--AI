@@ -5,28 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  GraduationCap,
-  Mail,
-} from "lucide-react";
+import { GraduationCap, Mail } from "lucide-react";
 import {
   GetGoogleConsent,
   VerifiedEmail,
-  VerifiedUserLogin,
+  VerifiedUserLoginResponse,
   VerifyUserEmailInputVariables,
 } from "@/_shared/generated";
 import axios, { AxiosError } from "axios";
-import { getBaseApiUrl } from "@/_shared/services/authService";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
 import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
 import { getOperationMode } from "@/_shared/services/generalService";
 import ERRORS from "@/_shared/errors";
 import { useMutation } from "@tanstack/react-query";
-import { getAuthUserByGoogleOAuthCode, getGoogleOAuthURL, verifyEmail } from "@/Api/dataSource";
+import {
+  getAuthUserByGoogleOAuthCode,
+  getGoogleOAuthURL,
+  verifyEmail,
+} from "@/Api/dataSource";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginForm, ILoginFormSchema } from "@/pages/User Management/Forms/LoginForm";
+import {
+  LoginForm,
+  ILoginFormSchema,
+} from "@/pages/User Management/Forms/LoginForm";
 
 const Login = () => {
   // const [formData, setFormData] = useState({
@@ -34,16 +37,19 @@ const Login = () => {
   //   rememberMe: false,
   // });
 
-
-  const { formState: { errors, isValid, isSubmitting }, control, ...form } = useForm<LoginForm>({
-    resolver: zodResolver(ILoginFormSchema)
-  })
+  const {
+    formState: { errors, isValid, isSubmitting },
+    control,
+    ...form
+  } = useForm<LoginForm>({
+    resolver: zodResolver(ILoginFormSchema),
+  });
 
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login submitted:", "User type:",);
+    console.log("Login submitted:", "User type:");
 
     // Store user type for future reference
     // localStorage.setItem("authToken", "demo-token");
@@ -60,12 +66,12 @@ const Login = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [submissionText, setSubmissionText] = useState<string>();
-  const googleOAuthAccess = useMutation({ mutationFn: getGoogleOAuthURL });
+  const googleOAuthAccess = useMutation(getGoogleOAuthURL);
 
-  const { setSubmitting, isVerifying, currentStage, verifyUser } = useAuthUserVerification();
+  const { setSubmitting, isVerifying, currentStage, verifyUser } =
+    useAuthUserVerification();
 
-  const { mutate: loginMutation } = useMutation({
-    mutationFn: getAuthUserByGoogleOAuthCode,
+  const { mutate: loginMutation } = useMutation(getAuthUserByGoogleOAuthCode, {
     onSuccess: (data) => verifyUser(data),
     onError: (error) => {
       processErrorResponse(error, { customErrors: ERRORS });
@@ -91,8 +97,7 @@ const Login = () => {
     });
   }, [authorizationCode, loginMutation, setSubmitting]);
 
-
-  function accessGoogleLoginWebsite(event) {
+  function accessGoogleLoginWebsite() {
     if (isVerifying) return toast.error("Your account is still being verified");
 
     setSubmissionText("Accessing your google account...");
@@ -116,13 +121,13 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
 
-  const { mutate: verifyUserEmail } = useMutation({ mutationFn: verifyEmail });
+  const { mutate: verifyUserEmail } = useMutation(verifyEmail);
 
   const redirectPath = searchParams.get("redirect");
 
-  const handleEmailVerification = async () => {
-
-    verifyUserEmail(form.watch('email'), {
+  const handleEmailVerification = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    verifyUserEmail(form.watch("email"), {
       onError(error) {
         const message =
           error instanceof AxiosError
@@ -130,20 +135,21 @@ const Login = () => {
             : (error as Error).message;
         toast.error(message);
       },
-      onSuccess(response, variables) {
-        if (!response.data.success) return toast.error("Authentication failed");
-        // const urlParams = new URLSearchParams();
-        // urlParams.set("email", email);
-        // if (redirectPath) urlParams.set("redirect", redirectPath);
-        // // TODO: navigate to the otp verification page
-        return navigate(`/email-verification`, {
+      onSuccess(response) {
+        if (!response.data.data.success)
+          return toast.error("Authentication failed");
+        const urlParams = new URLSearchParams();
+        urlParams.set("email", email);
+
+        // TODO: navigate to the otp verification page
+        return navigate(`/email-verification?${urlParams}`, {
           state: {
-            email: variables
-          }
+            email: form.watch("email"),
+          },
         });
       },
     });
-  }
+  };
 
   const loading = !!submissionText || isVerifying;
   const message = submissionText ?? currentStage;
@@ -159,9 +165,7 @@ const Login = () => {
           <div className="text-center space-y-4">
             <div className="flex justify-center items-center space-x-2">
               <GraduationCap className="h-9 w-9 text-blue-600" />
-              <span className="text-2xl font-bold text-gray-900">
-                StudyBud
-              </span>
+              <span className="text-2xl font-bold text-gray-900">StudyBud</span>
             </div>
             <h1 className="text-3xl font-bold text-gray-900">Welcome back!</h1>
             <p className="text-gray-600">
@@ -183,36 +187,43 @@ const Login = () => {
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Controller control={control} name="email" render={({ field }) => (
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      className="pl-10 h-12"
-                      value={field.value}
-                      onChange={field.onChange}
-                      required
-                    />
-                  )} />
+                  <Controller
+                    control={control}
+                    name="email"
+                    render={({ field }) => (
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="pl-10 h-12"
+                        value={field.value}
+                        onChange={field.onChange}
+                        required
+                      />
+                    )}
+                  />
                 </div>
               </div>
 
               {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Controller name="rememberMe" control={control} render={({ field }) => (
-                    <Checkbox
-                      id="remember"
-                      defaultChecked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  )} />
+                  <Controller
+                    name="rememberMe"
+                    control={control}
+                    render={({ field }) => (
+                      <Checkbox
+                        id="remember"
+                        defaultChecked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    )}
+                  />
                   <label htmlFor="remember" className="text-sm text-gray-700">
                     Remember me
                   </label>
                 </div>
-
               </div>
 
               {/* Sign In Button */}
@@ -237,7 +248,12 @@ const Login = () => {
 
               {/* Googles Login Buttons */}
               <div className="grid grid-cols-1 gap-3">
-                <Button type="button" variant="outline" className="h-12" onClick={accessGoogleLoginWebsite}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-12"
+                  onClick={accessGoogleLoginWebsite}
+                >
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                     <path
                       fill="#EA4335"
@@ -305,9 +321,5 @@ const Login = () => {
     </div>
   );
 };
-
-
-
-
 
 export default Login;

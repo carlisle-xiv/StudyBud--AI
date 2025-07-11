@@ -1,6 +1,6 @@
 const SHARED_CONSTANTS = {
   BASE_API_URL: {
-    DEVELOPMENT: "http://localhost:8080",
+    DEVELOPMENT: "http://localhost:4000",
     STAGING: "https://studybud-ai-api.onrender.com",
     PRODUCTION: "",
   },

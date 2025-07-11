@@ -1,5 +1,5 @@
 import { pascalCase } from "change-case";
-import { tFunctionType } from "@/@types";
+import { tFunctionType } from "../@types";
 
 export function hasModulePrivilege(
   userPrivileges: string[] | undefined,

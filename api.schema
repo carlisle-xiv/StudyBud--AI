@@ -39,13 +39,13 @@ type AuthenticatedUser {
     schools         School[]
 }
 
-type VerifiedUserLogin {
+type VerifiedUserLoginResponse {
     accessToken String!
     refreshToken String!
     user AuthenticatedUser!
 }
 
-post LoginWithGoogle("/auth/login", LoginWithGoogleInput): VerifiedUserLogin
+post LoginWithGoogle("/auth/login", LoginWithGoogleInput): VerifiedUserLoginResponse
 
 type VerifyUserEmailInputVariables {
     email String
@@ -59,7 +59,11 @@ type VerifiedEmail {
     success  Boolean
 }
 
-post VerifyEmail("/verifyEmail", VerifyEmailInput): VerifiedEmail
+type VerifiedEmailResponse {
+    data     VerifiedEmail
+}
+
+post VerifyEmail("/verifyEmail", VerifyEmailInput): VerifiedEmailResponse
 
 type VerifyOtpVariables {
     email String
@@ -70,7 +74,7 @@ input VerifyOtpInput {
     data VerifyOtpVariables
 }
 
-post VerifyOtp("/verifyOtp", VerifyOtpInput): VerifiedUserLogin
+post VerifyOtp("/verifyOtp", VerifyOtpInput): VerifiedUserLoginResponse
 
 type RefreshAccessTokenVariables {
     refreshToken      String
@@ -80,7 +84,7 @@ input RefreshAccessTokenInput {
     data      RefreshAccessTokenVariables
 }
 
-post RefreshToken("/refreshToken", RefreshAccessTokenInput): VerifiedUserLogin
+post RefreshToken("/refreshToken", RefreshAccessTokenInput): VerifiedUserLoginResponse
 
 type NewUser {
     firstName    String

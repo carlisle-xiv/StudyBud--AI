@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useInvalidateQueries } from "@/_shared/hooks/useInvalidateQueries";
 import { Maybe } from "@/_shared/lib/api";
-import { VerifiedUserLogin } from "@/_shared/generated";
+import { VerifiedUserLoginResponse } from "@/_shared/generated";
 import { toast } from "sonner";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { hasSubmodulePrivilege } from "@/_shared/services/routingService";
@@ -24,7 +24,9 @@ export function useAuthUserVerification() {
     return invalidateQueries([AUTH_USER_DB_KEY, ProfilesStoreKey]);
   }
 
-  async function verifyUser(verifiedResponse: Maybe<VerifiedUserLogin>) {
+  async function verifyUser(
+    verifiedResponse: Maybe<VerifiedUserLoginResponse>,
+  ) {
     if (
       !verifiedResponse?.accessToken ||
       !verifiedResponse?.refreshToken ||

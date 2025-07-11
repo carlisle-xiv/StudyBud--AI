@@ -1,81 +1,108 @@
-import { GetGoogleConsent, GetGoogleLoginUrlQueryKey, SignUpResponse, SignUpVariables, VerifiedEmail, VerifiedUserLogin } from '@/_shared/generated';
-import { Maybe } from '@/_shared/lib/api';
-import { apiPost } from '@/_shared/services/apiService';
-import { getBaseApiUrl } from '@/_shared/services/authService';
-import { client } from '@/Api/axios.client';
-import { SchoolListResponse, SchoolWithRolesResponse, ValidateNameRequest, ValidationResponse } from '@/Types/Types';
+import {
+  GetGoogleConsent,
+  GetGoogleLoginUrlQueryKey,
+  SignUpResponse,
+  SignUpVariables,
+  VerifiedEmailResponse,
+  VerifiedUserLoginResponse,
+} from "@/_shared/generated";
+import { Maybe } from "@/_shared/lib/api";
+import { apiPost } from "@/_shared/services/apiService";
+import { getBaseApiUrl } from "@/_shared/services/authService";
+import { client } from "@/Api/axios.client";
+import {
+  SchoolListResponse,
+  SchoolWithRolesResponse,
+  ValidateNameRequest,
+  ValidationResponse,
+} from "@/Types/Types";
 
 export const getSchools = async (): Promise<SchoolListResponse> => {
-    const response = await client.get<SchoolListResponse>('/schools');
-    if (response.status === 200) {
-        return Promise.resolve(response.data);
-    }
-    return Promise.reject(response.data)
-}
+  const response = await client.get<SchoolListResponse>("/schools");
+  if (response.status === 200) {
+    return Promise.resolve(response.data);
+  }
+  return Promise.reject(response.data);
+};
 
 export const getSchool = async (schoolID: string) => {
-    const response = await client.get<SchoolWithRolesResponse>(`/schools/${schoolID}`);
+  const response = await client.get<SchoolWithRolesResponse>(
+    `/schools/${schoolID}`,
+  );
 
-    if (response.status === 200) {
-        return Promise.resolve(response.data);
-    }
-    return Promise.reject(response.data);
-}
+  if (response.status === 200) {
+    return Promise.resolve(response.data);
+  }
+  return Promise.reject(response.data);
+};
 
 export const getSchoolBySearchTerm = async (searchTerm: string) => {
-    const response = await client.get<string>(`/schools?searchTerm=${searchTerm}`);
-    if (response.status === 200) {
-        return Promise.resolve(response.data);
-    }
-    return Promise.reject(response.data)
-
-}
+  const response = await client.get<string>(
+    `/schools?searchTerm=${searchTerm}`,
+  );
+  if (response.status === 200) {
+    return Promise.resolve(response.data);
+  }
+  return Promise.reject(response.data);
+};
 
 export const validateSchoolName = async (request: ValidateNameRequest) => {
-    console.log('School Name is ', request);
-    const response = await client.post<ValidationResponse>('/schools/validateName', request);
+  console.log("School Name is ", request);
+  const response = await client.post<ValidationResponse>(
+    "/schools/validateName",
+    request,
+  );
 
-    if (response.status === 200) {
-        return Promise.resolve(response.data);
-    }
+  if (response.status === 200) {
+    return Promise.resolve(response.data);
+  }
 
-    return Promise.reject(response.data);
-}
-
+  return Promise.reject(response.data);
+};
 
 export async function getGoogleOAuthURL(redirectMode: string) {
-    const params = new URLSearchParams();
-    params.set("redirectMode", redirectMode);
-    const url = GetGoogleLoginUrlQueryKey + "?" + params.toString();
-    const response = await client.get<{ data?: Maybe<GetGoogleConsent> }>(url, {
-        baseURL: getBaseApiUrl(),
-    });
-    return response.data?.data;
+  const params = new URLSearchParams();
+  params.set("redirectMode", redirectMode);
+  const url = GetGoogleLoginUrlQueryKey + "?" + params.toString();
+  const response = await client.get<{ data?: Maybe<GetGoogleConsent> }>(url, {
+    baseURL: getBaseApiUrl(),
+  });
+  return response.data?.data;
 }
 
 export async function getAuthUserByGoogleOAuthCode(args: {
-    code: string;
-    redirectMode: string;
+  code: string;
+  redirectMode: string;
 }) {
-    const response = await client.post<{ data: VerifiedUserLogin }>(
-        "/auth/login",
-        { code: args.code, redirectMode: args.redirectMode },
-        { baseURL: getBaseApiUrl() },
-    );
-    return response.data.data;
+  const response = await client.post<{ data: VerifiedUserLoginResponse }>(
+    "/auth/login",
+    { code: args.code, redirectMode: args.redirectMode },
+    { baseURL: getBaseApiUrl() },
+  );
+  return response.data.data;
 }
 
 export async function registerUser(variables: SignUpVariables) {
-    return apiPost<SignUpResponse, { data: SignUpVariables }>({
-        path: "/schools",
-        variables: { data: variables },
-    });
+  return apiPost<SignUpResponse, { data: SignUpVariables }>({
+    path: "/schools",
+    variables: { data: variables },
+  });
 }
 
 export function verifyEmail(email: string) {
-    return client.post<VerifiedEmail>(
-        "/verifyEmail",
-        { data: { email } },
-        { baseURL: getBaseApiUrl() },
-    );
+  return client.post<VerifiedEmailResponse>(
+    "/verifyEmail",
+    { data: { email } },
+    { baseURL: getBaseApiUrl() },
+  );
+}
+
+export async function getAuthUserViaOTPVerification(args: {
+  email: string;
+  otp: string;
+}) {
+  const response = await client.post<{
+    data: Maybe<VerifiedUserLoginResponse>;
+  }>("/verifyOtp", { data: args }, { baseURL: getBaseApiUrl() });
+  return response.data.data;
 }
