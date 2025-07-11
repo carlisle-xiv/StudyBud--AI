@@ -3,10 +3,10 @@ import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import K from "@/_shared/constants";
 import { Maybe } from "@/_shared/lib/api";
-import { AuthenticatedUser } from "../generated";
-import { getLocalForage } from "../lib/localforage";
-import { getBaseApiUrl } from "../services/authService";
-import { getHeaders } from "../services/apiService";
+import { AuthenticatedUser } from "@/_shared/generated";
+import { getLocalForage } from "@/_shared/lib/localforage";
+import { getBaseApiUrl } from "@/_shared/services/authService";
+import { getHeaders } from "@/_shared/services/apiService";
 
 export const AUTH_USER_DB_KEY = "@store/user";
 export const ProfilesStoreKey = "@store/profiles";

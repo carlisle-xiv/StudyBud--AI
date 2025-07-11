@@ -18,7 +18,7 @@ import axios, { AxiosError } from "axios";
 import { getBaseApiUrl } from "@/_shared/services/authService";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
-import { useAuthUserVerification } from "../../hooks/useAuthUserVerification";
+import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
 import { getOperationMode } from "@/_shared/services/generalService";
 import ERRORS from "@/_shared/errors";
 import { useMutation } from "@tanstack/react-query";

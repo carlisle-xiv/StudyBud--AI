@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { Maybe } from "../lib/api";
-import { getBaseApiUrl } from "./authService";
+import { Maybe } from "@/_shared/lib/api";
+import { getBaseApiUrl } from "@/_shared/services/authService";
 
 export type Headers = {
   "school-id"?: number | undefined;

@@ -4,17 +4,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import { Router } from "@/Router";
+import { Suspense } from "react";
+import TopBarProgress from "react-topbar-progress-indicator"
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <RouterProvider router={Router} />
-    </TooltipProvider>
-  </QueryClientProvider>
+  <Suspense fallback={<TopBarProgress />}>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <RouterProvider router={Router} />
+      </TooltipProvider>
+    </QueryClientProvider>
+  </Suspense>
 );
 
 export default App;

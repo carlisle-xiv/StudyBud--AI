@@ -18,14 +18,11 @@ import {
   GraduationCap,
   Smartphone,
   Brain,
-  Timer,
   Twitter,
   Instagram,
   Linkedin,
-  Mail,
   Facebook,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 
 const Features = () => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import SHARED_CONSTANTS from "../constants";
+import SHARED_CONSTANTS from "@/_shared/constants";
 
 export function getBaseApiUrl(): string {
   if (isDev())

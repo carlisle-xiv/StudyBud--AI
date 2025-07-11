@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { IRequestOptions } from "../@types";
-import GLOBAL_ERRORS from "../errors";
+import { IRequestOptions } from "@/_shared/@types";
+import GLOBAL_ERRORS from "@/_shared/errors";
 
 import { toast } from "sonner";
 export interface ServerErrorResponse<TVariables = never> {
