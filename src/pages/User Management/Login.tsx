@@ -1,18 +1,12 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { GraduationCap, Mail } from "lucide-react";
-import {
-  GetGoogleConsent,
-  VerifiedEmail,
-  VerifiedUserLoginResponse,
-  VerifyUserEmailInputVariables,
-} from "@/_shared/generated";
-import axios, { AxiosError } from "axios";
+import { GraduationCap, LoaderCircle, Mail } from "lucide-react";
+import { AxiosError } from "axios";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
 import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
@@ -32,13 +26,8 @@ import {
 } from "@/pages/User Management/Forms/LoginForm";
 
 const Login = () => {
-  // const [formData, setFormData] = useState({
-  //   email: "",
-  //   rememberMe: false,
-  // });
-
   const {
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
     control,
     ...form
   } = useForm<LoginForm>({
@@ -46,33 +35,15 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login submitted:", "User type:");
-
-    // Store user type for future reference
-    // localStorage.setItem("authToken", "demo-token");
-
-    // Redirect based on user type
-    // if (selectedUserType === "teacher") {
-    //   navigate("/teacher-dashboard");
-    // } else if (selectedUserType === "admin") {
-    //   navigate("/admin-dashboard");
-    // } else {
-    //   navigate("/dashboard"); // Student dashboard
-    // }
-  };
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [submissionText, setSubmissionText] = useState<string>();
   const googleOAuthAccess = useMutation(getGoogleOAuthURL);
 
-  const { setSubmitting, isVerifying, currentStage, verifyUser } =
-    useAuthUserVerification();
+  const { setSubmitting, isVerifying, currentStage, verifyUser } = useAuthUserVerification();
 
-  const { mutate: loginMutation } = useMutation(getAuthUserByGoogleOAuthCode, {
-    onSuccess: (data) => verifyUser(data),
+  const { mutateAsync: loginMutation } = useMutation({
+    mutationKey: ['GoogleUserAuthCode'],
+    mutationFn: getAuthUserByGoogleOAuthCode,
     onError: (error) => {
       processErrorResponse(error, { customErrors: ERRORS });
       setSubmitting(undefined);
@@ -84,6 +55,7 @@ const Login = () => {
         { replace: true },
       );
     },
+    onSuccess: (data) => verifyUser(data),
   });
 
   const authorizationCode = searchParams.get("code");
@@ -119,36 +91,36 @@ const Login = () => {
     });
   }
 
-  const [email, setEmail] = useState("");
+  const { mutateAsync: verifyUserEmail } = useMutation({
+    mutationFn: verifyEmail,
+    mutationKey: ['VerifyEmail'],
+    onError(error) {
+      const message =
+        error instanceof AxiosError
+          ? error.response?.data?.message
+          : (error as Error).message;
+      toast.error(message);
+    },
+    onSuccess(response) {
+      if (!response.data.data.success)
+        return toast.error("Authentication failed");
+      const urlParams = new URLSearchParams();
+      urlParams.set("email", form.watch('email'));
 
-  const { mutate: verifyUserEmail } = useMutation(verifyEmail);
+      // TODO: navigate to the otp verification page
+      return navigate(`/email-verification?${urlParams}`, {
+        state: {
+          email: form.watch('email'),
+        },
+      });
+    },
+  }
+  );
 
   const redirectPath = searchParams.get("redirect");
 
-  const handleEmailVerification = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    verifyUserEmail(form.watch("email"), {
-      onError(error) {
-        const message =
-          error instanceof AxiosError
-            ? error.response?.data?.message
-            : (error as Error).message;
-        toast.error(message);
-      },
-      onSuccess(response) {
-        if (!response.data.data.success)
-          return toast.error("Authentication failed");
-        const urlParams = new URLSearchParams();
-        urlParams.set("email", email);
-
-        // TODO: navigate to the otp verification page
-        return navigate(`/email-verification?${urlParams}`, {
-          state: {
-            email: form.watch("email"),
-          },
-        });
-      },
-    });
+  const handleEmailVerification = async (data: LoginForm) => {
+    await verifyUserEmail(data.email);
   };
 
   const loading = !!submissionText || isVerifying;
@@ -176,7 +148,7 @@ const Login = () => {
           {/* Login Form */}
           <Card className="p-8 shadow-lg">
             {/* for otp flow */}
-            <form onSubmit={handleEmailVerification} className="space-y-6">
+            <form onSubmit={form.handleSubmit(handleEmailVerification)} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
                 <label
@@ -197,6 +169,7 @@ const Login = () => {
                         type="email"
                         placeholder="Enter your email"
                         className="pl-10 h-12"
+                        disabled={isSubmitting}
                         value={field.value}
                         onChange={field.onChange}
                         required
@@ -204,6 +177,7 @@ const Login = () => {
                     )}
                   />
                 </div>
+                <span>{errors?.email && errors.email?.message}</span>
               </div>
 
               {/* Remember Me & Forgot Password */}
@@ -229,9 +203,10 @@ const Login = () => {
               {/* Sign In Button */}
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700"
               >
-                Sign in
+                {isSubmitting && <LoaderCircle className="animate-spin mx-2" />}Sign in
               </Button>
 
               {/* Divider */}

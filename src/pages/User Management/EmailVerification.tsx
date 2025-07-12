@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   useLocation,
   useNavigate,
@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { getAuthUserViaOTPVerification } from "@/Api/dataSource";
 import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
+import { VerifiedUserLoginResponse } from '@/_shared/generated'
 
 const EmailVerification = () => {
   const [searchParams] = useSearchParams();
@@ -39,7 +40,19 @@ const EmailVerification = () => {
   // Get email from state passed from SignUp page, or use a default
   const email = searchParams.get("email") ?? "";
 
-  const verifyOtpMutation = useMutation(getAuthUserViaOTPVerification);
+  const { mutateAsync: verifyOtpMutation, isLoading, isSuccess } = useMutation({
+    mutationKey: ['OTP'],
+    mutationFn: getAuthUserViaOTPVerification,
+
+    onError(error: string) {
+      setSubmission(undefined);
+      toast.error(error);
+    },
+    onSuccess(response: VerifiedUserLoginResponse) {
+
+    }
+  });
+
   const { verifyUser } = useAuthUserVerification();
 
   const {
@@ -51,6 +64,10 @@ const EmailVerification = () => {
   });
 
   const handleResendOTP = async () => {
+
+
+
+
     setIsResending(true);
 
     // Simulate API call
@@ -59,6 +76,8 @@ const EmailVerification = () => {
       toast.success("Verification OTP sent successfully!");
     }, 2000);
   };
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -102,17 +121,10 @@ const EmailVerification = () => {
                           setSubmission("Verifying OTP...");
 
                           const verifiedResponse =
-                            await verifyOtpMutation.mutateAsync(
-                              {
-                                email,
-                                otp: value,
-                              },
-                              {
-                                onError(error: string) {
-                                  setSubmission(undefined);
-                                  toast.error(error);
-                                },
-                              },
+                            await verifyOtpMutation({
+                              email,
+                              otp: value,
+                            }
                             );
 
                           setSubmission(undefined);
