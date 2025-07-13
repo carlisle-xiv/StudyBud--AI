@@ -22,6 +22,7 @@ import {
   BookOpen,
   Target,
   Filter,
+  X,
 } from "lucide-react";
 
 const StudentPerformance: React.FC = () => {
@@ -1007,6 +1008,107 @@ const StudentPerformance: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Assessment History Modal */}
+        {showAssessmentModal && selectedStudentAssessments && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={selectedStudentAssessments.avatar}
+                    alt={selectedStudentAssessments.name}
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-900">
+                      {selectedStudentAssessments.name} - Assessment History
+                    </h2>
+                    <p className="text-gray-500">
+                      {selectedStudentAssessments.course} •{" "}
+                      {selectedStudentAssessments.assessmentHistory?.length ||
+                        0}{" "}
+                      assessments
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowAssessmentModal(false)}
+                  className="p-2"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto">
+                <div className="grid gap-4">
+                  {selectedStudentAssessments.assessmentHistory?.map(
+                    (assessment: any, index: number) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                      >
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                              <Target className="w-4 h-4 text-indigo-600" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium text-gray-900">
+                                {assessment.name}
+                              </h3>
+                              <div className="flex items-center space-x-4 mt-1">
+                                <Badge className="bg-gray-100 text-gray-700">
+                                  {assessment.type}
+                                </Badge>
+                                <span className="text-sm text-gray-500">
+                                  {new Date(
+                                    assessment.date,
+                                  ).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span
+                            className={`text-lg font-bold ${
+                              parseInt(assessment.score) >= 90
+                                ? "text-green-600"
+                                : parseInt(assessment.score) >= 70
+                                  ? "text-blue-600"
+                                  : "text-red-600"
+                            }`}
+                          >
+                            {assessment.score}
+                          </span>
+                        </div>
+                      </div>
+                    ),
+                  ) || []}
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 p-6">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm text-gray-500">
+                    Average Score:{" "}
+                    <span className="font-medium text-gray-900">
+                      {selectedStudentAssessments.average}
+                    </span>
+                  </div>
+                  <Button
+                    onClick={() => setShowAssessmentModal(false)}
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* AI-Generated Insights */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">

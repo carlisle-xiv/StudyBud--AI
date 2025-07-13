@@ -57,6 +57,7 @@ import PlatformAdminUsers from "./pages/PlatformAdminUsers";
 import PlatformAdminPlatform from "./pages/PlatformAdminPlatform";
 import PlatformAdminSettings from "./pages/PlatformAdminSettings";
 import CreateSchool from "./pages/CreateSchool";
+import AllStudents from "./pages/AllStudents";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -155,6 +156,7 @@ const App = () => (
             element={<PlatformAdminSettings />}
           />
           <Route path="/create-school" element={<CreateSchool />} />
+          <Route path="/all-students" element={<AllStudents />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
