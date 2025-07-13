@@ -39,13 +39,14 @@ const AllStudents: React.FC = () => {
   const [selectedStudentAssessments, setSelectedStudentAssessments] =
     useState<any>(null);
 
-  // Same course and student data as StudentPerformance
+  // Course data
   const teacherCourses = [
     { id: "mathematics-101", name: "Mathematics 101", students: 45 },
     { id: "mathematics-102", name: "Mathematics 102", students: 38 },
     { id: "calculus-201", name: "Calculus 201", students: 32 },
   ];
 
+  // Sample student data
   const allStudents = [
     {
       id: 1,
@@ -247,186 +248,6 @@ const AllStudents: React.FC = () => {
           name: "Pre-Assessment",
           date: "2024-01-15",
           score: "75%",
-          type: "Assessment",
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "Michael Rodriguez",
-      email: "michael.r@email.com",
-      course: "Mathematics 101",
-      courseId: "mathematics-101",
-      latestScore: "78%",
-      average: "76.5%",
-      trend: "+2%",
-      status: "Good",
-      assessmentsTaken: 6,
-      lastAssessment: "Trigonometry Test",
-      enrollDate: "2024-01-20",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
-      trendUp: true,
-      statusColor: "bg-blue-100 text-blue-800",
-      scoreColor: "text-blue-600",
-      indicator: "average",
-      assessmentHistory: [
-        {
-          name: "Trigonometry Test",
-          date: "2024-02-20",
-          score: "78%",
-          type: "Test",
-        },
-        {
-          name: "Statistics Project",
-          date: "2024-02-15",
-          score: "82%",
-          type: "Project",
-        },
-        {
-          name: "Calculus Basics",
-          date: "2024-02-10",
-          score: "75%",
-          type: "Quiz",
-        },
-        {
-          name: "Geometry Problems",
-          date: "2024-02-05",
-          score: "74%",
-          type: "Assignment",
-        },
-        {
-          name: "Algebra Fundamentals",
-          date: "2024-02-01",
-          score: "79%",
-          type: "Test",
-        },
-        {
-          name: "Linear Equations Quiz",
-          date: "2024-01-25",
-          score: "71%",
-          type: "Quiz",
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: "Lisa Wang",
-      email: "lisa.wang@email.com",
-      course: "Mathematics 101",
-      courseId: "mathematics-101",
-      latestScore: "92%",
-      average: "89.1%",
-      trend: "+7%",
-      status: "Excellent",
-      assessmentsTaken: 8,
-      lastAssessment: "Statistics Project",
-      enrollDate: "2024-01-12",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=64&h=64&fit=crop&crop=face",
-      trendUp: true,
-      statusColor: "bg-green-100 text-green-800",
-      scoreColor: "text-green-600",
-      indicator: "excellent",
-      assessmentHistory: [
-        {
-          name: "Statistics Project",
-          date: "2024-02-15",
-          score: "92%",
-          type: "Project",
-        },
-        {
-          name: "Calculus Basics",
-          date: "2024-02-10",
-          score: "95%",
-          type: "Quiz",
-        },
-        {
-          name: "Geometry Problems",
-          date: "2024-02-05",
-          score: "88%",
-          type: "Assignment",
-        },
-        {
-          name: "Algebra Fundamentals",
-          date: "2024-02-01",
-          score: "91%",
-          type: "Test",
-        },
-        {
-          name: "Linear Equations Quiz",
-          date: "2024-01-25",
-          score: "87%",
-          type: "Quiz",
-        },
-        {
-          name: "Functions and Graphs",
-          date: "2024-01-20",
-          score: "93%",
-          type: "Assignment",
-        },
-        {
-          name: "Trigonometry Test",
-          date: "2024-01-18",
-          score: "89%",
-          type: "Test",
-        },
-        {
-          name: "Pre-Assessment",
-          date: "2024-01-12",
-          score: "85%",
-          type: "Assessment",
-        },
-      ],
-    },
-    {
-      id: 6,
-      name: "David Kim",
-      email: "david.kim@email.com",
-      course: "Mathematics 101",
-      courseId: "mathematics-101",
-      latestScore: "45%",
-      average: "51.2%",
-      trend: "-12%",
-      status: "At Risk",
-      assessmentsTaken: 5,
-      lastAssessment: "Algebra Fundamentals",
-      enrollDate: "2024-01-18",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
-      trendUp: false,
-      statusColor: "bg-red-100 text-red-800",
-      scoreColor: "text-red-500",
-      indicator: "at-risk",
-      assessmentHistory: [
-        {
-          name: "Algebra Fundamentals",
-          date: "2024-02-01",
-          score: "45%",
-          type: "Test",
-        },
-        {
-          name: "Linear Equations Quiz",
-          date: "2024-01-25",
-          score: "38%",
-          type: "Quiz",
-        },
-        {
-          name: "Functions and Graphs",
-          date: "2024-01-22",
-          score: "62%",
-          type: "Assignment",
-        },
-        {
-          name: "Basic Operations",
-          date: "2024-01-20",
-          score: "55%",
-          type: "Quiz",
-        },
-        {
-          name: "Pre-Assessment",
-          date: "2024-01-18",
-          score: "56%",
           type: "Assessment",
         },
       ],
@@ -762,7 +583,8 @@ const AllStudents: React.FC = () => {
                     </h2>
                     <p className="text-gray-500">
                       {selectedStudentAssessments.course} •{" "}
-                      {selectedStudentAssessments.assessmentHistory.length}{" "}
+                      {selectedStudentAssessments.assessmentHistory?.length ||
+                        0}{" "}
                       assessments
                     </p>
                   </div>
@@ -778,7 +600,7 @@ const AllStudents: React.FC = () => {
 
               <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto">
                 <div className="grid gap-4">
-                  {selectedStudentAssessments.assessmentHistory.map(
+                  {selectedStudentAssessments.assessmentHistory?.map(
                     (assessment: any, index: number) => (
                       <div
                         key={index}
@@ -815,7 +637,7 @@ const AllStudents: React.FC = () => {
                         </div>
                       </div>
                     ),
-                  )}
+                  ) || []}
                 </div>
               </div>
 
