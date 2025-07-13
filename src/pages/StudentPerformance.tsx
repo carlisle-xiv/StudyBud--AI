@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TeacherNavigation from "../components/TeacherNavigation";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
@@ -18,9 +18,16 @@ import {
   TrendingDown,
   Brain,
   ChevronRight,
+  Users,
+  BookOpen,
+  Target,
+  Filter,
 } from "lucide-react";
 
 const StudentPerformance: React.FC = () => {
+  const [showAllStudents, setShowAllStudents] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState("mathematics-101");
+  const [performanceFilter, setPerformanceFilter] = useState("all-performance");
   const performanceAlerts = [
     {
       type: "error",
@@ -89,50 +96,209 @@ const StudentPerformance: React.FC = () => {
     },
   ];
 
-  const studentDetails = [
+  // All courses taught by the teacher
+  const teacherCourses = [
+    { id: "mathematics-101", name: "Mathematics 101", students: 45 },
+    { id: "mathematics-102", name: "Mathematics 102", students: 38 },
+    { id: "calculus-201", name: "Calculus 201", students: 32 },
+  ];
+
+  // All students across all courses
+  const allStudents = [
+    // Mathematics 101 students
     {
+      id: 1,
       name: "Emma Wilson",
       email: "emma.wilson@email.com",
       course: "Mathematics 101",
+      courseId: "mathematics-101",
       latestScore: "98%",
       average: "94.2%",
       trend: "+5%",
       status: "Excellent",
+      assessmentsTaken: 8,
+      lastAssessment: "Quadratic Equations Test",
+      enrollDate: "2024-01-15",
       avatar:
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=64&h=64&fit=crop&crop=face",
       trendUp: true,
       statusColor: "bg-green-100 text-green-800",
       scoreColor: "text-green-600",
+      indicator: "excellent",
     },
     {
+      id: 2,
       name: "Alex Chen",
       email: "alex.chen@email.com",
       course: "Mathematics 101",
+      courseId: "mathematics-101",
       latestScore: "52%",
       average: "58.7%",
       trend: "-8%",
       status: "At Risk",
+      assessmentsTaken: 7,
+      lastAssessment: "Linear Algebra Quiz",
+      enrollDate: "2024-01-15",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
       trendUp: false,
       statusColor: "bg-red-100 text-red-800",
       scoreColor: "text-red-500",
+      indicator: "at-risk",
     },
     {
+      id: 3,
+      name: "Sarah Johnson",
+      email: "sarah.j@email.com",
+      course: "Mathematics 101",
+      courseId: "mathematics-101",
+      latestScore: "85%",
+      average: "82.3%",
+      trend: "+3%",
+      status: "Good",
+      assessmentsTaken: 8,
+      lastAssessment: "Functions and Graphs",
+      enrollDate: "2024-01-15",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
+      trendUp: true,
+      statusColor: "bg-blue-100 text-blue-800",
+      scoreColor: "text-blue-600",
+      indicator: "average",
+    },
+    {
+      id: 4,
       name: "Michael Rodriguez",
       email: "michael.r@email.com",
-      course: "Chemistry 201",
+      course: "Mathematics 101",
+      courseId: "mathematics-101",
       latestScore: "78%",
       average: "76.5%",
       trend: "+2%",
       status: "Good",
+      assessmentsTaken: 6,
+      lastAssessment: "Trigonometry Test",
+      enrollDate: "2024-01-20",
       avatar:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
       trendUp: true,
-      statusColor: "bg-yellow-100 text-yellow-800",
-      scoreColor: "text-gray-900",
+      statusColor: "bg-blue-100 text-blue-800",
+      scoreColor: "text-blue-600",
+      indicator: "average",
+    },
+    {
+      id: 5,
+      name: "Lisa Wang",
+      email: "lisa.wang@email.com",
+      course: "Mathematics 101",
+      courseId: "mathematics-101",
+      latestScore: "92%",
+      average: "89.1%",
+      trend: "+7%",
+      status: "Excellent",
+      assessmentsTaken: 8,
+      lastAssessment: "Statistics Project",
+      enrollDate: "2024-01-12",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=64&h=64&fit=crop&crop=face",
+      trendUp: true,
+      statusColor: "bg-green-100 text-green-800",
+      scoreColor: "text-green-600",
+      indicator: "excellent",
+    },
+    {
+      id: 6,
+      name: "David Kim",
+      email: "david.kim@email.com",
+      course: "Mathematics 101",
+      courseId: "mathematics-101",
+      latestScore: "45%",
+      average: "51.2%",
+      trend: "-12%",
+      status: "At Risk",
+      assessmentsTaken: 5,
+      lastAssessment: "Algebra Fundamentals",
+      enrollDate: "2024-01-18",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
+      trendUp: false,
+      statusColor: "bg-red-100 text-red-800",
+      scoreColor: "text-red-500",
+      indicator: "at-risk",
+    },
+    // Mathematics 102 students
+    {
+      id: 7,
+      name: "Jennifer Lee",
+      email: "jennifer.lee@email.com",
+      course: "Mathematics 102",
+      courseId: "mathematics-102",
+      latestScore: "88%",
+      average: "86.4%",
+      trend: "+4%",
+      status: "Good",
+      assessmentsTaken: 7,
+      lastAssessment: "Advanced Calculus",
+      enrollDate: "2024-02-01",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
+      trendUp: true,
+      statusColor: "bg-blue-100 text-blue-800",
+      scoreColor: "text-blue-600",
+      indicator: "average",
+    },
+    {
+      id: 8,
+      name: "Robert Wilson",
+      email: "robert.wilson@email.com",
+      course: "Mathematics 102",
+      courseId: "mathematics-102",
+      latestScore: "96%",
+      average: "93.7%",
+      trend: "+6%",
+      status: "Excellent",
+      assessmentsTaken: 6,
+      lastAssessment: "Differential Equations",
+      enrollDate: "2024-02-01",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
+      trendUp: true,
+      statusColor: "bg-green-100 text-green-800",
+      scoreColor: "text-green-600",
+      indicator: "excellent",
     },
   ];
+
+  // Filter students based on selected course and performance
+  const filteredStudents = allStudents.filter((student) => {
+    const courseMatch =
+      selectedCourse === "all-courses" || student.courseId === selectedCourse;
+    const performanceMatch =
+      performanceFilter === "all-performance" ||
+      (performanceFilter === "excellent" &&
+        student.indicator === "excellent") ||
+      (performanceFilter === "good" && student.indicator === "average") ||
+      (performanceFilter === "at-risk" && student.indicator === "at-risk");
+    return courseMatch && performanceMatch;
+  });
+
+  // Display limited students for preview
+  const studentDetails = showAllStudents
+    ? filteredStudents
+    : filteredStudents.slice(0, 3);
+
+  const getIndicatorColor = (indicator: string) => {
+    switch (indicator) {
+      case "excellent":
+        return "border-l-4 border-green-500";
+      case "average":
+        return "border-l-4 border-blue-500";
+      case "at-risk":
+        return "border-l-4 border-red-500";
+      default:
+        return "border-l-4 border-gray-300";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
