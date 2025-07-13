@@ -863,17 +863,23 @@ const StudentPerformance: React.FC = () => {
                       </td>
                     )}
                     <td className="py-4 px-6">
-                      <div className="text-sm text-gray-900">
+                      <button
+                        onClick={() => {
+                          setSelectedStudentAssessments(student);
+                          setShowAssessmentModal(true);
+                        }}
+                        className="text-sm text-gray-900 hover:text-indigo-600 transition-colors"
+                      >
                         <div className="flex items-center">
                           <Target className="w-4 h-4 text-gray-400 mr-2" />
-                          {student.assessmentsTaken} taken
+                          <span className="underline cursor-pointer">
+                            {student.assessmentsTaken} taken
+                          </span>
                         </div>
-                        {showAllStudents && (
-                          <p className="text-gray-500 text-xs mt-1">
-                            Last: {student.lastAssessment}
-                          </p>
-                        )}
-                      </div>
+                        <p className="text-gray-500 text-xs mt-1">
+                          Last: {student.lastAssessment}
+                        </p>
+                      </button>
                     </td>
                     <td className="py-4 px-6">
                       <span
@@ -983,25 +989,15 @@ const StudentPerformance: React.FC = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                {!showAllStudents && filteredStudents.length > 3 && (
-                  <Button
-                    onClick={() => setShowAllStudents(true)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white"
-                  >
-                    <Users className="w-4 h-4 mr-2" />
-                    View ALL ({filteredStudents.length} students)
-                  </Button>
-                )}
-
-                {showAllStudents && (
-                  <Button
-                    onClick={() => setShowAllStudents(false)}
-                    variant="outline"
-                    className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
-                  >
-                    Show Less
-                  </Button>
-                )}
+                <Button
+                  onClick={() =>
+                    (window.location.href = `/all-students?course=${selectedCourse}&filter=${performanceFilter}`)
+                  }
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  View ALL ({filteredStudents.length} students)
+                </Button>
 
                 <Button variant="outline">
                   <Download className="w-4 h-4 mr-2" />
