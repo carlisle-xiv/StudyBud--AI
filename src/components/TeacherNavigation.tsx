@@ -25,7 +25,7 @@ const TeacherNavigation: React.FC = () => {
                 <Brain className="w-4 h-4 text-white" />
               </div>
               <span className="ml-3 text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud
               </span>
             </div>
 
