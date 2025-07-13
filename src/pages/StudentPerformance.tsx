@@ -213,13 +213,144 @@ const StudentPerformance: React.FC = () => {
         <div className="grid grid-cols-3 gap-6 mb-6">
           {/* Course Performance Overview */}
           <div className="col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
-              Course Performance Overview
-            </h2>
-            <div className="h-80 bg-gray-50 rounded-lg flex items-center justify-center">
-              <p className="text-gray-500">
-                Chart visualization will be displayed here
-              </p>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Course Performance Overview
+              </h2>
+              <Select defaultValue="last-30">
+                <SelectTrigger className="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="last-7">Last 7 days</SelectItem>
+                  <SelectItem value="last-30">Last 30 days</SelectItem>
+                  <SelectItem value="last-90">Last 90 days</SelectItem>
+                  <SelectItem value="semester">This semester</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Chart Container */}
+            <div className="h-80 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 relative">
+              {/* Chart Grid Lines */}
+              <div className="absolute inset-4">
+                {/* Horizontal grid lines */}
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-full border-t border-gray-200"
+                    style={{ top: `${i * 25}%` }}
+                  />
+                ))}
+                {/* Vertical grid lines */}
+                {[...Array(7)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute h-full border-l border-gray-200"
+                    style={{ left: `${i * 16.66}%` }}
+                  />
+                ))}
+              </div>
+
+              {/* Y-axis labels */}
+              <div className="absolute left-0 top-4 bottom-4 flex flex-col justify-between text-xs text-gray-500">
+                <span>100%</span>
+                <span>75%</span>
+                <span>50%</span>
+                <span>25%</span>
+                <span>0%</span>
+              </div>
+
+              {/* X-axis labels */}
+              <div className="absolute bottom-0 left-4 right-4 flex justify-between text-xs text-gray-500">
+                <span>Week 1</span>
+                <span>Week 2</span>
+                <span>Week 3</span>
+                <span>Week 4</span>
+                <span>Week 5</span>
+                <span>Week 6</span>
+                <span>Current</span>
+              </div>
+
+              {/* Chart Lines */}
+              <svg
+                className="absolute inset-4 w-full h-full"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+              >
+                {/* Mathematics 101 - Red line (declining performance) */}
+                <polyline
+                  points="0,25 16.66,30 33.32,40 49.98,55 66.64,65 83.3,70 100,75"
+                  fill="none"
+                  stroke="#ef4444"
+                  strokeWidth="0.5"
+                  className="opacity-80"
+                />
+
+                {/* Chemistry 201 - Blue line (stable performance) */}
+                <polyline
+                  points="0,20 16.66,18 33.32,22 49.98,20 66.64,25 83.3,23 100,20"
+                  fill="none"
+                  stroke="#3b82f6"
+                  strokeWidth="0.5"
+                  className="opacity-80"
+                />
+
+                {/* Physics 101 - Green line (improving performance) */}
+                <polyline
+                  points="0,60 16.66,55 33.32,48 49.98,40 66.64,35 83.3,25 100,15"
+                  fill="none"
+                  stroke="#10b981"
+                  strokeWidth="0.5"
+                  className="opacity-80"
+                />
+
+                {/* Data points */}
+                {/* Mathematics 101 points */}
+                <circle cx="0" cy="25" r="0.8" fill="#ef4444" />
+                <circle cx="16.66" cy="30" r="0.8" fill="#ef4444" />
+                <circle cx="33.32" cy="40" r="0.8" fill="#ef4444" />
+                <circle cx="49.98" cy="55" r="0.8" fill="#ef4444" />
+                <circle cx="66.64" cy="65" r="0.8" fill="#ef4444" />
+                <circle cx="83.3" cy="70" r="0.8" fill="#ef4444" />
+                <circle cx="100" cy="75" r="0.8" fill="#ef4444" />
+
+                {/* Chemistry 201 points */}
+                <circle cx="0" cy="20" r="0.8" fill="#3b82f6" />
+                <circle cx="16.66" cy="18" r="0.8" fill="#3b82f6" />
+                <circle cx="33.32" cy="22" r="0.8" fill="#3b82f6" />
+                <circle cx="49.98" cy="20" r="0.8" fill="#3b82f6" />
+                <circle cx="66.64" cy="25" r="0.8" fill="#3b82f6" />
+                <circle cx="83.3" cy="23" r="0.8" fill="#3b82f6" />
+                <circle cx="100" cy="20" r="0.8" fill="#3b82f6" />
+
+                {/* Physics 101 points */}
+                <circle cx="0" cy="60" r="0.8" fill="#10b981" />
+                <circle cx="16.66" cy="55" r="0.8" fill="#10b981" />
+                <circle cx="33.32" cy="48" r="0.8" fill="#10b981" />
+                <circle cx="49.98" cy="40" r="0.8" fill="#10b981" />
+                <circle cx="66.64" cy="35" r="0.8" fill="#10b981" />
+                <circle cx="83.3" cy="25" r="0.8" fill="#10b981" />
+                <circle cx="100" cy="15" r="0.8" fill="#10b981" />
+              </svg>
+
+              {/* Legend */}
+              <div className="absolute top-4 right-4 bg-white rounded-lg p-3 shadow-sm border border-gray-200">
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-0.5 bg-red-500"></div>
+                    <span>Mathematics 101</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-0.5 bg-blue-500"></div>
+                    <span>Chemistry 201</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-0.5 bg-green-500"></div>
+                    <span>Physics 101</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
