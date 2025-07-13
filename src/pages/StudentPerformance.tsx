@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TeacherNavigation from "../components/TeacherNavigation";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 
 const StudentPerformance: React.FC = () => {
+  const navigate = useNavigate();
   const [showAllStudents, setShowAllStudents] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("mathematics-101");
   const [performanceFilter, setPerformanceFilter] = useState("all-performance");
@@ -992,7 +994,9 @@ const StudentPerformance: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <Button
                   onClick={() =>
-                    (window.location.href = `/all-students?course=${selectedCourse}&filter=${performanceFilter}`)
+                    navigate(
+                      `/all-students?course=${selectedCourse}&filter=${performanceFilter}`,
+                    )
                   }
                   className="bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
