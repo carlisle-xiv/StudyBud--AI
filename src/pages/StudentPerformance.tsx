@@ -28,6 +28,9 @@ const StudentPerformance: React.FC = () => {
   const [showAllStudents, setShowAllStudents] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("mathematics-101");
   const [performanceFilter, setPerformanceFilter] = useState("all-performance");
+  const [showAssessmentModal, setShowAssessmentModal] = useState(false);
+  const [selectedStudentAssessments, setSelectedStudentAssessments] =
+    useState<any>(null);
   const performanceAlerts = [
     {
       type: "error",
@@ -290,11 +293,11 @@ const StudentPerformance: React.FC = () => {
   const getIndicatorColor = (indicator: string) => {
     switch (indicator) {
       case "excellent":
-        return "border-l-4 border-green-500";
+        return "border-l-4 border-green-500 bg-green-50";
       case "average":
-        return "border-l-4 border-blue-500";
+        return "border-l-4 border-blue-500 bg-blue-50";
       case "at-risk":
-        return "border-l-4 border-red-500";
+        return "border-l-4 border-red-500 bg-red-50";
       default:
         return "border-l-4 border-gray-300";
     }
