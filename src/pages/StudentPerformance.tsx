@@ -581,23 +581,36 @@ const StudentPerformance: React.FC = () => {
         {/* Student Performance Details */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm mb-6">
           <div className="border-b border-gray-200 p-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-900">
-                Student Performance Details
-              </h2>
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center space-x-3">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Student Performance Details
+                </h2>
+                <Badge className="bg-gray-100 text-gray-700">
+                  {filteredStudents.length} Students
+                </Badge>
+              </div>
               <div className="flex gap-4">
-                <Select defaultValue="all-courses">
-                  <SelectTrigger className="w-40">
+                <Select
+                  value={selectedCourse}
+                  onValueChange={setSelectedCourse}
+                >
+                  <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all-courses">All Courses</SelectItem>
-                    <SelectItem value="mathematics">Mathematics 101</SelectItem>
-                    <SelectItem value="chemistry">Chemistry 201</SelectItem>
-                    <SelectItem value="biology">Biology 101</SelectItem>
+                    {teacherCourses.map((course) => (
+                      <SelectItem key={course.id} value={course.id}>
+                        {course.name} ({course.students})
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-                <Select defaultValue="all-performance">
+                <Select
+                  value={performanceFilter}
+                  onValueChange={setPerformanceFilter}
+                >
                   <SelectTrigger className="w-44">
                     <SelectValue />
                   </SelectTrigger>
@@ -612,6 +625,22 @@ const StudentPerformance: React.FC = () => {
                 </Select>
               </div>
             </div>
+
+            {/* Performance Legend */}
+            <div className="flex items-center space-x-6 text-sm text-gray-600">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-500 rounded"></div>
+                <span>Excellent (90%+)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                <span>Good (70-89%)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-red-500 rounded"></div>
+                <span>At Risk (&lt;70%)</span>
+              </div>
+            </div>
           </div>
 
           {/* Table */}
@@ -622,8 +651,13 @@ const StudentPerformance: React.FC = () => {
                   <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Student
                   </th>
+                  {selectedCourse === "all-courses" && (
+                    <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Course
+                    </th>
+                  )}
                   <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Course
+                    Assessments
                   </th>
                   <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Latest Score
@@ -644,7 +678,10 @@ const StudentPerformance: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {studentDetails.map((student, index) => (
-                  <tr key={index}>
+                  <tr
+                    key={student.id}
+                    className={`hover:bg-gray-50 ${getIndicatorColor(student.indicator)}`}
+                  >
                     <td className="py-4 px-6">
                       <div className="flex items-center">
                         <img
@@ -659,11 +696,37 @@ const StudentPerformance: React.FC = () => {
                           <p className="text-gray-500 text-sm">
                             {student.email}
                           </p>
+                          {showAllStudents && (
+                            <p className="text-gray-400 text-xs">
+                              Enrolled:{" "}
+                              {new Date(
+                                student.enrollDate,
+                              ).toLocaleDateString()}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-sm text-gray-900">
-                      {student.course}
+                    {selectedCourse === "all-courses" && (
+                      <td className="py-4 px-6 text-sm text-gray-900">
+                        <div className="flex items-center">
+                          <BookOpen className="w-4 h-4 text-gray-400 mr-2" />
+                          {student.course}
+                        </div>
+                      </td>
+                    )}
+                    <td className="py-4 px-6">
+                      <div className="text-sm text-gray-900">
+                        <div className="flex items-center">
+                          <Target className="w-4 h-4 text-gray-400 mr-2" />
+                          {student.assessmentsTaken} taken
+                        </div>
+                        {showAllStudents && (
+                          <p className="text-gray-500 text-xs mt-1">
+                            Last: {student.lastAssessment}
+                          </p>
+                        )}
+                      </div>
                     </td>
                     <td className="py-4 px-6">
                       <span
