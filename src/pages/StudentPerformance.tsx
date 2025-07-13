@@ -780,6 +780,89 @@ const StudentPerformance: React.FC = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Table Footer with View ALL button and summary */}
+          <div className="border-t border-gray-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="text-sm text-gray-500">
+                  Showing {studentDetails.length} of {filteredStudents.length}{" "}
+                  students
+                  {selectedCourse !== "all-courses" && (
+                    <span className="ml-2">
+                      in{" "}
+                      {
+                        teacherCourses.find((c) => c.id === selectedCourse)
+                          ?.name
+                      }
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-gray-600">
+                      {
+                        filteredStudents.filter(
+                          (s) => s.indicator === "excellent",
+                        ).length
+                      }{" "}
+                      Excellent
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-gray-600">
+                      {
+                        filteredStudents.filter(
+                          (s) => s.indicator === "average",
+                        ).length
+                      }{" "}
+                      Good
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-gray-600">
+                      {
+                        filteredStudents.filter(
+                          (s) => s.indicator === "at-risk",
+                        ).length
+                      }{" "}
+                      At Risk
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                {!showAllStudents && filteredStudents.length > 3 && (
+                  <Button
+                    onClick={() => setShowAllStudents(true)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    View ALL ({filteredStudents.length} students)
+                  </Button>
+                )}
+
+                {showAllStudents && (
+                  <Button
+                    onClick={() => setShowAllStudents(false)}
+                    variant="outline"
+                    className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+                  >
+                    Show Less
+                  </Button>
+                )}
+
+                <Button variant="outline">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export List
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* AI-Generated Insights */}
