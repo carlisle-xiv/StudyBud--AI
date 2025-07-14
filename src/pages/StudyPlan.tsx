@@ -28,6 +28,7 @@ import {
   Award,
   FileText,
   BarChart3,
+  Plus,
 } from "lucide-react";
 
 const StudyPlan: React.FC = () => {
