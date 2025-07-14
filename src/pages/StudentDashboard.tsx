@@ -263,7 +263,10 @@ const StudentDashboard = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-indigo-600 hover:bg-indigo-700">
+                  <Button
+                    className="w-full bg-indigo-600 hover:bg-indigo-700"
+                    onClick={() => (window.location.href = "/study-plan")}
+                  >
                     Get Detailed Study Plan
                   </Button>
                 </div>

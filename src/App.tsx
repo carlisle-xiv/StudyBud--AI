@@ -58,6 +58,7 @@ import PlatformAdminPlatform from "./pages/PlatformAdminPlatform";
 import PlatformAdminSettings from "./pages/PlatformAdminSettings";
 import CreateSchool from "./pages/CreateSchool";
 import AllStudents from "./pages/AllStudents";
+import StudyPlan from "./pages/StudyPlan";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -157,6 +158,7 @@ const App = () => (
           />
           <Route path="/create-school" element={<CreateSchool />} />
           <Route path="/all-students" element={<AllStudents />} />
+          <Route path="/study-plan" element={<StudyPlan />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
