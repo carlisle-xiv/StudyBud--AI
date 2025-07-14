@@ -49,7 +49,7 @@ const StudentNavigation = () => {
                 <Brain className="h-4 w-4 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud&nbsp;
               </span>
             </div>
 
