@@ -51,6 +51,7 @@ export function useCurrentUser() {
     isAuthenticated,
     isLoading,
     hasToken,
+    schoolId: 1, // TODO: fix mock!
   };
 }
 
