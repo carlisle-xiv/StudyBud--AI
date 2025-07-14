@@ -51,7 +51,7 @@ refreshToken?: Maybe<string>;
 user?: Maybe<AuthenticatedUser>;
 }
 export function postLoginWithGoogle(args: { variables: LoginWithGoogleInput; headers:Headers; }){
-	return apiPost<VerifiedUserLoginResponse, LoginWithGoogleInput>({path: "/auth/login", variables:args.variables, headers: args.headers });}
+	return apiPost<VerifiedUserLoginResponse, LoginWithGoogleInput>({path: "/loginWithGoogle", variables:args.variables, headers: args.headers });}
 export function useLoginWithGoogleMutation(options?:UseMutationOptions<ApiRequestResult<VerifiedUserLoginResponse>, AxiosError<ServerErrorResponse<unknown>>, {headers:Headers; variables:LoginWithGoogleInput}>){
 	return useMutation((args: {variables:LoginWithGoogleInput; headers:Headers}) => postLoginWithGoogle({headers:args.headers, variables:args.variables}), options);}
 

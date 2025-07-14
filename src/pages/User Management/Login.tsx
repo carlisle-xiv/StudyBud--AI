@@ -39,10 +39,11 @@ const Login = () => {
   const [submissionText, setSubmissionText] = useState<string>();
   const googleOAuthAccess = useMutation(getGoogleOAuthURL);
 
-  const { setSubmitting, isVerifying, currentStage, verifyUser } = useAuthUserVerification();
+  const { setSubmitting, isVerifying, currentStage, verifyUser } =
+    useAuthUserVerification();
 
   const { mutateAsync: loginMutation } = useMutation({
-    mutationKey: ['GoogleUserAuthCode'],
+    mutationKey: ["GoogleUserAuthCode"],
     mutationFn: getAuthUserByGoogleOAuthCode,
     onError: (error) => {
       processErrorResponse(error, { customErrors: ERRORS });
@@ -93,7 +94,7 @@ const Login = () => {
 
   const { mutateAsync: verifyUserEmail } = useMutation({
     mutationFn: verifyEmail,
-    mutationKey: ['VerifyEmail'],
+    mutationKey: ["VerifyEmail"],
     onError(error) {
       const message =
         error instanceof AxiosError
@@ -105,17 +106,16 @@ const Login = () => {
       if (!response.data.data.success)
         return toast.error("Authentication failed");
       const urlParams = new URLSearchParams();
-      urlParams.set("email", form.watch('email'));
+      urlParams.set("email", form.watch("email"));
 
       // TODO: navigate to the otp verification page
       return navigate(`/email-verification?${urlParams}`, {
         state: {
-          email: form.watch('email'),
+          email: form.watch("email"),
         },
       });
     },
-  }
-  );
+  });
 
   const redirectPath = searchParams.get("redirect");
 
@@ -148,7 +148,10 @@ const Login = () => {
           {/* Login Form */}
           <Card className="p-8 shadow-lg">
             {/* for otp flow */}
-            <form onSubmit={form.handleSubmit(handleEmailVerification)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(handleEmailVerification)}
+              className="space-y-6"
+            >
               {/* Email Field */}
               <div className="space-y-2">
                 <label
@@ -206,7 +209,8 @@ const Login = () => {
                 disabled={isSubmitting}
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700"
               >
-                {isSubmitting && <LoaderCircle className="animate-spin mx-2" />}Sign in
+                {isSubmitting && <LoaderCircle className="animate-spin mx-2" />}
+                Sign in
               </Button>
 
               {/* Divider */}

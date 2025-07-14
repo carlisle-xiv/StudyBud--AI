@@ -75,8 +75,8 @@ export async function getAuthUserByGoogleOAuthCode(args: {
   redirectMode: string;
 }) {
   const response = await client.post<{ data: VerifiedUserLoginResponse }>(
-    "/auth/login",
-    { code: args.code, redirectMode: args.redirectMode },
+    "/loginWithGoogle",
+    { data: { code: args.code, redirectMode: args.redirectMode } },
     { baseURL: getBaseApiUrl() },
   );
   return response.data.data;
