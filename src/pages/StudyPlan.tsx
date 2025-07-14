@@ -29,12 +29,29 @@ import {
   FileText,
   BarChart3,
   Plus,
+  X,
+  Trash2,
+  Pause,
+  RotateCcw,
 } from "lucide-react";
 
 const StudyPlan: React.FC = () => {
   const navigate = useNavigate();
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("week");
   const [selectedSubject, setSelectedSubject] = useState("all");
+  const [showAddGoalModal, setShowAddGoalModal] = useState(false);
+  const [showStudySessionModal, setShowStudySessionModal] = useState(false);
+  const [selectedGoalForSession, setSelectedGoalForSession] =
+    useState<any>(null);
+  const [newGoal, setNewGoal] = useState({
+    subject: "",
+    topic: "",
+    priority: "medium",
+    difficulty: "Intermediate",
+    timeEstimate: "",
+    dueDate: "",
+    tasks: [""],
+  });
 
   // Study plan data
   const studyPlan = {
@@ -244,6 +261,52 @@ const StudyPlan: React.FC = () => {
     }
   };
 
+  const handleStartSession = (goal: any) => {
+    setSelectedGoalForSession(goal);
+    setShowStudySessionModal(true);
+  };
+
+  const handleAddGoal = () => {
+    setShowAddGoalModal(true);
+  };
+
+  const handleNewGoalChange = (field: string, value: string) => {
+    setNewGoal((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddTask = () => {
+    setNewGoal((prev) => ({ ...prev, tasks: [...prev.tasks, ""] }));
+  };
+
+  const handleTaskChange = (index: number, value: string) => {
+    setNewGoal((prev) => ({
+      ...prev,
+      tasks: prev.tasks.map((task, i) => (i === index ? value : task)),
+    }));
+  };
+
+  const handleRemoveTask = (index: number) => {
+    setNewGoal((prev) => ({
+      ...prev,
+      tasks: prev.tasks.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmitGoal = () => {
+    // Here you would typically save the goal to your backend
+    console.log("New goal:", newGoal);
+    setShowAddGoalModal(false);
+    setNewGoal({
+      subject: "",
+      topic: "",
+      priority: "medium",
+      difficulty: "Intermediate",
+      timeEstimate: "",
+      dueDate: "",
+      tasks: [""],
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <StudentNavigation />
@@ -373,7 +436,11 @@ const StudyPlan: React.FC = () => {
                 <h2 className="text-xl font-semibold text-gray-900">
                   Study Goals & Progress
                 </h2>
-                <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700">
+                <Button
+                  size="sm"
+                  className="bg-indigo-600 hover:bg-indigo-700"
+                  onClick={handleAddGoal}
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Goal
                 </Button>
@@ -459,7 +526,11 @@ const StudyPlan: React.FC = () => {
 
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex space-x-2">
-                        <Button size="sm" variant="outline">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleStartSession(goal)}
+                        >
                           <Play className="w-4 h-4 mr-1" />
                           Start Session
                         </Button>
@@ -598,6 +669,408 @@ const StudyPlan: React.FC = () => {
             </Card>
           </div>
         </div>
+
+        {/* Add Goal Modal */}
+        {showAddGoalModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Add New Study Goal
+                </h2>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowAddGoalModal(false)}
+                  className="p-2"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto">
+                <div className="space-y-6">
+                  {/* Subject and Topic */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Subject *
+                      </label>
+                      <Select
+                        value={newGoal.subject}
+                        onValueChange={(value) =>
+                          handleNewGoalChange("subject", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select subject" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="calculus">Calculus</SelectItem>
+                          <SelectItem value="physics">Physics</SelectItem>
+                          <SelectItem value="chemistry">Chemistry</SelectItem>
+                          <SelectItem value="statistics">Statistics</SelectItem>
+                          <SelectItem value="biology">Biology</SelectItem>
+                          <SelectItem value="english">English</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Topic *
+                      </label>
+                      <input
+                        type="text"
+                        value={newGoal.topic}
+                        onChange={(e) =>
+                          handleNewGoalChange("topic", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="e.g., Integration Techniques"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Priority and Difficulty */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Priority
+                      </label>
+                      <Select
+                        value={newGoal.priority}
+                        onValueChange={(value) =>
+                          handleNewGoalChange("priority", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="high">High Priority</SelectItem>
+                          <SelectItem value="medium">
+                            Medium Priority
+                          </SelectItem>
+                          <SelectItem value="low">Low Priority</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Difficulty Level
+                      </label>
+                      <Select
+                        value={newGoal.difficulty}
+                        onValueChange={(value) =>
+                          handleNewGoalChange("difficulty", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Beginner">Beginner</SelectItem>
+                          <SelectItem value="Intermediate">
+                            Intermediate
+                          </SelectItem>
+                          <SelectItem value="Advanced">Advanced</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Time Estimate and Due Date */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Time Estimate
+                      </label>
+                      <input
+                        type="text"
+                        value={newGoal.timeEstimate}
+                        onChange={(e) =>
+                          handleNewGoalChange("timeEstimate", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="e.g., 3 hours"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Due Date
+                      </label>
+                      <input
+                        type="date"
+                        value={newGoal.dueDate}
+                        onChange={(e) =>
+                          handleNewGoalChange("dueDate", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Tasks */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Tasks & Subtasks
+                    </label>
+                    <div className="space-y-2">
+                      {newGoal.tasks.map((task, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="text"
+                            value={task}
+                            onChange={(e) =>
+                              handleTaskChange(index, e.target.value)
+                            }
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder={`Task ${index + 1}`}
+                          />
+                          {newGoal.tasks.length > 1 && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveTask(index)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      ))}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleAddTask}
+                        className="w-full"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Task
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 p-6">
+                <div className="flex justify-end space-x-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowAddGoalModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleSubmitGoal}
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                    disabled={!newGoal.subject || !newGoal.topic}
+                  >
+                    Create Goal
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Study Session Modal */}
+        {showStudySessionModal && selectedGoalForSession && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    Study Session: {selectedGoalForSession.subject}
+                  </h2>
+                  <p className="text-gray-600">
+                    {selectedGoalForSession.topic}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowStudySessionModal(false)}
+                  className="p-2"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="p-6">
+                <div className="grid grid-cols-2 gap-8">
+                  {/* Timer and Session Info */}
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <div className="w-48 h-48 mx-auto bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white mb-4">
+                        <div>
+                          <div className="text-4xl font-bold">25:00</div>
+                          <div className="text-sm">Pomodoro Timer</div>
+                        </div>
+                      </div>
+                      <div className="flex justify-center space-x-4">
+                        <Button className="bg-green-600 hover:bg-green-700">
+                          <Play className="w-4 h-4 mr-2" />
+                          Start
+                        </Button>
+                        <Button variant="outline">
+                          <Pause className="w-4 h-4 mr-2" />
+                          Pause
+                        </Button>
+                        <Button variant="outline">
+                          <RotateCcw className="w-4 h-4 mr-2" />
+                          Reset
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h3 className="font-medium text-gray-900 mb-3">
+                        Session Goals
+                      </h3>
+                      <div className="space-y-2">
+                        {selectedGoalForSession.tasks
+                          .slice(0, 3)
+                          .map((task: string, index: number) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2"
+                            >
+                              <input type="checkbox" className="rounded" />
+                              <span className="text-sm text-gray-700">
+                                {task}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        Quick Stats
+                      </h3>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-600">Time Allocated:</span>
+                          <div className="font-medium">
+                            {selectedGoalForSession.timeEstimate}
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-gray-600">Progress:</span>
+                          <div className="font-medium">
+                            {selectedGoalForSession.progress}%
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-gray-600">Due Date:</span>
+                          <div className="font-medium">
+                            {new Date(
+                              selectedGoalForSession.dueDate,
+                            ).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-gray-600">Difficulty:</span>
+                          <div
+                            className={`font-medium ${getDifficultyColor(selectedGoalForSession.difficulty)}`}
+                          >
+                            {selectedGoalForSession.difficulty}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Study Materials and Notes */}
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="font-medium text-gray-900 mb-3">
+                        Study Materials
+                      </h3>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <FileText className="w-5 h-5 text-blue-600" />
+                            <span className="text-sm">
+                              Chapter 12: Integration Techniques
+                            </span>
+                          </div>
+                          <Button size="sm" variant="ghost">
+                            Open
+                          </Button>
+                        </div>
+                        <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Play className="w-5 h-5 text-green-600" />
+                            <span className="text-sm">
+                              Video: Integration by Parts
+                            </span>
+                          </div>
+                          <Button size="sm" variant="ghost">
+                            Watch
+                          </Button>
+                        </div>
+                        <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Target className="w-5 h-5 text-purple-600" />
+                            <span className="text-sm">
+                              Practice Problems Set A
+                            </span>
+                          </div>
+                          <Button size="sm" variant="ghost">
+                            Start
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-medium text-gray-900 mb-3">
+                        Session Notes
+                      </h3>
+                      <textarea
+                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Take notes during your study session..."
+                      />
+                    </div>
+
+                    <div className="bg-yellow-50 rounded-lg p-4">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        Study Tips
+                      </h3>
+                      <ul className="text-sm text-gray-700 space-y-1">
+                        <li>• Use active recall - test yourself frequently</li>
+                        <li>• Take breaks every 25-30 minutes</li>
+                        <li>• Summarize key concepts in your own words</li>
+                        <li>• Practice problems to reinforce learning</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 p-6">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm text-gray-500">
+                    Session Duration:{" "}
+                    <span className="font-medium">0 minutes</span>
+                  </div>
+                  <div className="flex space-x-3">
+                    <Button variant="outline">Save Session</Button>
+                    <Button
+                      onClick={() => setShowStudySessionModal(false)}
+                      className="bg-indigo-600 hover:bg-indigo-700"
+                    >
+                      End Session
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
