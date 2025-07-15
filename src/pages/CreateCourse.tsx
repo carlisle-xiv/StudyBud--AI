@@ -108,7 +108,13 @@ const CreateCourse: React.FC = () => {
   ) => {
     const query = e.target.value;
     setSubjectSearchQuery(query);
-    setShowSubjectDropdown(true);
+
+    // Only show dropdown when user starts typing (query has content)
+    if (query.trim().length > 0) {
+      setShowSubjectDropdown(true);
+    } else {
+      setShowSubjectDropdown(false);
+    }
 
     // Clear selection if user is typing a new search
     if (query !== getSelectedSubjectLabel()) {
