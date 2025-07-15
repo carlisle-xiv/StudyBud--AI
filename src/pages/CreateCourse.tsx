@@ -488,6 +488,165 @@ const CreateCourse: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSave={handleAddModule}
       />
+
+      {/* Add New Subject Modal */}
+      {showAddSubjectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <Plus className="w-5 h-5 text-indigo-600" />
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Add New Subject
+                </h2>
+              </div>
+              <button
+                onClick={handleCancelNewSubject}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto">
+              <div className="space-y-6">
+                {/* Subject Name and Code */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Subject Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={newSubject.name}
+                      onChange={(e) =>
+                        handleNewSubjectChange("name", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="e.g., Advanced Statistics"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Subject Code
+                    </label>
+                    <input
+                      type="text"
+                      value={newSubject.code}
+                      onChange={(e) =>
+                        handleNewSubjectChange("code", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="e.g., STAT-401"
+                    />
+                  </div>
+                </div>
+
+                {/* Department and Category */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Department *
+                    </label>
+                    <select
+                      value={newSubject.department}
+                      onChange={(e) =>
+                        handleNewSubjectChange("department", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="">Select Department</option>
+                      <option value="Science">Science</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Liberal Arts">Liberal Arts</option>
+                      <option value="Social Studies">Social Studies</option>
+                      <option value="Business">Business</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Medicine">Medicine</option>
+                      <option value="Arts">Arts</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Category
+                    </label>
+                    <select
+                      value={newSubject.category}
+                      onChange={(e) =>
+                        handleNewSubjectChange("category", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="">Select Category</option>
+                      <option value="Core">Core Subject</option>
+                      <option value="Elective">Elective</option>
+                      <option value="Advanced">Advanced Course</option>
+                      <option value="Remedial">Remedial</option>
+                      <option value="Honors">Honors</option>
+                      <option value="AP">Advanced Placement</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Description
+                  </label>
+                  <textarea
+                    value={newSubject.description}
+                    onChange={(e) =>
+                      handleNewSubjectChange("description", e.target.value)
+                    }
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Brief description of the subject area and its focus..."
+                  />
+                </div>
+
+                {/* Info Notice */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 text-blue-600 mt-0.5">ℹ️</div>
+                    <div>
+                      <h4 className="font-medium text-blue-900 mb-1">
+                        Subject Approval Process
+                      </h4>
+                      <p className="text-sm text-blue-700">
+                        New subjects will be immediately available for your
+                        courses. They may require administrator approval before
+                        being visible to other teachers. You'll receive a
+                        notification once approved.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 p-6">
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={handleCancelNewSubject}
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmitNewSubject}
+                  disabled={!newSubject.name || !newSubject.department}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                >
+                  Add Subject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
