@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Edit,
   Trash2,
+  CheckCircle,
 } from "lucide-react";
 
 interface Module {
@@ -39,6 +40,8 @@ const CreateCourse: React.FC = () => {
   const [modules, setModules] = useState<Module[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAddSubjectModal, setShowAddSubjectModal] = useState(false);
+  const [showSubjectDropdown, setShowSubjectDropdown] = useState(false);
+  const [subjectSearchQuery, setSubjectSearchQuery] = useState("");
   const [newSubject, setNewSubject] = useState({
     name: "",
     code: "",
@@ -100,13 +103,73 @@ const CreateCourse: React.FC = () => {
     console.log("Continuing to resources:", courseData);
   };
 
-  const handleSubjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (value === "add-new-subject") {
-      setShowAddSubjectModal(true);
-    } else {
-      setCourseData((prev) => ({ ...prev, subject: value }));
+  const handleSubjectSearchChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const query = e.target.value;
+    setSubjectSearchQuery(query);
+    setShowSubjectDropdown(true);
+
+    // Clear selection if user is typing a new search
+    if (query !== getSelectedSubjectLabel()) {
+      setCourseData((prev) => ({ ...prev, subject: "" }));
     }
+  };
+
+  const handleSubjectSelect = (subjectValue: string) => {
+    if (subjectValue === "add-new-subject") {
+      setShowAddSubjectModal(true);
+      setShowSubjectDropdown(false);
+    } else {
+      const selectedSubject = availableSubjects.find(
+        (s) => s.value === subjectValue,
+      );
+      setCourseData((prev) => ({ ...prev, subject: subjectValue }));
+      setSubjectSearchQuery(selectedSubject?.label || "");
+      setShowSubjectDropdown(false);
+    }
+  };
+
+  const getSelectedSubjectLabel = () => {
+    const selectedSubject = availableSubjects.find(
+      (s) => s.value === courseData.subject,
+    );
+    return selectedSubject?.label || "";
+  };
+
+  const getFilteredSubjects = () => {
+    if (!subjectSearchQuery.trim()) {
+      return availableSubjects;
+    }
+    return availableSubjects.filter(
+      (subject) =>
+        subject.label
+          .toLowerCase()
+          .includes(subjectSearchQuery.toLowerCase()) ||
+        subject.department
+          .toLowerCase()
+          .includes(subjectSearchQuery.toLowerCase()),
+    );
+  };
+
+  const handleSubjectInputFocus = () => {
+    setShowSubjectDropdown(true);
+    if (!subjectSearchQuery && courseData.subject) {
+      setSubjectSearchQuery(getSelectedSubjectLabel());
+    }
+  };
+
+  const handleSubjectInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Delay hiding dropdown to allow for clicks on dropdown items
+    setTimeout(() => {
+      setShowSubjectDropdown(false);
+      // If no valid selection was made, restore the previous selection
+      if (courseData.subject && !subjectSearchQuery) {
+        setSubjectSearchQuery(getSelectedSubjectLabel());
+      } else if (!courseData.subject && !subjectSearchQuery) {
+        setSubjectSearchQuery("");
+      }
+    }, 150);
   };
 
   const handleNewSubjectChange = (field: string, value: string) => {
