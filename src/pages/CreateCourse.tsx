@@ -38,6 +38,28 @@ const CreateCourse: React.FC = () => {
   });
   const [modules, setModules] = useState<Module[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddSubjectModal, setShowAddSubjectModal] = useState(false);
+  const [newSubject, setNewSubject] = useState({
+    name: "",
+    code: "",
+    description: "",
+    department: "",
+    category: "",
+  });
+  const [availableSubjects, setAvailableSubjects] = useState([
+    { value: "mathematics", label: "Mathematics", department: "Science" },
+    { value: "physics", label: "Physics", department: "Science" },
+    { value: "chemistry", label: "Chemistry", department: "Science" },
+    { value: "biology", label: "Biology", department: "Science" },
+    {
+      value: "computer-science",
+      label: "Computer Science",
+      department: "Technology",
+    },
+    { value: "english", label: "English", department: "Liberal Arts" },
+    { value: "history", label: "History", department: "Social Studies" },
+    { value: "psychology", label: "Psychology", department: "Social Studies" },
+  ]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -76,6 +98,60 @@ const CreateCourse: React.FC = () => {
   const handleContinueToResources = () => {
     // Continue to next step logic here
     console.log("Continuing to resources:", courseData);
+  };
+
+  const handleSubjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "add-new-subject") {
+      setShowAddSubjectModal(true);
+    } else {
+      setCourseData((prev) => ({ ...prev, subject: value }));
+    }
+  };
+
+  const handleNewSubjectChange = (field: string, value: string) => {
+    setNewSubject((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmitNewSubject = () => {
+    // Generate a unique value for the new subject
+    const subjectValue = newSubject.name.toLowerCase().replace(/\s+/g, "-");
+
+    // Add to available subjects
+    const newSubjectOption = {
+      value: subjectValue,
+      label: newSubject.name,
+      department: newSubject.department,
+    };
+
+    setAvailableSubjects((prev) => [...prev, newSubjectOption]);
+
+    // Set as selected subject
+    setCourseData((prev) => ({ ...prev, subject: subjectValue }));
+
+    // Reset form and close modal
+    setNewSubject({
+      name: "",
+      code: "",
+      description: "",
+      department: "",
+      category: "",
+    });
+    setShowAddSubjectModal(false);
+
+    // In a real app, you would send this to your backend
+    console.log("New subject created:", newSubjectOption);
+  };
+
+  const handleCancelNewSubject = () => {
+    setNewSubject({
+      name: "",
+      code: "",
+      description: "",
+      department: "",
+      category: "",
+    });
+    setShowAddSubjectModal(false);
   };
 
   return (
@@ -168,20 +244,32 @@ const CreateCourse: React.FC = () => {
                       <select
                         name="subject"
                         value={courseData.subject}
-                        onChange={handleInputChange}
+                        onChange={handleSubjectChange}
                         className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none text-gray-900"
                       >
                         <option value="">Select Subject</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="biology">Biology</option>
-                        <option value="computer-science">
-                          Computer Science
+                        {availableSubjects.map((subject) => (
+                          <option key={subject.value} value={subject.value}>
+                            {subject.label}
+                          </option>
+                        ))}
+                        <option
+                          value="add-new-subject"
+                          className="font-medium text-indigo-600 bg-indigo-50"
+                        >
+                          ➕ Add New Subject
                         </option>
                       </select>
                       <ChevronDown className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
                     </div>
+                    {courseData.subject && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Department:{" "}
+                        {availableSubjects.find(
+                          (s) => s.value === courseData.subject,
+                        )?.department || "Custom"}
+                      </p>
+                    )}
                   </div>
 
                   <div>
