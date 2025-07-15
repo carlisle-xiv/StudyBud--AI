@@ -153,7 +153,7 @@ const CreateCourse: React.FC = () => {
   };
 
   const handleSubjectInputFocus = () => {
-    setShowSubjectDropdown(true);
+    // Don't show dropdown immediately, only when user starts typing
     if (!subjectSearchQuery && courseData.subject) {
       setSubjectSearchQuery(getSelectedSubjectLabel());
     }
