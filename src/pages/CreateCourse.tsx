@@ -189,8 +189,9 @@ const CreateCourse: React.FC = () => {
 
     setAvailableSubjects((prev) => [...prev, newSubjectOption]);
 
-    // Set as selected subject
+    // Set as selected subject and update search
     setCourseData((prev) => ({ ...prev, subject: subjectValue }));
+    setSubjectSearchQuery(newSubject.name);
 
     // Reset form and close modal
     setNewSubject({
