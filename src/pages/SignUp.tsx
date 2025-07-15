@@ -72,13 +72,25 @@ const SignUp = () => {
     e.preventDefault();
     console.log("Sign up submitted:", formData, "User type:", selectedUserType);
     // In a real app, you'd create the account here
-    // Redirect to email verification page with user email and type
-    navigate("/email-verification", {
-      state: {
-        email: formData.email,
-        userType: selectedUserType,
-      },
-    });
+
+    // Redirect teachers to pending approval page, others to email verification
+    if (selectedUserType === "teacher") {
+      navigate("/teacher-pending-approval", {
+        state: {
+          email: formData.email,
+          school: formData.school,
+          firstName: formData.firstName,
+          userType: selectedUserType,
+        },
+      });
+    } else {
+      navigate("/email-verification", {
+        state: {
+          email: formData.email,
+          userType: selectedUserType,
+        },
+      });
+    }
   };
 
   return (
