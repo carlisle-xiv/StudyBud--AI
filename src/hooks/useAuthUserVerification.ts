@@ -74,7 +74,9 @@ export function useAuthUserVerification() {
     );
 
     await resetAssociatedQueries();
-    navigate(accessibleModules[0]?.route ?? "*");
+    toast.success("Verification successful!");
+    navigate("/admin-dashboard");
+    // navigate(accessibleModules[0]?.route ?? "*");
   }
 
   const setSubmitting = useCallback((value: string | undefined | boolean) => {

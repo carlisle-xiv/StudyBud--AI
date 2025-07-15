@@ -87,7 +87,7 @@ export const Router = createBrowserRouter([
         element: <AcceptInvite />,
     },
     {
-        path: "/dashboard",
+        path: "/student-dashboard",
         element: <StudentDashboard />,
     },
     {

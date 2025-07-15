@@ -60,9 +60,9 @@ function PageNotFound() {
         The page you&apos;re looking for doesn&apos;t exist or you don&apos;t
         have permission to access it.
       </p>
-      <a href="/dashboard" className="mt-4">
+      <a href="/auth/login" className="mt-4">
         <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-          Back to dashboard
+          Back to Login
         </button>
       </a>
     </div>

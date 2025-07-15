@@ -29,7 +29,7 @@ const Privacy = () => {
                 Privacy Policy
               </h1>
               <p className="text-gray-600">
-                Learn how StudyBuddy AI protects and handles your data
+                Learn how StudyBud protects and handles your data
               </p>
             </div>
           </div>
@@ -50,7 +50,7 @@ const Privacy = () => {
                   Our Commitment to Privacy
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  At StudyBuddy AI, we take your privacy seriously. This Privacy
+                  At StudyBud, we take your privacy seriously. This Privacy
                   Policy explains how we collect, use, disclose, and safeguard
                   your information when you use our educational technology
                   platform.
@@ -255,7 +255,7 @@ const Privacy = () => {
             <div className="text-center">
               <h3 className="font-medium text-gray-900 mb-2">Compliance</h3>
               <p className="text-sm text-gray-600">
-                StudyBuddy AI complies with GDPR, FERPA, COPPA, and other
+                StudyBud complies with GDPR, FERPA, COPPA, and other
                 applicable privacy regulations. We are committed to maintaining
                 the highest standards of data protection and privacy.
               </p>

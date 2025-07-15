@@ -33,8 +33,6 @@ const EmailVerification = () => {
   const [searchParams] = useSearchParams();
 
   const [isResending, setIsResending] = useState(false);
-  const [submission, setSubmission] = useState<string>();
-
   const navigate = useNavigate();
 
   // Get email from state passed from SignUp page, or use a default
@@ -45,11 +43,10 @@ const EmailVerification = () => {
     mutationFn: getAuthUserViaOTPVerification,
 
     onError(error: string) {
-      setSubmission(undefined);
       toast.error(error);
     },
-    onSuccess(response: VerifiedUserLoginResponse) {
-
+    onSuccess() {
+      toast.success("Verification successful!");
     }
   });
 
@@ -65,10 +62,6 @@ const EmailVerification = () => {
 
   const handleResendOTP = async () => {
 
-
-
-
-    setIsResending(true);
 
     // Simulate API call
     setTimeout(() => {
@@ -113,21 +106,16 @@ const EmailVerification = () => {
                           field.onChange(value);
                           // Watch the last OTP input field (index 5)
                           const lastDigit = value?.[5] ?? "";
-                          if (lastDigit !== "") return handleResendOTP();
-                          // You can do something with lastDigit here, e.g., log or trigger logic
-                          // console.log("Last OTP digit:", lastDigit);
-
-                          // Once use finishes typing the OTP, verify the OTP
-                          setSubmission("Verifying OTP...");
-
-                          const verifiedResponse =
+                          if (lastDigit !== "")
+                            // You can do something with lastDigit here, e.g., log or trigger logic
+                            // console.log("Last OTP digit:", lastDigit);
+                            // Once use finishes typing the OTP, verify the OTP
                             await verifyOtpMutation({
                               email,
                               otp: value,
                             }
                             );
-
-                          setSubmission(undefined);
+                          let verifiedResponse: VerifiedUserLoginResponse;
                           await verifyUser(verifiedResponse);
                         }}
                       >

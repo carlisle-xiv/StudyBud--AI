@@ -134,7 +134,7 @@ const ExamSelection = () => {
                 <Brain className="h-4 w-4 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud
               </span>
             </div>
             <div className="flex items-center space-x-2">
@@ -157,7 +157,7 @@ const ExamSelection = () => {
           {/* Header Section */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link to="/dashboard">
+              <Link to="/student-dashboard">
                 <Button variant="outline" size="icon">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
@@ -181,11 +181,10 @@ const ExamSelection = () => {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedSubject(null)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  !selectedSubject
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${!selectedSubject
+                  ? "bg-indigo-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 All Subjects
               </button>
@@ -193,11 +192,10 @@ const ExamSelection = () => {
                 <button
                   key={subject}
                   onClick={() => setSelectedSubject(subject)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    selectedSubject === subject
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedSubject === subject
+                    ? "bg-indigo-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
                 >
                   {subject}
                 </button>

@@ -98,7 +98,7 @@ const AcceptInvite = () => {
       default:
         return {
           title: "Platform Invitation",
-          description: "Join StudyBuddy AI and start your learning journey",
+          description: "Join StudyBud and start your learning journey",
           icon: UserPlus,
           color: "blue",
           role: "User",
@@ -209,7 +209,7 @@ const AcceptInvite = () => {
             You're Invited!
           </h1>
           <p className="text-gray-600">
-            Someone has invited you to join StudyBuddy AI
+            Someone has invited you to join StudyBud
           </p>
         </div>
 
@@ -364,7 +364,7 @@ const AcceptInvite = () => {
                       Create or login to account
                     </p>
                     <p className="text-xs text-gray-600">
-                      Set up your StudyBuddy AI account
+                      Set up your StudyBud account
                     </p>
                   </div>
                 </div>

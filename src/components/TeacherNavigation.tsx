@@ -25,7 +25,7 @@ const TeacherNavigation: React.FC = () => {
                 <Brain className="w-4 h-4 text-white" />
               </div>
               <span className="ml-3 text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud
               </span>
             </div>
 
@@ -34,8 +34,8 @@ const TeacherNavigation: React.FC = () => {
               <a
                 href="/teacher-dashboard"
                 className={`font-medium transition-colors ${isActive("/teacher-dashboard")
-                    ? "text-indigo-600"
-                    : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 Dashboard
@@ -43,8 +43,8 @@ const TeacherNavigation: React.FC = () => {
               <a
                 href="/teacher-courses"
                 className={`ml-6 font-medium transition-colors ${isActive("/teacher-courses")
-                    ? "text-indigo-600"
-                    : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 Courses
@@ -52,8 +52,8 @@ const TeacherNavigation: React.FC = () => {
               <a
                 href="/teacher-exam-creation"
                 className={`ml-6 font-medium transition-colors ${isActive("/teacher-exam-creation")
-                    ? "text-indigo-600"
-                    : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 Exams
@@ -61,8 +61,8 @@ const TeacherNavigation: React.FC = () => {
               <a
                 href="/student-performance"
                 className={`ml-6 font-medium transition-colors ${isActive("/student-performance")
-                    ? "text-indigo-600"
-                    : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 Students
@@ -70,8 +70,8 @@ const TeacherNavigation: React.FC = () => {
               <a
                 href="/teacher-resources"
                 className={`ml-6 font-medium transition-colors ${isActive("/teacher-resources")
-                    ? "text-indigo-600"
-                    : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600"
+                  : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 Resources

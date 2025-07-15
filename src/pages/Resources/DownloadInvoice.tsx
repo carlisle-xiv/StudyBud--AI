@@ -100,7 +100,7 @@ const DownloadInvoice = () => {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">
-                      StudyBuddy AI
+                      StudyBud
                     </h2>
                     <p className="text-gray-600">
                       Educational Technology Platform
@@ -280,7 +280,7 @@ const DownloadInvoice = () => {
                 </h4>
                 <div className="text-sm text-gray-600 space-y-2">
                   <p>
-                    Thank you for choosing StudyBuddy AI for your educational
+                    Thank you for choosing StudyBud for your educational
                     technology needs.
                   </p>
                   <p>

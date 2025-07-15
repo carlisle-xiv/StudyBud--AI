@@ -88,7 +88,7 @@ const AdminNavigation: React.FC = () => {
             </div>
             <div>
               <div className="text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud
               </div>
               <div className="text-sm text-gray-600">Admin Panel</div>
             </div>
@@ -107,8 +107,8 @@ const AdminNavigation: React.FC = () => {
                   <button
                     onClick={() => navigate(item.path)}
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all duration-200 ${active
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                       }`}
                   >
                     <Icon className="w-4 h-4" />

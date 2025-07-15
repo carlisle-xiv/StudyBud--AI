@@ -8,15 +8,15 @@ const StudentNavigation = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "Dashboard", path: "/dashboard" },
+    { name: "Dashboard", path: "/student-dashboard" },
     { name: "Courses", path: "/courses" },
     { name: "Exams", path: "/exam-selection" },
     { name: "Reports", path: "/reports" },
   ];
 
   const isActivePath = (path: string) => {
-    if (path === "/dashboard") {
-      return location.pathname === "/dashboard";
+    if (path === "/student-dashboard") {
+      return location.pathname === "/student-dashboard";
     }
     if (path === "/courses") {
       return location.pathname === "/courses";
@@ -49,7 +49,7 @@ const StudentNavigation = () => {
                 <Brain className="h-4 w-4 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-900">
-                StudyBuddy AI
+                StudyBud
               </span>
             </div>
 
@@ -60,8 +60,8 @@ const StudentNavigation = () => {
                   key={item.name}
                   to={item.path}
                   className={`text-base font-medium transition-colors ${isActivePath(item.path)
-                      ? "text-indigo-600"
-                      : "text-gray-600 hover:text-gray-900"
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-gray-900"
                     }`}
                 >
                   {item.name}

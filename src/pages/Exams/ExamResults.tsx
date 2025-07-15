@@ -89,7 +89,7 @@ const ExamResults = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
-          <Link to="/dashboard" className="hover:text-gray-900">
+          <Link to="/student-dashboard" className="hover:text-gray-900">
             Dashboard
           </Link>
           <ChevronRight className="h-4 w-4" />
@@ -194,13 +194,12 @@ const ExamResults = () => {
                           {topic.topic}
                         </span>
                         <span
-                          className={`text-sm font-bold ${
-                            topic.percentage === 100
+                          className={`text-sm font-bold ${topic.percentage === 100
                               ? "text-green-600"
                               : topic.percentage >= 90
                                 ? "text-green-600"
                                 : "text-yellow-600"
-                          }`}
+                            }`}
                         >
                           {topic.correct}/{topic.total} ({topic.percentage}%)
                         </span>
@@ -230,20 +229,18 @@ const ExamResults = () => {
                   {questionReview.map((question) => (
                     <div
                       key={question.id}
-                      className={`border rounded-lg p-4 ${
-                        question.status === "correct"
+                      className={`border rounded-lg p-4 ${question.status === "correct"
                           ? "border-green-200 bg-green-50"
                           : "border-red-200 bg-red-50"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                              question.status === "correct"
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${question.status === "correct"
                                 ? "bg-green-100 text-green-600"
                                 : "bg-red-100 text-red-600"
-                            }`}
+                              }`}
                           >
                             {question.id}
                           </div>
@@ -252,11 +249,10 @@ const ExamResults = () => {
                               {question.question}
                             </div>
                             <div
-                              className={`text-sm ${
-                                question.status === "correct"
+                              className={`text-sm ${question.status === "correct"
                                   ? "text-green-600"
                                   : "text-red-600"
-                              }`}
+                                }`}
                             >
                               {question.status === "correct" ? "✓" : "✗"}{" "}
                               {question.feedback}
@@ -265,11 +261,10 @@ const ExamResults = () => {
                         </div>
                         <Button variant="ghost" size="sm">
                           <Eye
-                            className={`h-4 w-4 ${
-                              question.status === "correct"
+                            className={`h-4 w-4 ${question.status === "correct"
                                 ? "text-green-600"
                                 : "text-red-600"
-                            }`}
+                              }`}
                           />
                         </Button>
                       </div>
