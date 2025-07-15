@@ -49,6 +49,7 @@ import AdminBilling from "./pages/AdminBilling";
 import DownloadInvoice from "./pages/DownloadInvoice";
 import Privacy from "./pages/Privacy";
 import EmailVerification from "./pages/EmailVerification";
+import TeacherPendingApproval from "./pages/TeacherPendingApproval";
 import PlatformAdminDashboard from "./pages/PlatformAdminDashboard";
 import PlatformAdminSchools from "./pages/PlatformAdminSchools";
 import PlatformAdminAnalytics from "./pages/PlatformAdminAnalytics";
@@ -81,6 +82,10 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/email-verification" element={<EmailVerification />} />
+          <Route
+            path="/teacher-pending-approval"
+            element={<TeacherPendingApproval />}
+          />
           <Route path="/accept-invite" element={<AcceptInvite />} />
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/courses" element={<CourseEnrollment />} />
