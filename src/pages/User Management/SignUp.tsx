@@ -31,7 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
 import RoleCard from "@/components/RoleCard";
-import { SignUpInput, SignUpVariables } from "@/_shared/generated";
+import { SignUpVariables } from "@/_shared/generated";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const SignUp = () => {
 
 
 
-  const { formState: { errors, isValid, isSubmitting }, ...form } = useForm<SignupForm>({
+  const { formState: { errors, isSubmitting }, ...form } = useForm<SignupForm>({
     resolver: zodResolver(ISignupFormSchema),
     defaultValues: {
       firstName: "",
@@ -372,7 +372,7 @@ const SignUp = () => {
                   isSubmitting || form.watch('agreeToTerms') === false
                 }
               >
-                Create Account
+                Create Account {isSubmitting && <LoaderIcon className="animate-spin" />}
               </Button>
               {/* Sign In Link */}
               <div className="text-center">

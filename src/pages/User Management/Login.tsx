@@ -105,11 +105,11 @@ const Login = () => {
     onSuccess(response) {
       if (!response.data.data.success)
         return toast.error("Authentication failed");
-      const urlParams = new URLSearchParams();
-      urlParams.set("email", form.watch("email"));
+      // const urlParams = new URLSearchParams();
+      // urlParams.set("email", form.watch("email"));
 
       // TODO: navigate to the otp verification page
-      return navigate(`/email-verification?${urlParams}`, {
+      return navigate(`/email-verification`, {
         state: {
           email: form.watch("email"),
         },

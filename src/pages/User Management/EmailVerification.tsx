@@ -8,7 +8,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
-import { CheckCircle, Mail, RefreshCw, ArrowLeft, Clock } from "lucide-react";
+import { CheckCircle, RefreshCw, ArrowLeft, Clock } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -30,15 +30,14 @@ import { useAuthUserVerification } from "@/hooks/useAuthUserVerification";
 import { VerifiedUserLoginResponse } from '@/_shared/generated'
 
 const EmailVerification = () => {
-  const [searchParams] = useSearchParams();
-
+  const location = useLocation()
   const [isResending, setIsResending] = useState(false);
   const navigate = useNavigate();
 
   // Get email from state passed from SignUp page, or use a default
-  const email = searchParams.get("email") ?? "";
+  const email = location.state?.email;
 
-  const { mutateAsync: verifyOtpMutation, isLoading, isSuccess } = useMutation({
+  const { mutateAsync: verifyOtpMutation } = useMutation({
     mutationKey: ['OTP'],
     mutationFn: getAuthUserViaOTPVerification,
 
@@ -106,17 +105,17 @@ const EmailVerification = () => {
                           field.onChange(value);
                           // Watch the last OTP input field (index 5)
                           const lastDigit = value?.[5] ?? "";
-                          if (lastDigit !== "")
+                          if (lastDigit !== "") {
                             // You can do something with lastDigit here, e.g., log or trigger logic
                             // console.log("Last OTP digit:", lastDigit);
                             // Once use finishes typing the OTP, verify the OTP
-                            await verifyOtpMutation({
+                            let response = await verifyOtpMutation({
                               email,
                               otp: value,
-                            }
-                            );
-                          let verifiedResponse: VerifiedUserLoginResponse;
-                          await verifyUser(verifiedResponse);
+                            });
+
+                            await verifyUser(response);
+                          }
                         }}
                       >
                         <InputOTPGroup>
@@ -133,7 +132,7 @@ const EmailVerification = () => {
                       </InputOTP>
                     )}
                   />
-                  <span className="text-red-600 text-sm font-medium">
+                  <span className="text-red-600 text-sm font-medium w-">
                     {errors && errors.otp && errors.otp.message}
                   </span>
                 </div>
