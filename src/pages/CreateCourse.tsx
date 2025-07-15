@@ -304,26 +304,69 @@ const CreateCourse: React.FC = () => {
                       Subject *
                     </label>
                     <div className="relative">
-                      <select
-                        name="subject"
-                        value={courseData.subject}
-                        onChange={handleSubjectChange}
-                        className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none text-gray-900"
-                      >
-                        <option value="">Select Subject</option>
-                        {availableSubjects.map((subject) => (
-                          <option key={subject.value} value={subject.value}>
-                            {subject.label}
-                          </option>
-                        ))}
-                        <option
-                          value="add-new-subject"
-                          className="font-medium text-indigo-600 bg-indigo-50"
-                        >
-                          ➕ Add New Subject
-                        </option>
-                      </select>
+                      <input
+                        type="text"
+                        value={subjectSearchQuery}
+                        onChange={handleSubjectSearchChange}
+                        onFocus={handleSubjectInputFocus}
+                        onBlur={handleSubjectInputBlur}
+                        placeholder="Search or select a subject..."
+                        className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      />
                       <ChevronDown className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+
+                      {/* Dropdown Results */}
+                      {showSubjectDropdown && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                          {/* Add New Subject - Always on top */}
+                          <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()} // Prevent blur
+                            onClick={() =>
+                              handleSubjectSelect("add-new-subject")
+                            }
+                            className="w-full px-4 py-3 text-left hover:bg-indigo-50 border-b border-gray-100 flex items-center space-x-3 font-medium text-indigo-600"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>Add New Subject</span>
+                          </button>
+
+                          {/* Filtered Subject Results */}
+                          {getFilteredSubjects().length > 0 ? (
+                            getFilteredSubjects().map((subject) => (
+                              <button
+                                key={subject.value}
+                                type="button"
+                                onMouseDown={(e) => e.preventDefault()} // Prevent blur
+                                onClick={() =>
+                                  handleSubjectSelect(subject.value)
+                                }
+                                className={`w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center justify-between ${
+                                  courseData.subject === subject.value
+                                    ? "bg-indigo-50 text-indigo-600"
+                                    : "text-gray-900"
+                                }`}
+                              >
+                                <div>
+                                  <div className="font-medium">
+                                    {subject.label}
+                                  </div>
+                                  <div className="text-sm text-gray-500">
+                                    {subject.department}
+                                  </div>
+                                </div>
+                                {courseData.subject === subject.value && (
+                                  <CheckCircle className="w-4 h-4 text-indigo-600" />
+                                )}
+                              </button>
+                            ))
+                          ) : subjectSearchQuery.trim() ? (
+                            <div className="px-4 py-3 text-gray-500 text-center">
+                              No subjects found for "{subjectSearchQuery}"
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
                     </div>
                     {courseData.subject && (
                       <p className="text-sm text-gray-500 mt-1">
