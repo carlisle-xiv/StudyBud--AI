@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Edit,
   Trash2,
+  CheckCircle,
 } from "lucide-react";
 
 interface Module {
@@ -38,6 +39,30 @@ const CreateCourse: React.FC = () => {
   });
   const [modules, setModules] = useState<Module[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddSubjectModal, setShowAddSubjectModal] = useState(false);
+  const [showSubjectDropdown, setShowSubjectDropdown] = useState(false);
+  const [subjectSearchQuery, setSubjectSearchQuery] = useState("");
+  const [newSubject, setNewSubject] = useState({
+    name: "",
+    code: "",
+    description: "",
+    department: "",
+    category: "",
+  });
+  const [availableSubjects, setAvailableSubjects] = useState([
+    { value: "mathematics", label: "Mathematics", department: "Science" },
+    { value: "physics", label: "Physics", department: "Science" },
+    { value: "chemistry", label: "Chemistry", department: "Science" },
+    { value: "biology", label: "Biology", department: "Science" },
+    {
+      value: "computer-science",
+      label: "Computer Science",
+      department: "Technology",
+    },
+    { value: "english", label: "English", department: "Liberal Arts" },
+    { value: "history", label: "History", department: "Social Studies" },
+    { value: "psychology", label: "Psychology", department: "Social Studies" },
+  ]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -76,6 +101,127 @@ const CreateCourse: React.FC = () => {
   const handleContinueToResources = () => {
     // Continue to next step logic here
     console.log("Continuing to resources:", courseData);
+  };
+
+  const handleSubjectSearchChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const query = e.target.value;
+    setSubjectSearchQuery(query);
+
+    // Only show dropdown when user starts typing (query has content)
+    if (query.trim().length > 0) {
+      setShowSubjectDropdown(true);
+    } else {
+      setShowSubjectDropdown(false);
+    }
+
+    // Clear selection if user is typing a new search
+    if (query !== getSelectedSubjectLabel()) {
+      setCourseData((prev) => ({ ...prev, subject: "" }));
+    }
+  };
+
+  const handleSubjectSelect = (subjectValue: string) => {
+    if (subjectValue === "add-new-subject") {
+      setShowAddSubjectModal(true);
+      setShowSubjectDropdown(false);
+    } else {
+      const selectedSubject = availableSubjects.find(
+        (s) => s.value === subjectValue,
+      );
+      setCourseData((prev) => ({ ...prev, subject: subjectValue }));
+      setSubjectSearchQuery(selectedSubject?.label || "");
+      setShowSubjectDropdown(false);
+    }
+  };
+
+  const getSelectedSubjectLabel = () => {
+    const selectedSubject = availableSubjects.find(
+      (s) => s.value === courseData.subject,
+    );
+    return selectedSubject?.label || "";
+  };
+
+  const getFilteredSubjects = () => {
+    if (!subjectSearchQuery.trim()) {
+      return availableSubjects;
+    }
+    return availableSubjects.filter(
+      (subject) =>
+        subject.label
+          .toLowerCase()
+          .includes(subjectSearchQuery.toLowerCase()) ||
+        subject.department
+          .toLowerCase()
+          .includes(subjectSearchQuery.toLowerCase()),
+    );
+  };
+
+  const handleSubjectInputFocus = () => {
+    // Don't show dropdown immediately, only when user starts typing
+    if (!subjectSearchQuery && courseData.subject) {
+      setSubjectSearchQuery(getSelectedSubjectLabel());
+    }
+  };
+
+  const handleSubjectInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Delay hiding dropdown to allow for clicks on dropdown items
+    setTimeout(() => {
+      setShowSubjectDropdown(false);
+      // If no valid selection was made, restore the previous selection
+      if (courseData.subject && !subjectSearchQuery) {
+        setSubjectSearchQuery(getSelectedSubjectLabel());
+      } else if (!courseData.subject && !subjectSearchQuery) {
+        setSubjectSearchQuery("");
+      }
+    }, 150);
+  };
+
+  const handleNewSubjectChange = (field: string, value: string) => {
+    setNewSubject((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmitNewSubject = () => {
+    // Generate a unique value for the new subject
+    const subjectValue = newSubject.name.toLowerCase().replace(/\s+/g, "-");
+
+    // Add to available subjects
+    const newSubjectOption = {
+      value: subjectValue,
+      label: newSubject.name,
+      department: newSubject.department,
+    };
+
+    setAvailableSubjects((prev) => [...prev, newSubjectOption]);
+
+    // Set as selected subject and update search
+    setCourseData((prev) => ({ ...prev, subject: subjectValue }));
+    setSubjectSearchQuery(newSubject.name);
+
+    // Reset form and close modal
+    setNewSubject({
+      name: "",
+      code: "",
+      description: "",
+      department: "",
+      category: "",
+    });
+    setShowAddSubjectModal(false);
+
+    // In a real app, you would send this to your backend
+    console.log("New subject created:", newSubjectOption);
+  };
+
+  const handleCancelNewSubject = () => {
+    setNewSubject({
+      name: "",
+      code: "",
+      description: "",
+      department: "",
+      category: "",
+    });
+    setShowAddSubjectModal(false);
   };
 
   return (
@@ -165,23 +311,77 @@ const CreateCourse: React.FC = () => {
                       Subject *
                     </label>
                     <div className="relative">
-                      <select
-                        name="subject"
-                        value={courseData.subject}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none text-gray-900"
-                      >
-                        <option value="">Select Subject</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="biology">Biology</option>
-                        <option value="computer-science">
-                          Computer Science
-                        </option>
-                      </select>
+                      <input
+                        type="text"
+                        value={subjectSearchQuery}
+                        onChange={handleSubjectSearchChange}
+                        onFocus={handleSubjectInputFocus}
+                        onBlur={handleSubjectInputBlur}
+                        placeholder="Search or select a subject..."
+                        className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      />
                       <ChevronDown className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+
+                      {/* Dropdown Results */}
+                      {showSubjectDropdown && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                          {/* Add New Subject - Always on top */}
+                          <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()} // Prevent blur
+                            onClick={() =>
+                              handleSubjectSelect("add-new-subject")
+                            }
+                            className="w-full px-4 py-3 text-left hover:bg-indigo-50 border-b border-gray-100 flex items-center space-x-3 font-medium text-indigo-600"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>Add New Subject</span>
+                          </button>
+
+                          {/* Filtered Subject Results */}
+                          {getFilteredSubjects().length > 0 ? (
+                            getFilteredSubjects().map((subject) => (
+                              <button
+                                key={subject.value}
+                                type="button"
+                                onMouseDown={(e) => e.preventDefault()} // Prevent blur
+                                onClick={() =>
+                                  handleSubjectSelect(subject.value)
+                                }
+                                className={`w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center justify-between ${courseData.subject === subject.value
+                                  ? "bg-indigo-50 text-indigo-600"
+                                  : "text-gray-900"
+                                  }`}
+                              >
+                                <div>
+                                  <div className="font-medium">
+                                    {subject.label}
+                                  </div>
+                                  <div className="text-sm text-gray-500">
+                                    {subject.department}
+                                  </div>
+                                </div>
+                                {courseData.subject === subject.value && (
+                                  <CheckCircle className="w-4 h-4 text-indigo-600" />
+                                )}
+                              </button>
+                            ))
+                          ) : subjectSearchQuery.trim() ? (
+                            <div className="px-4 py-3 text-gray-500 text-center">
+                              No subjects found for "{subjectSearchQuery}"
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
                     </div>
+                    {courseData.subject && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Department:{" "}
+                        {availableSubjects.find(
+                          (s) => s.value === courseData.subject,
+                        )?.department || "Custom"}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -400,6 +600,165 @@ const CreateCourse: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSave={handleAddModule}
       />
+
+      {/* Add New Subject Modal */}
+      {showAddSubjectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <Plus className="w-5 h-5 text-indigo-600" />
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Add New Subject
+                </h2>
+              </div>
+              <button
+                onClick={handleCancelNewSubject}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 max-h-[calc(90vh-140px)] overflow-y-auto">
+              <div className="space-y-6">
+                {/* Subject Name and Code */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Subject Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={newSubject.name}
+                      onChange={(e) =>
+                        handleNewSubjectChange("name", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="e.g., Advanced Statistics"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Subject Code
+                    </label>
+                    <input
+                      type="text"
+                      value={newSubject.code}
+                      onChange={(e) =>
+                        handleNewSubjectChange("code", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="e.g., STAT-401"
+                    />
+                  </div>
+                </div>
+
+                {/* Department and Category */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Department *
+                    </label>
+                    <select
+                      value={newSubject.department}
+                      onChange={(e) =>
+                        handleNewSubjectChange("department", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="">Select Department</option>
+                      <option value="Science">Science</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Liberal Arts">Liberal Arts</option>
+                      <option value="Social Studies">Social Studies</option>
+                      <option value="Business">Business</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Medicine">Medicine</option>
+                      <option value="Arts">Arts</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Category
+                    </label>
+                    <select
+                      value={newSubject.category}
+                      onChange={(e) =>
+                        handleNewSubjectChange("category", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="">Select Category</option>
+                      <option value="Core">Core Subject</option>
+                      <option value="Elective">Elective</option>
+                      <option value="Advanced">Advanced Course</option>
+                      <option value="Remedial">Remedial</option>
+                      <option value="Honors">Honors</option>
+                      <option value="AP">Advanced Placement</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Description
+                  </label>
+                  <textarea
+                    value={newSubject.description}
+                    onChange={(e) =>
+                      handleNewSubjectChange("description", e.target.value)
+                    }
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Brief description of the subject area and its focus..."
+                  />
+                </div>
+
+                {/* Info Notice */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 text-blue-600 mt-0.5">ℹ️</div>
+                    <div>
+                      <h4 className="font-medium text-blue-900 mb-1">
+                        Subject Approval Process
+                      </h4>
+                      <p className="text-sm text-blue-700">
+                        New subjects will be immediately available for your
+                        courses. They may require administrator approval before
+                        being visible to other teachers. You'll receive a
+                        notification once approved.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 p-6">
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={handleCancelNewSubject}
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmitNewSubject}
+                  disabled={!newSubject.name || !newSubject.department}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                >
+                  Add Subject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

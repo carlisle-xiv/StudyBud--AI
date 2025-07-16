@@ -47,7 +47,7 @@ const SignUp = () => {
     },
     onSuccess: (data, variables) => {
       console.log(data.data?.schoolId);
-      // TODO: redirect to OTP screen
+      // Redirect to OTP if Owner
       navigate(`/email-verification`,
         {
           state:
@@ -58,6 +58,8 @@ const SignUp = () => {
             ) || undefined
           }
         });
+
+      // Navigate to Awaiting approval
     },
   });
 
