@@ -40,6 +40,7 @@ import ExamProcessing from "@/pages/Exams/ExamProcessing";
 import Reports from "@/pages/Report/Reports";
 import AdminSettings from "@/pages/Settings/AdminSettings";
 import EmailVerification from "./pages/User Management/EmailVerification";
+import UserPendingApproval from "./pages/User Management/UserPendingApproval";
 
 export const Router = createBrowserRouter([
     {
@@ -201,6 +202,10 @@ export const Router = createBrowserRouter([
     {
         path: "/email-verification",
         element: <EmailVerification />
+    },
+    {
+        path: "/pendingapproval",
+        element: <UserPendingApproval />
     },
     {
         path: "*",

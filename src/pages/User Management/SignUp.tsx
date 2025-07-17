@@ -37,34 +37,6 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
 
-  const signup = useMutation({
-    mutationFn: registerUser,
-    onError: (err) => {
-      return processErrorResponse(err, {
-        fixedErrorMessage:
-          "Sorry your account could not be created at this time. Please try again. If the issue persist, please contact us",
-      });
-    },
-    onSuccess: (data, variables) => {
-      console.log(data.data?.schoolId);
-      // Redirect to OTP if Owner
-      navigate(`/email-verification`,
-        {
-          state:
-          {
-            email: form.watch('email'),
-            userType: SchoolWithRolesData?.data?.roles.find((role) =>
-              role.id === Number(form.watch('roleID'))
-            ) || undefined
-          }
-        });
-
-      // Navigate to Awaiting approval
-    },
-  });
-
-
-
   const { formState: { errors, isSubmitting }, ...form } = useForm<SignupForm>({
     resolver: zodResolver(ISignupFormSchema),
     defaultValues: {
@@ -112,6 +84,44 @@ const SignUp = () => {
     setIsAvailable(false);
     return form.setError('schoolName', { type: "custom", message: "" });
   }
+
+  const signup = useMutation({
+    mutationFn: registerUser,
+    onError: (err) => {
+      return processErrorResponse(err, {
+        fixedErrorMessage:
+          "Sorry your account could not be created at this time. Please try again. If the issue persist, please contact us",
+      });
+    },
+    onSuccess: (data, variables) => {
+      console.log(data.data?.schoolId);
+      // Redirect to OTP if Owner
+      if (schoolID === "Other") {
+        navigate(`/email-verification`,
+          {
+            state:
+            {
+              email: form.watch('email'),
+              userType: 'Admin'
+            }
+          });
+      }
+      // Navigate to Awaiting approval
+      else (
+        navigate(`/pendingapproval`,
+          {
+            state:
+            {
+              email: form.watch('email'),
+              userType: SchoolWithRolesData?.data?.roles.find((role) =>
+                role.id === Number(form.watch('roleID'))
+              ) || undefined
+            }
+          }))
+    },
+  });
+
+
 
   const handleSignUp = async () => {
     let request: SignUpVariables = {
