@@ -11,16 +11,17 @@ import {
   CreditCard,
   Bell,
   LogOut,
+  LoaderIcon,
 } from "lucide-react";
+import { toast } from "sonner";
 
 const AdminNavigation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    sessionStorage.clear();
-    navigate("/auth/login");
+  function handleLogout() {
+    localStorage.clear();
+    navigate('/auth/login')
+    toast.success("Logged Out Successfully")
   };
 
   const isActive = (path: string) => location.pathname === path;

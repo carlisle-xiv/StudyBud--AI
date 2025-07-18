@@ -101,7 +101,7 @@ const UserPendingApproval = () => {
                                         Contact School Admin
                                     </Button>
 
-                                    <Link to="/login">
+                                    <Link to="/auth/login">
                                         <Button
                                             variant="outline"
                                             className="w-full h-12 border-gray-300"
