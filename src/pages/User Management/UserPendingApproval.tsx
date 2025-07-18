@@ -23,7 +23,8 @@ const UserPendingApproval = () => {
     // Get email and school from state passed from SignUp page
     const email = location.state?.email || "your-email@example.com";
     const school = location.state?.school || "your institution";
-    const firstName = location.state?.firstName || "";
+    const firstName = location.state?.firstName || "User";
+    const role = location.state?.userType
 
     useEffect(() => {
         // If no email was passed, redirect back to signup
@@ -64,7 +65,7 @@ const UserPendingApproval = () => {
                                 Account Pending Approval
                             </h1>
                             <p className="text-gray-600 mb-6">
-                                {firstName && `Hi ${firstName}! `}Your teacher account has been
+                                {firstName && `Hi ${firstName}, `} Your {role} account has been
                                 sent to your school administrator for verification.
                             </p>
 
@@ -77,17 +78,16 @@ const UserPendingApproval = () => {
                                     <ul className="text-sm text-cyan-800 space-y-2 text-left">
                                         <li className="flex items-start">
                                             <div className="w-1.5 h-1.5 bg-cyan-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            Your school admin at{" "}
-                                            <span className="font-medium">{school}</span> will review
-                                            your application
+                                            <p>The Admin of <span className="font-medium">{school}</span> will review
+                                                your application</p>
                                         </li>
                                         <li className="flex items-start">
                                             <div className="w-1.5 h-1.5 bg-cyan-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            You'll receive an email confirmation once approved
+                                            <p>You'll receive an email confirmation once approved</p>
                                         </li>
                                         <li className="flex items-start">
                                             <div className="w-1.5 h-1.5 bg-cyan-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            Login and start creating courses and exams
+                                            <p>Login and start creating courses and exams</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -115,7 +115,7 @@ const UserPendingApproval = () => {
                     </Card>
 
                     {/* Timeline Card */}
-                    <Card className="p-6 bg-gradient-to-r from-cyan-50 to-blue-50">
+                    {/* <Card className="p-6 bg-gradient-to-r from-cyan-50 to-blue-50">
                         <div className="text-center">
                             <h3 className="font-medium text-gray-900 mb-4 flex items-center justify-center">
                                 <Clock className="w-4 h-4 mr-2" />
@@ -151,10 +151,10 @@ const UserPendingApproval = () => {
                                 </div>
                             </div>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     {/* School Information Card */}
-                    <Card className="p-6 bg-blue-50 border-blue-200">
+                    {/* <Card className="p-6 bg-blue-50 border-blue-200">
                         <div className="flex items-start space-x-3">
                             <School className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                             <div>
@@ -174,10 +174,10 @@ const UserPendingApproval = () => {
                                 </div>
                             </div>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     {/* What You Can Do While Waiting */}
-                    <Card className="p-6 bg-gradient-to-r from-green-50 to-emerald-50">
+                    {/* <Card className="p-6 bg-gradient-to-r from-green-50 to-emerald-50">
                         <div className="text-center">
                             <h3 className="font-medium text-gray-900 mb-3 flex items-center justify-center">
                                 <Users className="w-4 h-4 mr-2" />
@@ -214,10 +214,10 @@ const UserPendingApproval = () => {
                                 </Link>
                             </div>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     {/* Troubleshooting Card */}
-                    <Card className="p-6 bg-yellow-50 border-yellow-200">
+                    {/* <Card className="p-6 bg-yellow-50 border-yellow-200">
                         <div className="flex items-start space-x-3">
                             <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                             <div>
@@ -232,7 +232,7 @@ const UserPendingApproval = () => {
                                 </ul>
                             </div>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     {/* Support Section */}
                     <Card className="p-6 bg-gray-50 border-gray-200">
@@ -253,14 +253,14 @@ const UserPendingApproval = () => {
                                     <Mail className="w-3 h-3 mr-1" />
                                     support@studybud.ai
                                 </a>
-                                <span className="hidden sm:inline text-gray-400">•</span>
-                                <a
+                                {/* <span className="hidden sm:inline text-gray-400">•</span> */}
+                                {/* <a
                                     href="tel:+15551234567"
                                     className="inline-flex items-center text-sm text-blue-600 hover:text-blue-700"
                                 >
                                     <Phone className="w-3 h-3 mr-1" />
                                     +1 (555) 123-4567
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </Card>
@@ -268,7 +268,7 @@ const UserPendingApproval = () => {
                     {/* Security Notice */}
                     <div className="text-center">
                         <p className="text-xs text-gray-500 flex items-center justify-center">
-                            <Shield className="w-3 h-3 mr-1" />
+                            {/* <Shield className="w-3 h-3 mr-1" /> */}
                             Account verification ensures institutional security and prevents
                             unauthorized access.
                         </p>

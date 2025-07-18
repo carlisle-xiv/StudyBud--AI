@@ -32,10 +32,13 @@ import { processErrorResponse } from "@/_shared/services/errorService";
 import { toast } from "sonner";
 import RoleCard from "@/components/RoleCard";
 import { SignUpVariables } from "@/_shared/generated";
+import { Role } from "@/Types/Types";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
+  const [selectedRoleName, setSelectedRoleName] = useState<Role>();
+  const [schoolName, setSchoolName] = useState<String>();
 
   const { formState: { errors, isSubmitting }, ...form } = useForm<SignupForm>({
     resolver: zodResolver(ISignupFormSchema),
@@ -50,6 +53,11 @@ const SignUp = () => {
   });
 
   const schoolID = form.watch('school');
+
+  const { data: SchoolsData, isFetching } = useQuery({
+    queryKey: ["schoolsData"],
+    queryFn: getSchools,
+  });
 
   const { mutateAsync, isLoading } = useMutation({
     mutationKey: ["validateSchoolName"],
@@ -102,7 +110,8 @@ const SignUp = () => {
             state:
             {
               email: form.watch('email'),
-              userType: 'Admin'
+              userType: 'Admin',
+              school: schoolID
             }
           });
       }
@@ -112,10 +121,10 @@ const SignUp = () => {
           {
             state:
             {
+              firstName: form.watch('firstName'),
               email: form.watch('email'),
-              userType: SchoolWithRolesData?.data?.roles.find((role) =>
-                role.id === Number(form.watch('roleID'))
-              ) || undefined
+              userType: selectedRoleName.role,
+              school: schoolName
             }
           }))
     },
@@ -151,10 +160,6 @@ const SignUp = () => {
     await signup.mutateAsync(request);
   }
 
-  const { data: SchoolsData, isFetching } = useQuery({
-    queryKey: ["schoolsData"],
-    queryFn: getSchools,
-  });
 
   const { data: SchoolWithRolesData, isFetching: isFetchingSchoolRoles } = useQuery({
     queryKey: ["rolesData", schoolID],
@@ -285,7 +290,7 @@ const SignUp = () => {
                       <SelectContent>
                         <SelectItem value="Other">Not listed</SelectItem>
                         {SchoolsData?.data.map((school) => (
-                          <SelectItem key={school.id} value={String(school.id)}>
+                          <SelectItem key={school.id} value={String(school.id)} onClick={() => setSchoolName(school.name)}>
                             {school.name}
                           </SelectItem>
                         ))}
@@ -342,7 +347,10 @@ const SignUp = () => {
                         <RoleCard
                           key={role.id}
                           role={role}
-                          onClick={() => { form.setValue('roleID', String(role.id)) }}
+                          onClick={() => {
+                            form.setValue('roleID', String(role.id));
+                            setSelectedRoleName(role);
+                          }}
                           isSelected={String(role.id) === form.watch('roleID')}
                         />
                       ))}
